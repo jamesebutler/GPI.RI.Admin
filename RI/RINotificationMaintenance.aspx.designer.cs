@@ -15,6 +15,42 @@ namespace GPI.RI.Admin.MOC
     {
 
         /// <summary>
+        /// RadScriptBlock1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Telerik.Web.UI.RadScriptBlock RadScriptBlock1;
+
+        /// <summary>
+        /// RadLabelSite control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Telerik.Web.UI.RadLabel RadLabelSite;
+
+        /// <summary>
+        /// mysites control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Telerik.Web.UI.RadComboBox mysites;
+
+        /// <summary>
+        /// DropDownSites control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Telerik.Web.UI.RadComboBox DropDownSites;
+
+        /// <summary>
         /// RadAjaxPanel control.
         /// </summary>
         /// <remarks>
@@ -24,22 +60,22 @@ namespace GPI.RI.Admin.MOC
         protected global::Telerik.Web.UI.RadAjaxPanel RadAjaxPanel;
 
         /// <summary>
-        /// DropDownVehicleType control.
+        /// DropDownBusinessUnit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Telerik.Web.UI.RadDropDownList DropDownVehicleType;
+        protected global::Telerik.Web.UI.RadDropDownList DropDownBusinessUnit;
 
         /// <summary>
-        /// DropDownAreaType control.
+        /// DropDownArea control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Telerik.Web.UI.RadDropDownList DropDownAreaType;
+        protected global::Telerik.Web.UI.RadDropDownList DropDownArea;
 
         /// <summary>
         /// DropDownLineSystemType control.
@@ -49,5 +85,59 @@ namespace GPI.RI.Admin.MOC
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Telerik.Web.UI.RadDropDownList DropDownLineSystemType;
+
+        /// <summary>
+        /// btnGetData control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Telerik.Web.UI.RadButton btnGetData;
+
+        /// <summary>
+        /// OrderTable control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.PlaceHolder OrderTable;
+
+        /// <summary>
+        /// labelMill control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label labelMill;
+
+        /// <summary>
+        /// labelBusinessType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label labelBusinessType;
+
+        /// <summary>
+        /// labelBusinessArea control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label labelBusinessArea;
+
+        /// <summary>
+        /// labelBusinessLine control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label labelBusinessLine;
     }
 }

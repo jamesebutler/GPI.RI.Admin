@@ -19,7 +19,9 @@
 </head>
 <body>
     <form runat="server">
-        <asp:ScriptManager runat="server">
+            <telerik:RadScriptManager ID="RadScriptManager1" runat="server">
+ 
+       <%-- <asp:ScriptManager runat="server">--%>
             <Scripts>
                 <%--To learn more about bundling scripts in ScriptManager see https://go.microsoft.com/fwlink/?LinkID=301884 --%>
                 <%--Framework Scripts--%>
@@ -37,8 +39,8 @@
                 <asp:ScriptReference Name="WebFormsBundle" />
                 <%--Site Scripts--%>
             </Scripts>
-        </asp:ScriptManager>
-
+        <%--</asp:ScriptManager>--%>
+</telerik:RadScriptManager>
   <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">

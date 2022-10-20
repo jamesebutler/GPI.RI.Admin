@@ -29,7 +29,7 @@ namespace GPI.RI.Admin.ASMX
 
 
         [WebMethod]
-        public List<ListItem> GetBusinessUnit()
+        public List<ListItem> LoadBusinessUnit()
         {
             string connection;
             string Provider;
@@ -37,14 +37,9 @@ namespace GPI.RI.Admin.ASMX
             OracleConnection conCust = null/* TODO Change to default(_) if this is not a reference type */;
             OracleCommand cmdSql = null/* TODO Change to default(_) if this is not a reference type */;
             string Sql = null;
-            Sql = "Select distinct risuperarea  From reladmin.notification_by_linesystem_vw where 1=1  and siteid = 'AU' ";
-
-            Sql = "Select Distinct RISuperArea From TBLRISUPERAREA where bustype = 'PM' order by risuperarea";
+            Sql = "select distinct risuperarea from refsitearea where bustype = 'PM'  and siteid = 'AU'  order by risuperarea";
             connection = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ConnectionString;
-
             Provider = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ProviderName;
-
-
             conCust = new OracleConnection(connection);
             conCust.Open();
             cmdSql = new OracleCommand(Sql, conCust);
@@ -52,75 +47,91 @@ namespace GPI.RI.Admin.ASMX
             OracleDataReader dr;
             dr = cmdSql.ExecuteReader();
 
-            List<ListItem> customers = new List<ListItem>();
-
-
+            List<ListItem> Unit = new List<ListItem>();
             while (dr.Read())
-                customers.Add(new ListItem()
+                Unit.Add(new ListItem()
                 {
                     Value = dr.GetValue("risuperarea").ToString(),
                     Text = dr.GetValue("risuperarea").ToString()
                 });
 
 
-            return customers;
+            return Unit;
         }
 
 
-        //[WebMethod]
-        //public DropDownListData LoadBusinessUnit()
-        //{
-        //    string connection;
-        //    string Provider;
-
-        //    OracleConnection conCust = null/* TODO Change to default(_) if this is not a reference type */;
-        //    OracleCommand cmdSql = null/* TODO Change to default(_) if this is not a reference type */;
-        //    string Sql = null;
-        //    Sql = "Select distinct risuperarea  From reladmin.notification_by_linesystem_vw where 1=1  and siteid = 'AU' ";
-
-        //    connection = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ConnectionString;
-        //    Provider = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ProviderName;
-
-        //    conCust = new OracleConnection(connection);
-        //    conCust.Open();
-        //    cmdSql = new OracleCommand(Sql, conCust);
-
-        //    OracleDataReader dr;
-        //    dr = cmdSql.ExecuteReader();
-
-        //    //Create a new DataTable.
-        //    DataTable dtCustomers = new DataTable("Customers");
-        //    //Load DataReader into the DataTable.
-        //    dtCustomers.Load(dr);
-
-        //    List<DropDownListItemData> result = new List<DropDownListItemData>();
-        //    DropDownListData dropdownData = new DropDownListData();
-
-        //    try
-        //    {
-        //        result = new List<DropDownListItemData>();
-
-        //        for (int i = 0; i < dtCustomers.Rows.Count; i++)
-        //        {
-        //            DropDownListItemData itemData = new DropDownListItemData();
-
-        //            itemData.Text = dtCustomers.Rows[i]["risuperarea"].ToString();
-        //            itemData.Value = dtCustomers.Rows[i]["risuperarea"].ToString();
-        //            result.Add(itemData);
-        //        }
-        //    }
-        //    catch (Exception e)
-        //    {
-
-        //    }
-
-        //    dropdownData.Items = result.ToArray();
-        //    return dropdownData;
-        //}
 
 
+        [WebMethod]
+        public List<ListItem> LoadArea(DropDownListContext  context) 
+        {
+            string connection;
+            string Provider;
+
+            var sites = context.UserContext["sites"];
+            var siteid = context.UserContext["siteid"];
+
+            OracleConnection conCust = null/* TODO Change to default(_) if this is not a reference type */;
+            OracleCommand cmdSql = null/* TODO Change to default(_) if this is not a reference type */;
+            string Sql = null;
+            Sql = "select distinct a.subarea from refsitearea a where 1=1 and a.bustype = 'PM'  and a.risuperarea = 'Power' and a.siteid = 'AU'  order by a.subarea";
+            connection = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ConnectionString;
+            Provider = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ProviderName;
+            conCust = new OracleConnection(connection);
+            conCust.Open();
+            cmdSql = new OracleCommand(Sql, conCust);
+
+            OracleDataReader dr;
+            dr = cmdSql.ExecuteReader();
+
+            List<ListItem> areas = new List<ListItem>();
+            while (dr.Read())
+                areas.Add(new ListItem()
+                {
+                    Value = dr.GetValue("subarea").ToString(),
+                    Text = dr.GetValue("subarea").ToString()
+                });
 
 
- //       nothing below this line
+            return areas;
+        }
+
+
+        [WebMethod]
+        public List<ListItem> LoadEmployeeByArea()
+        {
+            string connection;
+            string Provider;
+
+            OracleConnection conCust = null/* TODO Change to default(_) if this is not a reference type */;
+            OracleCommand cmdSql = null/* TODO Change to default(_) if this is not a reference type */;
+            string Sql = null;
+            Sql = "Select * From reladmin.notification_by_linesystem_vw where 1=1 and siteid =  'AU' and (risuperarea = 'Pulp') order by lastname";
+            connection = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ConnectionString;
+            Provider = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ProviderName;
+            conCust = new OracleConnection(connection);
+            conCust.Open();
+            cmdSql = new OracleCommand(Sql, conCust);
+
+            OracleDataReader dr;
+            dr = cmdSql.ExecuteReader();
+
+            List<ListItem> employees = new List<ListItem>();
+            while (dr.Read())
+                employees.Add(new ListItem()
+                {
+                    Value = dr.GetValue("risuperarea").ToString(),
+                    Text = dr.GetValue("risuperarea").ToString()
+                });
+
+
+            return employees;
+        }
+
+
+
+
+
+        //       nothing below this line
     }
 }
