@@ -2,6 +2,7 @@
 using System.Configuration;
 using System.Web.Services;
 using System.Web.UI.WebControls;
+using System.Diagnostics;
 using Devart.Data.Oracle;
 using Telerik.Web.UI;
 using Telerik;
@@ -38,6 +39,7 @@ namespace GPI.RI.Admin.ASMX
             OracleCommand cmdSql = null/* TODO Change to default(_) if this is not a reference type */;
             string Sql = null;
             Sql = "select distinct risuperarea from refsitearea where bustype = 'PM'  and siteid = 'AU'  order by risuperarea";
+            Debug.WriteLine(Sql);
             connection = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ConnectionString;
             Provider = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ProviderName;
             conCust = new OracleConnection(connection);
@@ -68,13 +70,16 @@ namespace GPI.RI.Admin.ASMX
             string connection;
             string Provider;
 
-            var sites = context.UserContext["sites"];
+ 
+
+            var businessunit = context.UserContext["businessunit"];
             var siteid = context.UserContext["siteid"];
 
             OracleConnection conCust = null/* TODO Change to default(_) if this is not a reference type */;
             OracleCommand cmdSql = null/* TODO Change to default(_) if this is not a reference type */;
             string Sql = null;
-            Sql = "select distinct a.subarea from refsitearea a where 1=1 and a.bustype = 'PM'  and a.risuperarea = 'Power' and a.siteid = 'AU'  order by a.subarea";
+            Sql = "select distinct a.subarea from refsitearea a where 1=1 and a.bustype = 'PM'  and a.risuperarea = '" + businessunit + "' and a.siteid = '" + siteid + "'  order by a.subarea";
+            Debug.WriteLine(Sql);
             connection = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ConnectionString;
             Provider = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ProviderName;
             conCust = new OracleConnection(connection);
@@ -96,6 +101,43 @@ namespace GPI.RI.Admin.ASMX
             return areas;
         }
 
+         [WebMethod]
+        public List<ListItem> LoadLine(DropDownListContext context)
+        {
+            string connection;
+            string Provider;
+
+
+
+            var businessunit = context.UserContext["businessunit"];
+            var siteid = context.UserContext["siteid"];
+            var area = context.UserContext["area"];
+
+            OracleConnection conCust = null/* TODO Change to default(_) if this is not a reference type */;
+            OracleCommand cmdSql = null/* TODO Change to default(_) if this is not a reference type */;
+            string Sql = null;
+            Sql = "select distinct a.area from refsitearea a where 1=1 and a.bustype = 'PM'  and a.risuperarea = '" + businessunit + "' and a.siteid = '" + siteid + "'" + " and a.subarea = '" + area + "' order by a.area";
+            Debug.WriteLine(Sql);
+            connection = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ConnectionString;
+            Provider = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ProviderName;
+            conCust = new OracleConnection(connection);
+            conCust.Open();
+            cmdSql = new OracleCommand(Sql, conCust);
+
+            OracleDataReader dr;
+            dr = cmdSql.ExecuteReader();
+
+            List<ListItem> line = new List<ListItem>();
+            while (dr.Read())
+                line.Add(new ListItem()
+                {
+                    Value = dr.GetValue("area").ToString(),
+                    Text = dr.GetValue("area").ToString()
+                });
+
+
+            return line;
+        }
 
         [WebMethod]
         public List<ListItem> LoadEmployeeByArea()
@@ -107,6 +149,7 @@ namespace GPI.RI.Admin.ASMX
             OracleCommand cmdSql = null/* TODO Change to default(_) if this is not a reference type */;
             string Sql = null;
             Sql = "Select * From reladmin.notification_by_linesystem_vw where 1=1 and siteid =  'AU' and (risuperarea = 'Pulp') order by lastname";
+            Debug.WriteLine(Sql);
             connection = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ConnectionString;
             Provider = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ProviderName;
             conCust = new OracleConnection(connection);

@@ -56,6 +56,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
@@ -184,6 +185,7 @@
     <Content Include="App_Data\RadSpell\en-US.tdf" />
     <Content Include="App_Data\RadSpell\fr-FR.tdf" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="RI\NotificationMaintenance.js" />
     <Content Include="RI\RINotificationMaintenance.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -232,9 +234,11 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="ASMX\LoadSites.asmx.cs">
       <DependentUpon>LoadSites.asmx</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="ASMX\MaintNotifications.asmx.cs">
       <DependentUpon>MaintNotifications.asmx</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Contact.aspx.cs">
       <DependentUpon>Contact.aspx</DependentUpon>
@@ -326,7 +330,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
+      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
     </VisualStudio>
   </ProjectExtensions>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

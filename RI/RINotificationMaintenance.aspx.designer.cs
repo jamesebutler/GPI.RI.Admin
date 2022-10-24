@@ -24,22 +24,13 @@ namespace GPI.RI.Admin.MOC
         protected global::Telerik.Web.UI.RadScriptBlock RadScriptBlock1;
 
         /// <summary>
-        /// RadLabelSite control.
+        /// RadAjaxPanel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Telerik.Web.UI.RadLabel RadLabelSite;
-
-        /// <summary>
-        /// mysites control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Telerik.Web.UI.RadComboBox mysites;
+        protected global::Telerik.Web.UI.RadAjaxPanel RadAjaxPanel;
 
         /// <summary>
         /// DropDownSites control.
@@ -51,22 +42,13 @@ namespace GPI.RI.Admin.MOC
         protected global::Telerik.Web.UI.RadComboBox DropDownSites;
 
         /// <summary>
-        /// RadAjaxPanel control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Telerik.Web.UI.RadAjaxPanel RadAjaxPanel;
-
-        /// <summary>
         /// DropDownBusinessUnit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Telerik.Web.UI.RadDropDownList DropDownBusinessUnit;
+        protected global::Telerik.Web.UI.RadComboBox DropDownBusinessUnit;
 
         /// <summary>
         /// DropDownArea control.
