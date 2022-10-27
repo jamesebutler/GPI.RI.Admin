@@ -7,19 +7,40 @@
 
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
+ 
    
+<style type="text/css">
+    .NotificationMaintenance {
+    text-align: center;
+}
+ 
+.wrapper {
+    display: inline;
+    display: inline-block;
+    zoom: 1;
+}
+ 
+.RadListBox {
+    text-align: left;
+}
+
+
+    </style> 
+
         <telerik:RadScriptBlock ID="RadScriptBlock1" runat="server">
         <script type="text/javascript">
             /*<![CDATA[*/
 
 
             function ClearItems() {
-<%--                  debugger
+                 debugger
                 var dropdownlist = $find("<%= DropDownLineSystemType.ClientID %>");
+                //alert(dropdownlist)
                 var selectedItem = dropdownlist.get_selectedItem();
-                if (selectedItem) {
-                            selectedItem.unselect();
-                        dropdownlist.ClearItems();--%>
+                //alert(selectedItem)
+                //if (selectedItem) {
+                //            selectedItem.unselect();
+                //        dropdownlist.ClearItems();
             }
 
             //Load the Area 
@@ -44,10 +65,8 @@
                 debugger
                 //alert("DropDownLineRequesting")
             var valueFindSites = $find('<%=DropDownSites.ClientID%>').get_selectedItem().get_value();
-
             var valueFindBusiness = $find('<%=DropDownBusinessUnit.ClientID%>').get_selectedItem().get_value();
-            
-           var valueFindArea = $find('<%=DropDownArea.ClientID%>').get_selectedItem().get_value();
+            var valueFindArea = $find('<%=DropDownArea.ClientID%>').get_selectedItem().get_value();
             
                 //alert(valueFindSites);
                 //alert(valueFindBusiness);
@@ -85,11 +104,10 @@
 
             }
 
-
+            
                 /*]]>*/
             </script>
         </telerik:RadScriptBlock>
-
 
 
 
@@ -115,7 +133,7 @@
 
      <div class="row">
 
-        <div class="col-md-4">
+        <div class="col-md-3">
             <h4>Business Unit</h4>
                 <telerik:RadComboBox RenderMode="Lightweight" 
                     runat="server" ID="DropDownBusinessUnit"
@@ -128,7 +146,7 @@
                 </telerik:RadComboBox>
             </div>
 
-        <div class="col-md-4">
+        <div class="col-md-3">
             <h4>Area</h4>
                 <telerik:RadDropDownList RenderMode="Lightweight" 
                      runat="server" ID="DropDownArea"
@@ -141,7 +159,7 @@
             </telerik:RadDropDownList>
             </div>
 
-        <div class="col-md-4">
+        <div class="col-md-3">
             <h4>Line/System</h4>
                 <telerik:RadDropDownList RenderMode="Lightweight" runat="server" 
                     ID="DropDownLineSystemType" 
@@ -152,57 +170,97 @@
                 </telerik:RadDropDownList>
             </div>
 
+         <div class="col-md-3">
+            <h4>To/Copy</h4>
+                 <telerik:RadDropDownList RenderMode="Lightweight" runat="server" 
+                    ID="DropDownToCopy" 
+                    Skin="Default" TabIndex="1" Width="200" DropDownWidth="200">
+                     <Items>
+                         <telerik:DropDownListItem Text="Copy" Value="C" />
+                        <telerik:DropDownListItem Text="To" Value="T" />
+
+                    </Items>
+                </telerik:RadDropDownList>
+        </div>
+
 </div>
     <br />
      <div class="row">
 
-         <div class="col-md-2">
-            <telerik:RadButton RenderMode="Lightweight" ID="btnGetData" Skin="Silk" 
-            Text="Select Notification" OnClick="btnGetData_Click" runat="server" />
-        </div>            
-    </div>
-    <br />
-        <div class="row">
-        <div class="col-md-4">
-
-         <asp:PlaceHolder runat="server" ID="OrderTable" Visible="false">
-                <table class="order-summary">
-                    <tbody>
-                         <tr>
-                            <th>Mill:
-                            </th>
-                            <td>
-                                <asp:Label ID="labelMill" runat="server" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Business Unit:
-                            </th>
-                            <td>
-                                <asp:Label ID="labelBusinessType" runat="server" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Area:
-                            </th>
-                            <td>
-                                <asp:Label ID="labelBusinessArea" runat="server" />
-                            </td>
-                        </tr>
-                        <tr class="price-row">
-                            <th>Line/System:
-                            </th>
-                            <td>
-                                <asp:Label ID="labelBusinessLine" runat="server" />
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </asp:PlaceHolder>
-
+             <div class="col-md-12">
+                <div class="NotificationMaintenance"  runat="server">
+                <telerik:RadButton ID="ButtonShowAssignments" OnClick="btnGetData_Click" runat="server" Skin="Black"  Text="Show Assignments"></telerik:RadButton>
+                </div>
             </div>
+      </div>
+    
+ 
+ 
+
+<br />
+   <div class="row">
+
+       <div class="col-md-2">
+           </div>
+       
+    <%--Employees--%>
+     
+        <div class="col-md-10" >
+                 <div class="wrapper">
+    <div class="NotificationMaintenance size-narrow" id="NotificationMaintenanceContainer" runat="server">
+        <div class="wrapper">
+            <telerik:RadListBox RenderMode="Lightweight" runat="server" 
+                ID="RadListBoxSource" Height="400px" Width="430px"
+                  SelectionMode="Multiple" 
+                AllowTransfer="true" 
+                AllowTransferOnDoubleClick="true"
+                TransferToID="RadListBoxDestination"
+                  ButtonSettings-VerticalAlign="Middle"
+                 ButtonSettings-RenderButtonText="true"
+                 ButtonSettings-AreaWidth="125px" >
+                 <HeaderTemplate>
+                    <h4>Site Resources</h4>
+                </HeaderTemplate>
+                
+            </telerik:RadListBox>
+            <telerik:RadListBox RenderMode="Lightweight" runat="server" 
+                ID="RadListBoxDestination" Height="400px" Width="330px"
+                SelectionMode="Multiple"
+                ButtonSettings-AreaWidth="105px" >
+                <HeaderTemplate>
+                    <h4>Assigned Notification</h4>
+                </HeaderTemplate>
+
+                <FooterTemplate></FooterTemplate>
+            </telerik:RadListBox>
+        </div>
+    </div>
+
+                </div>
          </div>
 
+  </div>
+
+
+         <br />
+
+
+            <div class="NotificationMaintenance"  runat="server">
+            <telerik:RadButton ID="ButtonSaveAssignments" OnClick="btnSaveNotification_Click" Skin="Black" runat="server"  Text="Save Assignments">
+            </telerik:RadButton>
+            </div>
+
+
+    
+
+    
+
+            <p class="text-center">
+                <br />
+            <span id="alertmessage" runat="server" visible="false" style="background-color:red; display:block;"  >
+                <asp:Label Font-Bold="true" ForeColor="white" ID="LabelMissingArea" runat="server" Text="No Area has been selected."></asp:Label>
+            </span>
+            </p>
 
 
  </telerik:RadAjaxPanel>

@@ -1,13 +1,12 @@
 ﻿using System;
+using System.Text;
 using System.Collections.Generic;
 using System.Web.UI.WebControls;
-
-using Telerik.Web.UI;
+using System.Diagnostics;
+using System.Configuration;
 using System.Web.UI;
 
-
-using System.Configuration;
-
+using Telerik.Web.UI;
 using Devart.Data.Oracle;
 
 
@@ -36,9 +35,11 @@ namespace GPI.RI.Admin.MOC
                     
                     }
                 DropDownSites.SelectedValue = "TS";
-                //DropDownSites.Enabled = false;
+                
 
                 GetBusinessUnits();
+
+                //DropDownSites.Enabled = false;
                 
             }
 
@@ -61,21 +62,39 @@ namespace GPI.RI.Admin.MOC
         }
 
 
-        //protected void GetArea()
-        //{
-        //    //Load Business Unit from Site Selected
-        //    DropDownArea.Items.Clear();
-        //    List<ListItem> Arealist = new List<ListItem>();
-        //    Arealist = LoadArea(DropDownSites.SelectedValue,DropDownBusinessUnit.SelectedValue);
-        //    foreach (var i in Arealist)
-        //    {
-        //        RadComboBoxItem item = new RadComboBoxItem();
-        //        item.Text = (i.Text);
-        //        item.Value = (i.Value);
-        //        DropDownArea.Items.Add(item);
+        protected void GetEmployees()
+        {
+            //Load Business Unit from Site Selected
+            RadListBoxSource.Items.Clear();
+            List<ListItem> Employeelist = new List<ListItem>();
+            Employeelist = LoadEmployees(DropDownSites.SelectedValue, DropDownBusinessUnit.SelectedValue, DropDownArea.SelectedValue,DropDownLineSystemType.SelectedValue,DropDownToCopy.SelectedValue);
+            foreach (var i in Employeelist)
+            {
+                RadListBoxItem item = new RadListBoxItem();
+                item.Text = (i.Text);
+                item.Value = (i.Value);
+                RadListBoxSource.Items.Add(item);
 
-        //    }
-        //}
+            }
+        }
+
+
+        protected void GetAssignedEmployees()
+        {
+            //Load Business Unit from Site Selected
+            RadListBoxDestination.Items.Clear();
+            List<ListItem> Employeelist = new List<ListItem>();
+            Employeelist = LoadAssignedEmployees(DropDownSites.SelectedValue, DropDownBusinessUnit.SelectedValue, DropDownArea.SelectedValue,DropDownLineSystemType.SelectedValue,DropDownToCopy.SelectedValue);
+            foreach (var i in Employeelist)
+            {
+                RadListBoxItem item = new RadListBoxItem();
+                item.Text = (i.Text);
+                item.Value = (i.Value);
+                RadListBoxDestination.Items.Add(item);
+
+            }
+        }
+
         protected void GetBusinessUnits()
         {
             //Load Business Unit from Site Selected
@@ -97,7 +116,7 @@ namespace GPI.RI.Admin.MOC
 
            
            
-            DropDownLineSystemType.SelectedIndex = -1;
+           DropDownLineSystemType.SelectedIndex = -1;
            DropDownArea.SelectedIndex = -1;
            DropDownBusinessUnit.SelectedIndex = -1;
 
@@ -123,12 +142,53 @@ namespace GPI.RI.Admin.MOC
 
         protected void btnGetData_Click(object sender, EventArgs e)
         {
-            OrderTable.Visible = true;
-            labelMill.Text = DropDownSites.SelectedValue;
+            //OrderTable.Visible = true;
+            //labelMill.Text = DropDownSites.SelectedValue;
             
-            labelBusinessType.Text = DropDownBusinessUnit.SelectedValue;
-            labelBusinessArea.Text = DropDownArea.SelectedText;
-            labelBusinessLine.Text = DropDownLineSystemType.SelectedText;
+            //labelBusinessType.Text = DropDownBusinessUnit.SelectedValue;
+            //labelBusinessArea.Text = DropDownArea.SelectedText;
+            //labelBusinessLine.Text = DropDownLineSystemType.SelectedText;
+
+            GetEmployees();
+            GetAssignedEmployees();
+
+            alertmessage.Visible = false;
+        
+        }
+
+
+        protected void btnSaveNotification_Click(object sender, EventArgs e)
+        {
+            if (DropDownArea.SelectedValue == "")
+            {
+                alertmessage.Visible = true;
+            }
+            else
+            {
+                alertmessage.Visible = false;
+
+                Debug.WriteLine(RadListBoxDestination.Items.Count);
+                for (int i = 0; i < RadListBoxDestination.Items.Count; i++)
+                {
+                    Debug.WriteLine(RadListBoxDestination.Items[i].Text);
+                    Debug.WriteLine(RadListBoxDestination.Items[i].Value);
+                    SaveNotification(DropDownSites.SelectedValue,RadListBoxDestination.Items[i].Value, DropDownBusinessUnit.SelectedValue, DropDownArea.SelectedValue, DropDownLineSystemType.SelectedValue, DropDownToCopy.SelectedValue);
+
+                }
+
+
+            }
+
+
+
+            //OrderTable.Visible = true;
+            //labelMill.Text = DropDownSites.SelectedValue;
+
+            //labelBusinessType.Text = DropDownBusinessUnit.SelectedValue;
+            //labelBusinessArea.Text = DropDownArea.SelectedText;
+            //labelBusinessLine.Text = DropDownLineSystemType.SelectedText;
+
+
         }
 
 
@@ -174,7 +234,9 @@ namespace GPI.RI.Admin.MOC
             OracleConnection conCust = null/* TODO Change to default(_) if this is not a reference type */;
             OracleCommand cmdSql = null/* TODO Change to default(_) if this is not a reference type */;
             string Sql = null;
-            Sql = "select distinct risuperarea from refsitearea where bustype = 'PM'  and siteid = '" + GetBySiteId + "' order by risuperarea";
+            //Sql = "select distinct risuperarea from refsitearea where bustype = 'PM'  and siteid = '" + GetBySiteId + "' order by risuperarea";
+            Sql = "Select distinct risuperarea  From TBLRISUPERAREA where bustype = 'PM' order by risuperarea";
+
             connection = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ConnectionString;
             Provider = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ProviderName;
             conCust = new OracleConnection(connection);
@@ -197,8 +259,135 @@ namespace GPI.RI.Admin.MOC
         }
 
 
+       public List<ListItem> LoadEmployees(string GetBySiteId, string GetByBusinessUnit, string GetByArea, string GetByLineSystemType, string GetBynotifytype)
+        {
+            string connection;
+            string Provider;
 
 
+            OracleConnection conCust = null/* TODO Change to default(_) if this is not a reference type */;
+            OracleCommand cmdSql = null/* TODO Change to default(_) if this is not a reference type */;
+            string Sql = null;
+            StringBuilder SQLbuilder = new StringBuilder();
+            SQLbuilder.Append("Select distinct lastname, firstname, lastname || ', ' || firstname as fullname,username From Refemployee");
+            SQLbuilder.Append(" WHERE SITEID = '" + GetBySiteId + "'");
+            SQLbuilder.Append(" AND (inactive_flag is null or inactive_flag <> 'Y') and username not in");
+            SQLbuilder.Append(" (Select distinct username From reladmin.notification_by_linesystem_vw");
+            SQLbuilder.Append(" WHERE SITEID = '" + GetBySiteId + "'");
+            SQLbuilder.Append(" and (risuperarea = '" + GetByBusinessUnit + "' or risuperarea = 'All') ");
+            SQLbuilder.Append(" and (subarea = '" + GetByArea + "' or subarea = 'All') ");
+            SQLbuilder.Append(" and (area = '" + GetByLineSystemType + "' or area = 'All')");
+            SQLbuilder.Append(" and notifytype = '" + GetBynotifytype + "'");
+
+            SQLbuilder.Append(")"); 
+            SQLbuilder.Append(" Order By Lastname, firstname");
+
+
+            Sql = SQLbuilder.ToString();
+            connection = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ConnectionString;
+            Provider = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ProviderName;
+            conCust = new OracleConnection(connection);
+            conCust.Open();
+            cmdSql = new OracleCommand(Sql, conCust);
+
+            OracleDataReader dr;
+            dr = cmdSql.ExecuteReader();
+
+            List<ListItem> sites = new List<ListItem>();
+            while (dr.Read())
+                sites.Add(new ListItem()
+                {
+                    Value = dr.GetValue("username").ToString(),
+                    Text = dr.GetValue("fullname").ToString()
+                });
+
+
+            return sites;
+        }
+
+
+        public List<ListItem> LoadAssignedEmployees(string GetBySiteId, string GetByBusinessUnit, string GetByArea, string GetByLineSystemType, string GetBynotifytype)
+        {
+            string connection;
+            string Provider;
+
+
+            OracleConnection conCust = null/* TODO Change to default(_) if this is not a reference type */;
+            OracleCommand cmdSql = null/* TODO Change to default(_) if this is not a reference type */;
+            string Sql = null;
+            StringBuilder SQLbuilder = new StringBuilder();
+            SQLbuilder.Append("Select distinct lastname, firstname, lastname || ', ' || firstname || '  (' ||  decode(notifytype,'T','To','C','Copy','Copy') || + ')' as fullname, username, decode(notifytype,'T','To','C','Copy','Copy') notifytype From reladmin.notification_by_linesystem_vw");
+            SQLbuilder.Append(" WHERE SITEID = '" + GetBySiteId + "'");
+            SQLbuilder.Append(" and (risuperarea = '" + GetByBusinessUnit + "' or risuperarea = 'All') ");
+            SQLbuilder.Append(" and (subarea = '" + GetByArea + "' or subarea = 'All') ");
+            SQLbuilder.Append(" and (area = '" + GetByLineSystemType + "' or area = 'All')");
+            SQLbuilder.Append(" and notifytype = '" + GetBynotifytype + "'");
+            SQLbuilder.Append(" Order By Lastname, firstname");
+
+
+            Sql = SQLbuilder.ToString();
+            connection = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ConnectionString;
+            Provider = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ProviderName;
+            conCust = new OracleConnection(connection);
+            conCust.Open();
+            cmdSql = new OracleCommand(Sql, conCust);
+
+            OracleDataReader dr;
+            dr = cmdSql.ExecuteReader();
+
+            List<ListItem> sites = new List<ListItem>();
+            while (dr.Read())
+                sites.Add(new ListItem()
+                {
+                    Value = dr.GetValue("username").ToString(),
+                    Text = dr.GetValue("fullname").ToString()
+                });
+
+
+            return sites;
+        }
+
+
+        public void SaveNotification(string GetBySiteId,string GetByUserName, string GetByBusinessUnit, string GetByArea, string GetByLineSystemType, string GetBynotifytype)
+        {
+            //insert into tblrcfanotification (siteid, username, risuperarea, subarea, area, notifytype) 
+
+            //" values('" & txtSiteid & "','" & Grouplist(I) & "','" & txtSuperArea & "','" & txtArea & "','" & txtLineSystem & "','" & txtNotifytype & "')"
+
+            string connection;
+            string Provider;
+            
+            OracleConnection conCust = null/* TODO Change to default(_) if this is not a reference type */;
+            OracleCommand cmdSql = null/* TODO Change to default(_) if this is not a reference type */;
+            string Sql = null;
+
+
+            StringBuilder SQLbuilder = new StringBuilder();
+            SQLbuilder.Append("insert into tblrcfanotification (siteid, username, risuperarea, subarea, area, notifytype)");
+            SQLbuilder.Append(" values(");
+            SQLbuilder.Append("'" + GetBySiteId + "',");
+            SQLbuilder.Append("'" + GetByUserName + "',");
+            SQLbuilder.Append("'" + GetByBusinessUnit + "',");
+            SQLbuilder.Append("'" + GetByArea + "',");
+            SQLbuilder.Append("'" + GetByLineSystemType + "',");
+            SQLbuilder.Append("'" + GetBynotifytype + "'");
+
+            SQLbuilder.Append(" )");
+
+
+            Sql = SQLbuilder.ToString();
+            connection = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ConnectionString;
+            Provider = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ProviderName;
+            conCust = new OracleConnection(connection);
+            conCust.Open();
+            cmdSql = new OracleCommand(Sql, conCust);
+
+            
+            cmdSql.ExecuteNonQuery();
+
+
+
+        }
 
 
         //nothing below this line

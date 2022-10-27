@@ -78,7 +78,9 @@ namespace GPI.RI.Admin.ASMX
             OracleConnection conCust = null/* TODO Change to default(_) if this is not a reference type */;
             OracleCommand cmdSql = null/* TODO Change to default(_) if this is not a reference type */;
             string Sql = null;
-            Sql = "select distinct a.subarea from refsitearea a where 1=1 and a.bustype = 'PM'  and a.risuperarea = '" + businessunit + "' and a.siteid = '" + siteid + "'  order by a.subarea";
+            //Sql = "select distinct a.subarea from refsitearea a where 1=1 and a.bustype = 'PM'  and a.risuperarea = '" + businessunit + "' and a.siteid = '" + siteid + "'  order by a.subarea";
+            Sql = "Select Distinct SubArea From TBLRISUPERAREA where bustype = 'PM'  and risuperarea = '" + businessunit +  "'  order by subarea";
+
             Debug.WriteLine(Sql);
             connection = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ConnectionString;
             Provider = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ProviderName;
@@ -90,6 +92,14 @@ namespace GPI.RI.Admin.ASMX
             dr = cmdSql.ExecuteReader();
 
             List<ListItem> areas = new List<ListItem>();
+
+            areas.Add(new ListItem()
+            {
+                Value = "All",
+                Text = "All"
+            });
+
+
             while (dr.Read())
                 areas.Add(new ListItem()
                 {
@@ -128,6 +138,12 @@ namespace GPI.RI.Admin.ASMX
             dr = cmdSql.ExecuteReader();
 
             List<ListItem> line = new List<ListItem>();
+            line.Add(new ListItem()
+            {
+                Value = "All",
+                Text = "All"
+            });
+
             while (dr.Read())
                 line.Add(new ListItem()
                 {

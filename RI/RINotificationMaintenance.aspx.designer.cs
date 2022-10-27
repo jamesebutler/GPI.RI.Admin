@@ -69,57 +69,75 @@ namespace GPI.RI.Admin.MOC
         protected global::Telerik.Web.UI.RadDropDownList DropDownLineSystemType;
 
         /// <summary>
-        /// btnGetData control.
+        /// DropDownToCopy control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Telerik.Web.UI.RadButton btnGetData;
+        protected global::Telerik.Web.UI.RadDropDownList DropDownToCopy;
 
         /// <summary>
-        /// OrderTable control.
+        /// ButtonShowAssignments control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder OrderTable;
+        protected global::Telerik.Web.UI.RadButton ButtonShowAssignments;
 
         /// <summary>
-        /// labelMill control.
+        /// NotificationMaintenanceContainer control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label labelMill;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl NotificationMaintenanceContainer;
 
         /// <summary>
-        /// labelBusinessType control.
+        /// RadListBoxSource control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label labelBusinessType;
+        protected global::Telerik.Web.UI.RadListBox RadListBoxSource;
 
         /// <summary>
-        /// labelBusinessArea control.
+        /// RadListBoxDestination control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label labelBusinessArea;
+        protected global::Telerik.Web.UI.RadListBox RadListBoxDestination;
 
         /// <summary>
-        /// labelBusinessLine control.
+        /// ButtonSaveAssignments control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label labelBusinessLine;
+        protected global::Telerik.Web.UI.RadButton ButtonSaveAssignments;
+
+        /// <summary>
+        /// alertmessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl alertmessage;
+
+        /// <summary>
+        /// LabelMissingArea control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LabelMissingArea;
     }
 }
