@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data;
 using System.Text;
 using System.Collections.Generic;
 using System.Web.UI.WebControls;
@@ -10,23 +9,52 @@ using System.Web.UI;
 using Telerik.Web.UI;
 using Devart.Data.Oracle;
 
-
-namespace GPI.RI.Admin.MOC
+namespace GPI.RI.Admin.RI
 {
-    public partial class RINotificationMaintenance : System.Web.UI.Page
+    public partial class RINotificationMaintenanceBackup : System.Web.UI.Page
     {
-        protected void Page_Load(object sender, EventArgs e)
+       protected void Page_Load(object sender, EventArgs e)
         {
 
 
             if (!IsPostBack)
             {
+                //load defaults only for the first time,
+                //not every time page loaded
 
-                LoadSites();
-
+                // Load All Sites
+                List<ListItem> list = new List<ListItem>();
+                list = LoadAllSites();
+                 foreach (var i in list)
+                    {
+                         RadComboBoxItem  item = new RadComboBoxItem ();
+                        item.Text =  (i.Text);
+                        item.Value = (i.Value);
+                        DropDownSites.Items.Add(item);
+                    
+                    }
                 DropDownSites.SelectedValue = "TS";
+                
 
+                GetBusinessUnits();
+
+                //DropDownSites.Enabled = false;
+                
             }
+
+
+
+
+            // Create a 'WebRequest' object with the specified url. 
+
+            //System.Net.WebRequest myWebRequest = WebRequest.Create("http://www.contoso.com");
+
+            // Send the 'WebRequest' and wait for response.
+
+            //WebResponse myWebResponse = myWebRequest.GetResponse();
+
+            // Obtain a 'Stream' object associated with the response object.
+            //Stream ReceiveStream = myWebResponse.GetResponseStream();
 
 
 
@@ -66,17 +94,32 @@ namespace GPI.RI.Admin.MOC
             }
         }
 
+        protected void GetBusinessUnits()
+        {
+            //Load Business Unit from Site Selected
+            DropDownBusinessUnit.Items.Clear();
+            List<ListItem> Businesslist = new List<ListItem>();
+            Businesslist = LoadBusinessUnits(DropDownSites.SelectedValue);
+            foreach (var i in Businesslist)
+            {
+                RadComboBoxItem item = new RadComboBoxItem();
+                item.Text = (i.Text);
+                item.Value = (i.Value);
+                DropDownBusinessUnit.Items.Add(item);
+
+            }
+        }
 
     protected void DropDownSites_SelectedIndexChanged(object sender, EventArgs e)
         {
 
            
-           //RadAjaxManager1.FocusControl(DropDownSites.ClientID + "_Input");
-           //DropDownLineSystemType.SelectedIndex = -1;
-           //DropDownArea.SelectedIndex = -1;
-           //DropDownBusinessUnit.SelectedIndex = -1;
+           
+           DropDownLineSystemType.SelectedIndex = -1;
+           DropDownArea.SelectedIndex = -1;
+           DropDownBusinessUnit.SelectedIndex = -1;
 
-           // GetBusinessUnits();
+            GetBusinessUnits();
 
 
         }
@@ -85,12 +128,26 @@ namespace GPI.RI.Admin.MOC
 
         protected void DropDownBusinessUnit_SelectedIndexChanged(object sender, EventArgs  e)
         {
-            RadAjaxManager1.FocusControl(DropDownBusinessUnit.ClientID + "_Input");
+           
+            DropDownLineSystemType.Items.Clear();
+            DropDownArea.Items.Clear();
+            DropDownLineSystemType.SelectedIndex = -1;
+            DropDownArea.SelectedIndex = -1;
+
+
+
         }
 
 
         protected void btnGetData_Click(object sender, EventArgs e)
         {
+            //OrderTable.Visible = true;
+            //labelMill.Text = DropDownSites.SelectedValue;
+            
+            //labelBusinessType.Text = DropDownBusinessUnit.SelectedValue;
+            //labelBusinessArea.Text = DropDownArea.SelectedText;
+            //labelBusinessLine.Text = DropDownLineSystemType.SelectedText;
+
             GetEmployees();
             GetAssignedEmployees();
 
@@ -125,6 +182,11 @@ namespace GPI.RI.Admin.MOC
                         SaveNotification(DropDownSites.SelectedValue,RadListBoxDestination.Items[i].Value, DropDownBusinessUnit.SelectedValue, DropDownArea.SelectedValue, DropDownLineSystemType.SelectedValue, DropDownToCopy.SelectedValue);
                     }
 
+                    //Debug.WriteLine(RadListBoxDestination.Items[i].Text);
+                    //Debug.WriteLine(RadListBoxDestination.Items[i].Value);
+                   
+               //Console.WriteLine(RadListBoxDestination.Items[i].Text.ToLower().Contains("(copy)".ToLower()));
+                
                 }
 
                 for (int i = 0; i < RadListBoxSource.Items.Count; i++)
@@ -135,6 +197,13 @@ namespace GPI.RI.Admin.MOC
                         DeleteNotification(DropDownSites.SelectedValue, RadListBoxSource.Items[i].Value, DropDownBusinessUnit.SelectedValue, DropDownArea.SelectedValue, DropDownLineSystemType.SelectedValue, DropDownToCopy.SelectedValue);
 
                     }
+
+
+                    //Debug.WriteLine(RadListBoxDestination.Items[i].Text);
+                    //Debug.WriteLine(RadListBoxDestination.Items[i].Value);
+
+                    //Console.WriteLine(RadListBoxDestination.Items[i].Text.ToLower().Contains("(copy)".ToLower()));
+
                 }
 
 
@@ -144,6 +213,12 @@ namespace GPI.RI.Admin.MOC
             GetAssignedEmployees();
             LoadingRecords.Visible = false;
 
+            //OrderTable.Visible = true;
+            //labelMill.Text = DropDownSites.SelectedValue;
+
+            //labelBusinessType.Text = DropDownBusinessUnit.SelectedValue;
+            //labelBusinessArea.Text = DropDownArea.SelectedText;
+            //labelBusinessLine.Text = DropDownLineSystemType.SelectedText;
 
 
         }
@@ -151,6 +226,73 @@ namespace GPI.RI.Admin.MOC
 
 
 
+
+
+        public List<ListItem> LoadAllSites()
+        {
+            string connection;
+            string Provider;
+
+
+            OracleConnection conCust = null/* TODO Change to default(_) if this is not a reference type */;
+            OracleCommand cmdSql = null/* TODO Change to default(_) if this is not a reference type */;
+            string Sql = null;
+            Sql = "select siteid,sitename from refsite where domain = 'NA' and inactive_flag = 'N'";
+            connection = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ConnectionString;
+            Provider = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ProviderName;
+            conCust = new OracleConnection(connection);
+            conCust.Open();
+            cmdSql = new OracleCommand(Sql, conCust);
+
+            OracleDataReader dr;
+            dr = cmdSql.ExecuteReader();
+
+            List<ListItem> sites = new List<ListItem>();
+            while (dr.Read())
+                sites.Add(new ListItem()
+                {
+                    Value = dr.GetValue("siteid").ToString(),
+                    Text = dr.GetValue("sitename").ToString()
+                });
+
+
+            return sites;
+        }
+
+
+
+        public List<ListItem> LoadBusinessUnits(string GetBySiteId )
+        {
+            string connection;
+            string Provider;
+
+
+            OracleConnection conCust = null/* TODO Change to default(_) if this is not a reference type */;
+            OracleCommand cmdSql = null/* TODO Change to default(_) if this is not a reference type */;
+            string Sql = null;
+            //Sql = "select distinct risuperarea from refsitearea where bustype = 'PM'  and siteid = '" + GetBySiteId + "' order by risuperarea";
+            Sql = "Select distinct risuperarea  From TBLRISUPERAREA where bustype = 'PM' order by risuperarea";
+
+            connection = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ConnectionString;
+            Provider = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ProviderName;
+            conCust = new OracleConnection(connection);
+            conCust.Open();
+            cmdSql = new OracleCommand(Sql, conCust);
+
+            OracleDataReader dr;
+            dr = cmdSql.ExecuteReader();
+
+            List<ListItem> sites = new List<ListItem>();
+            while (dr.Read())
+                sites.Add(new ListItem()
+                {
+                    Value = dr.GetValue("risuperarea").ToString(),
+                    Text = dr.GetValue("risuperarea").ToString()
+                });
+
+
+            return sites;
+        }
 
 
        public List<ListItem> LoadEmployees(string GetBySiteId, string GetByBusinessUnit, string GetByArea, string GetByLineSystemType, string GetBynotifytype)
@@ -328,209 +470,11 @@ namespace GPI.RI.Admin.MOC
 
         }
 
-        //********************************************
 
-        protected void LoadSites()
+        protected void btnInvoke_Click(object sender, EventArgs e)
         {
-            string connection;
-            string Provider;
-
-
-            OracleConnection conCust = null/* TODO Change to default(_) if this is not a reference type */;
-            OracleCommand cmdSql = null/* TODO Change to default(_) if this is not a reference type */;
-            string Sql = null;
-            Sql = "select siteid,sitename from refsite where domain = 'NA' and inactive_flag = 'N'";
-            connection = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ConnectionString;
-            Provider = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ProviderName;
-            conCust = new OracleConnection(connection);
-            conCust.Open();
-            cmdSql = new OracleCommand(Sql, conCust);
-
-            OracleDataReader dr;
-            dr = cmdSql.ExecuteReader();
-
-
-            //Create a new DataTable.
- 
-
-            DataTable dt = new DataTable();
-            //Load DataReader into the DataTable.
-            dt.Load(dr);
-  
-
-            DropDownSites.DataTextField = "sitename";
-            DropDownSites.DataValueField = "siteid";
-            DropDownSites.DataSource = dt;
-            DropDownSites.DataBind();
-            //insert the first item
-            //DropDownSites.Items.Insert(0, new RadComboBoxItem("- Select a continent -"));
-
-            RadAjaxManager1.FocusControl(DropDownSites);
-        }
-
-
-        protected void LoadBusinessUnits(string GetBySiteId)
-        {
-            string connection;
-            string Provider;
-
-
-
-
-            OracleConnection conCust = null/* TODO Change to default(_) if this is not a reference type */;
-            OracleCommand cmdSql = null/* TODO Change to default(_) if this is not a reference type */;
-            string Sql = null;
-            //Sql = "select distinct risuperarea from refsitearea where bustype = 'PM'  and siteid = '" + GetBySiteId + "' order by risuperarea";
-            Sql = "Select distinct risuperarea  From TBLRISUPERAREA where bustype = 'PM' order by risuperarea";
-
-            connection = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ConnectionString;
-            Provider = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ProviderName;
-            conCust = new OracleConnection(connection);
-            conCust.Open();
-            cmdSql = new OracleCommand(Sql, conCust);
-
-            OracleDataReader dr;
-            dr = cmdSql.ExecuteReader();
-
-
-            //Create a new DataTable.
-
-
-            DataTable dt = new DataTable();
-            //Load DataReader into the DataTable.
-            dt.Load(dr);
-
-
-            DropDownBusinessUnit.DataTextField = "risuperarea";
-            DropDownBusinessUnit.DataValueField = "risuperarea";
-            DropDownBusinessUnit.DataSource = dt;
-            DropDownBusinessUnit.DataBind();
-            //insert the first item
-            DropDownBusinessUnit.Items.Insert(0, new RadComboBoxItem("Select one..."));
-
-            RadAjaxManager1.FocusControl(DropDownBusinessUnit);
-        }
-
-
-
-        protected void LoadArea(string GetBySiteId, string GetByBusinessUnit)
-        {
-
-
-            string connection;
-            string Provider;
-
-
-            OracleConnection conCust = null/* TODO Change to default(_) if this is not a reference type */;
-            OracleCommand cmdSql = null/* TODO Change to default(_) if this is not a reference type */;
-            string Sql = null;
-            //Sql = "select distinct a.subarea from refsitearea a where 1=1 and a.bustype = 'PM'  and a.risuperarea = '" + businessunit + "' and a.siteid = '" + siteid + "'  order by a.subarea";
-            Sql = "Select Distinct SubArea From TBLRISUPERAREA where bustype = 'PM'  and risuperarea = '" + GetByBusinessUnit + "'  order by subarea";
-
-            Debug.WriteLine(Sql);
-            connection = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ConnectionString;
-            Provider = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ProviderName;
-            conCust = new OracleConnection(connection);
-            conCust.Open();
-            cmdSql = new OracleCommand(Sql, conCust);
-
-            OracleDataReader dr;
-            dr = cmdSql.ExecuteReader();
-
-            //Create a new DataTable.
-            DataTable dt = new DataTable();
-            //Load DataReader into the DataTable.
-            dt.Load(dr);
-
-
-            DropDownArea.DataTextField = "SubArea";
-            DropDownArea.DataValueField = "SubArea";
-            DropDownArea.DataSource = dt;
-            DropDownArea.DataBind();
-            //insert the first item
-            DropDownArea.Items.Insert(0, new RadComboBoxItem("Select..."));
-
-            RadAjaxManager1.FocusControl(DropDownArea);
-        }
-
-
-        protected void LoadLine(string GetBySiteId, string GetByBusinessUnit, string GetByArea)
-        {
-
-            string connection;
-            string Provider;
-
-            OracleConnection conCust = null/* TODO Change to default(_) if this is not a reference type */;
-            OracleCommand cmdSql = null/* TODO Change to default(_) if this is not a reference type */;
-            string Sql = null;
-            Sql = "select distinct a.area from refsitearea a where 1=1 and a.bustype = 'PM'  and a.risuperarea = '" + GetByBusinessUnit + "' and a.siteid = '" + GetBySiteId + "'" + " and a.subarea = '" + GetByArea + "' order by a.area";
-            Debug.WriteLine(Sql);
-            connection = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ConnectionString;
-            Provider = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ProviderName;
-            conCust = new OracleConnection(connection);
-            conCust.Open();
-            cmdSql = new OracleCommand(Sql, conCust);
-
-            OracleDataReader dr;
-            dr = cmdSql.ExecuteReader();
-
-            //Create a new DataTable.
-            DataTable dt = new DataTable();
-            //Load DataReader into the DataTable.
-            dt.Load(dr);
-
-
-            DropDownLineSystemType.DataTextField = "area";
-            DropDownLineSystemType.DataValueField = "area";
-            DropDownLineSystemType.DataSource = dt;
-            DropDownLineSystemType.DataBind();
-            //insert the first item
-            DropDownLineSystemType.Items.Insert(0, new RadComboBoxItem("All"));
-
-            RadAjaxManager1.FocusControl(DropDownLineSystemType);
-        }
-
-
-
-        protected void DropDownSites_SelectedIndexChanged(object o, RadComboBoxSelectedIndexChangedEventArgs e)
-        {
-            RadAjaxManager1.FocusControl(DropDownBusinessUnit.ClientID + "_Input");
-
-        }
-
-        protected void DropDownBusinessUnit_SelectedIndexChanged(object o, RadComboBoxSelectedIndexChangedEventArgs e)
-        {
-           // RadAjaxManager1.FocusControl(DropDownArea.ClientID + "_Input");
-       
-        }
-
-
-        protected void DropDownSites_ItemsRequested(object o, RadComboBoxItemsRequestedEventArgs e)
-        {
-             LoadSites();
-        }
-
-        protected void DropDownBusinessUnit_ItemsRequested(object o, RadComboBoxItemsRequestedEventArgs e)
-        {
-            DropDownArea.Items.Clear();
-            DropDownLineSystemType.Items.Clear();
-            DropDownArea.SelectedIndex = -1;
-
-
-            LoadBusinessUnits(DropDownSites.SelectedValue);
-        }
-
-
-        protected void DropDownArea_ItemsRequested(object o, RadComboBoxItemsRequestedEventArgs e)
-        {
-            DropDownLineSystemType.Items.Clear();
-            LoadArea(DropDownSites.SelectedValue,DropDownBusinessUnit.SelectedValue);
-        }
-
-
-        protected void DropDownLineSystemType_ItemsRequested(object o, RadComboBoxItemsRequestedEventArgs e)
-        {
-            LoadLine(DropDownSites.SelectedValue, DropDownBusinessUnit.SelectedValue,DropDownArea.SelectedValue);
+            //System.Threading.Thread.Sleep(3000);
+            //lblText.Text = "Processing completed";
         }
 
         //nothing below this line

@@ -4,8 +4,6 @@
 
 
 
-
-
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
  
    
@@ -27,87 +25,46 @@
 
     </style> 
 
+
         <telerik:RadScriptBlock ID="RadScriptBlock1" runat="server">
-        <script type="text/javascript">
+        
+            <script type="text/javascript">
             /*<![CDATA[*/
-
-
-            function ClearItems() {
-                 debugger
-                var dropdownlist = $find("<%= DropDownLineSystemType.ClientID %>");
-                //alert(dropdownlist)
-                var selectedItem = dropdownlist.get_selectedItem();
-                //alert(selectedItem)
-                //if (selectedItem) {
-                //            selectedItem.unselect();
-                //        dropdownlist.ClearItems();
-            }
-
-            //Load the Area 
-            function OnClientItemsDropDownAreaRequesting(sender, args) {
-                debugger
-                //alert("i am here at area")
-            var valueFind = $find('<%=DropDownBusinessUnit.ClientID%>').get_selectedItem().get_value();
-            
-            var valueFindSites = $find('<%=DropDownSites.ClientID%>').get_selectedItem().get_value();
-            //alert(valueFind);
-            //alert(valueFindSites);
-
-            var context = args.get_context();
-                context["businessunit"] = valueFind;
-                context["siteid"] = valueFindSites;
-
-            }
-
-
-             //Load the Line 
-            function OnClientItemsDropDownLineRequesting(sender, args) {
-                debugger
-                //alert("DropDownLineRequesting")
-            var valueFindSites = $find('<%=DropDownSites.ClientID%>').get_selectedItem().get_value();
-            var valueFindBusiness = $find('<%=DropDownBusinessUnit.ClientID%>').get_selectedItem().get_value();
-            var valueFindArea = $find('<%=DropDownArea.ClientID%>').get_selectedItem().get_value();
-            
-                //alert(valueFindSites);
-                //alert(valueFindBusiness);
-                //alert(valueFindArea);
-
-                var context = args.get_context();
-                context["siteid"] = valueFindSites;
-                context["businessunit"] = valueFindBusiness;
-                context["area"] = valueFindArea;
-
-            }
-
-
-            function OnClientItemSelected(sender, eventArgs) {
-
-                var item = eventArgs.get_item();
-                //alert("You selected " + item.get_text() + " with value " + item.get_value());
-
-
-                var dropdownlist = $find("<%= DropDownArea.ClientID %>");
-                var selectedItem = dropdownlist.get_selectedItem();
-                if (selectedItem) {
-                     
-                    // following two lines clear the entries
-                    dropdownlist.get_textElement().innerHTML = "";
-                    dropdownlist.get_items().clear();
-                    selectedItem.unselect();
-                }
-
-                var dropdownlist = $find("<%= DropDownLineSystemType.ClientID %>");
-                var selectedItem = dropdownlist.get_selectedItem();
-                if (selectedItem) {
-                    selectedItem.unselect();
-                }
-
-            }
-
             
                 /*]]>*/
             </script>
         </telerik:RadScriptBlock>
+
+
+<telerik:RadAjaxPanel ID="RadAjaxPanel" runat="server">
+
+     <telerik:RadAjaxManager ID="RadAjaxManager1" runat="server">
+            <AjaxSettings>
+                
+                <telerik:AjaxSetting AjaxControlID="DropDownSites">
+                    <UpdatedControls>
+<%--                        <telerik:AjaxUpdatedControl ControlID="DropDownBusinessUnit" LoadingPanelID="LoadingPanel1"></telerik:AjaxUpdatedControl>
+                        <telerik:AjaxUpdatedControl ControlID="DropDownArea" LoadingPanelID="LoadingPanel1"></telerik:AjaxUpdatedControl>
+                        <telerik:AjaxUpdatedControl ControlID="DropDownLineSystemType" LoadingPanelID="LoadingPanel1"></telerik:AjaxUpdatedControl>
+                     --%></UpdatedControls>
+                </telerik:AjaxSetting>
+                
+                <telerik:AjaxSetting AjaxControlID="DropDownBusinessUnit">
+                    <UpdatedControls>
+      <%--                  <telerik:AjaxUpdatedControl ControlID="DropDownArea" LoadingPanelID="LoadingPanel1"></telerik:AjaxUpdatedControl>
+                        <telerik:AjaxUpdatedControl ControlID="DropDownLineSystemType" LoadingPanelID="LoadingPanel1"></telerik:AjaxUpdatedControl>
+                   --%> </UpdatedControls>
+                </telerik:AjaxSetting>
+
+                <telerik:AjaxSetting AjaxControlID="DropDownArea">
+                    <UpdatedControls>
+             <%--           <telerik:AjaxUpdatedControl ControlID="DropDownLineSystemType" LoadingPanelID="LoadingPanel1"></telerik:AjaxUpdatedControl>
+                   --%> </UpdatedControls>
+                </telerik:AjaxSetting>
+            
+            
+            </AjaxSettings>
+        </telerik:RadAjaxManager>
 
 
 
@@ -115,13 +72,11 @@
 
  
     <h4>Assign Notification by Business/Area/Line System</h4>
+    <br />
 
-       <telerik:RadAjaxLoadingPanel ID="RadAjaxLoadingPanel1" runat="server">
-        </telerik:RadAjaxLoadingPanel>
 
-<telerik:RadAjaxPanel ID="RadAjaxPanel" runat="server">
-
-    <h5>Facility:
+    <asp:Label ID="LabelFacility" runat="server" AssociatedControlID="DropDownSites">Facility:</asp:Label>
+    <br />
     <telerik:RadComboBox RenderMode="Lightweight" 
                     runat="server" ID="DropDownSites"
                     OnSelectedIndexChanged="DropDownSites_SelectedIndexChanged"
@@ -129,52 +84,64 @@
                     Skin="Silk"
                     TabIndex="1" Width="200" 
                     DropDownWidth="200"> 
-         </telerik:RadComboBox></h5>
+         </telerik:RadComboBox>
    
-
 
 
      <div class="row">
 
         <div class="col-md-3">
-            <h4>Business Unit</h4>
+                <br />
+                <asp:Label ID="LabelBusinessUnit" runat="server" AssociatedControlID="DropDownBusinessUnit">Business Unit:</asp:Label>
+                <br />
+
                 <telerik:RadComboBox RenderMode="Lightweight" 
                     runat="server" ID="DropDownBusinessUnit"
+                    OnItemsRequested="DropDownBusinessUnit_ItemsRequested"
                     OnSelectedIndexChanged="DropDownBusinessUnit_SelectedIndexChanged"
                     Skin="Default"
                     TabIndex="1" Width="200" 
                     DropDownWidth="200" 
-                    AutoPostBack="true"
-                    DefaultMessage="Select Business Unit...">
+                    EnableLoadOnDemand="true"
+                    AllowCustomText="false" 
+                    AutoPostBack="true">
                 </telerik:RadComboBox>
             </div>
 
         <div class="col-md-3">
-            <h4>Area</h4>
-                <telerik:RadDropDownList RenderMode="Lightweight" 
+                <br />
+                <asp:Label ID="LabelArea" runat="server" AssociatedControlID="DropDownArea">Area:</asp:Label>
+                <br />
+                <telerik:RadComboBox RenderMode="Lightweight" 
                      runat="server" ID="DropDownArea"
-                 Skin="Default" TabIndex="1" Width="200" 
-                    DropDownWidth="200" 
-                    OnClientDropDownOpening="ClearItems"
-                    OnClientItemsRequesting="OnClientItemsDropDownAreaRequesting"
-                DefaultMessage="Select Area..."> 
-                <WebServiceSettings Method="LoadArea" Path="../ASMX/MaintNotifications.asmx" />
-            </telerik:RadDropDownList>
+                    OnItemsRequested="DropDownArea_ItemsRequested"
+                    Skin="Default" TabIndex="1" Width="200"
+                      AllowCustomText="false" 
+                    EnableLoadOnDemand="true"
+                    AutoPostBack="true">
+                </telerik:RadComboBox>
             </div>
 
         <div class="col-md-3">
-            <h4>Line/System</h4>
-                <telerik:RadDropDownList RenderMode="Lightweight" runat="server" 
+                <br />
+                <asp:Label ID="LabelLineSystem" runat="server" AssociatedControlID="DropDownLineSystemType">Line/System:</asp:Label>
+                <br />
+                <telerik:RadComboBox RenderMode="Lightweight" runat="server" 
                     ID="DropDownLineSystemType" 
-                    Skin="Default" TabIndex="1" Width="200" DropDownWidth="200"
-                    OnClientItemsRequesting="OnClientItemsDropDownLineRequesting"
-                DefaultMessage="Select Line/System...">
-                     <WebServiceSettings Method="LoadLine" Path="../ASMX/MaintNotifications.asmx" />
-                </telerik:RadDropDownList>
+                    OnItemsRequested="DropDownLineSystemType_ItemsRequested"
+                    Skin="Default" TabIndex="1" 
+                    Width="200" DropDownWidth="200"
+                       AllowCustomText="false" 
+                    EnableLoadOnDemand="true"
+                    AutoPostBack="true">
+                    
+                </telerik:RadComboBox>
             </div>
 
          <div class="col-md-3">
-            <h4>To/Copy</h4>
+                <br />
+                <asp:Label ID="LabelToCopy" runat="server" AssociatedControlID="DropDownToCopy">To/Copy:</asp:Label>
+                <br />
                  <telerik:RadDropDownList RenderMode="Lightweight" runat="server" 
                     ID="DropDownToCopy" 
                     Skin="Default" TabIndex="1" Width="200" DropDownWidth="200">
@@ -273,43 +240,21 @@
 
 
 
-<%--     <asp:UpdateProgress ID="updProgress"
-        AssociatedUpdatePanelID="UpdatePanel1"
-        runat="server">
-            <ProgressTemplate>           
-            <img alt="progress" src="../images/loading.gif" width="60" height="50"/>
-               Processing...           
-            </ProgressTemplate>
-        </asp:UpdateProgress>
-       
-       <asp:UpdatePanel ID="UpdatePanel1" runat="server">
-            <ContentTemplate>
-                <asp:Label ID="lblText" runat="server" Text=""></asp:Label>
-                <br />
-                <asp:Button ID="btnInvoke" runat="server" Text="Click"
-                    onclick="btnInvoke_Click" />
-                <br />
 
-            </ContentTemplate>
-    </asp:UpdatePanel> --%>
+
+
+
+
+        <div class="panelBottom">
+            <telerik:RadAjaxLoadingPanel 
+                ID="LoadingPanel1" 
+                runat="server" 
+                BackgroundPosition="Center">
+            </telerik:RadAjaxLoadingPanel>
+        </div>
 
 
  </telerik:RadAjaxPanel>
-
-
-
-
-
-<%--                    <telerik:RadDropDownList RenderMode="Lightweight" 
-                    runat="server" ID="DropDownBusinessUnit"
-                    OnClientItemSelected="OnClientItemSelected"
-                    Skin="Default"
-                    TabIndex="1" Width="200" 
-                    DropDownWidth="200" 
-                    AutoPostBack="false"
-                    DefaultMessage="Select Business Unit...">
-                    <WebServiceSettings Method="LoadBusinessUnit" Path="../ASMX/MaintNotifications.asmx" />
-                </telerik:RadDropDownList>--%>
 
 
 </asp:Content>
