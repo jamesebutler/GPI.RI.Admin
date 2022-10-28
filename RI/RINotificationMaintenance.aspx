@@ -116,12 +116,15 @@
  
     <h4>Assign Notification by Business/Area/Line System</h4>
 
+       <telerik:RadAjaxLoadingPanel ID="RadAjaxLoadingPanel1" runat="server">
+        </telerik:RadAjaxLoadingPanel>
+
 <telerik:RadAjaxPanel ID="RadAjaxPanel" runat="server">
 
     <h5>Facility:
     <telerik:RadComboBox RenderMode="Lightweight" 
                     runat="server" ID="DropDownSites"
-            OnSelectedIndexChanged="DropDownSites_SelectedIndexChanged"
+                    OnSelectedIndexChanged="DropDownSites_SelectedIndexChanged"
                     AutoPostBack="true"
                     Skin="Silk"
                     TabIndex="1" Width="200" 
@@ -176,7 +179,7 @@
                     ID="DropDownToCopy" 
                     Skin="Default" TabIndex="1" Width="200" DropDownWidth="200">
                      <Items>
-                         <telerik:DropDownListItem Text="Copy" Value="C" />
+                         <telerik:DropDownListItem Text="Copy" Value="C" Selected="true" />
                         <telerik:DropDownListItem Text="To" Value="T" />
 
                     </Items>
@@ -189,7 +192,10 @@
 
              <div class="col-md-12">
                 <div class="NotificationMaintenance"  runat="server">
-                <telerik:RadButton ID="ButtonShowAssignments" OnClick="btnGetData_Click" runat="server" Skin="Black"  Text="Show Assignments"></telerik:RadButton>
+                <telerik:RadButton ID="ButtonShowAssignments" 
+                    OnClick="btnGetData_Click" runat="server" Skin="Black"  
+                    Text="Show Assignments">
+                </telerik:RadButton>
                 </div>
             </div>
       </div>
@@ -245,11 +251,11 @@
          <br />
 
 
+
             <div class="NotificationMaintenance"  runat="server">
             <telerik:RadButton ID="ButtonSaveAssignments" OnClick="btnSaveNotification_Click" Skin="Black" runat="server"  Text="Save Assignments">
             </telerik:RadButton>
             </div>
-
 
     
 
@@ -260,7 +266,32 @@
             <span id="alertmessage" runat="server" visible="false" style="background-color:red; display:block;"  >
                 <asp:Label Font-Bold="true" ForeColor="white" ID="LabelMissingArea" runat="server" Text="No Area has been selected."></asp:Label>
             </span>
+               <span id="LoadingRecords" runat="server" visible="false" style="background-color:white; display:block;"  >
+                   <asp:Image ID="ImageLoading" runat="server"  src="../images/loading1.gif"/>
+                   </span>
             </p>
+
+
+
+<%--     <asp:UpdateProgress ID="updProgress"
+        AssociatedUpdatePanelID="UpdatePanel1"
+        runat="server">
+            <ProgressTemplate>           
+            <img alt="progress" src="../images/loading.gif" width="60" height="50"/>
+               Processing...           
+            </ProgressTemplate>
+        </asp:UpdateProgress>
+       
+       <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+            <ContentTemplate>
+                <asp:Label ID="lblText" runat="server" Text=""></asp:Label>
+                <br />
+                <asp:Button ID="btnInvoke" runat="server" Text="Click"
+                    onclick="btnInvoke_Click" />
+                <br />
+
+            </ContentTemplate>
+    </asp:UpdatePanel> --%>
 
 
  </telerik:RadAjaxPanel>

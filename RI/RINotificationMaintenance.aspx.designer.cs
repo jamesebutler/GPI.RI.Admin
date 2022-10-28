@@ -24,6 +24,15 @@ namespace GPI.RI.Admin.MOC
         protected global::Telerik.Web.UI.RadScriptBlock RadScriptBlock1;
 
         /// <summary>
+        /// RadAjaxLoadingPanel1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Telerik.Web.UI.RadAjaxLoadingPanel RadAjaxLoadingPanel1;
+
+        /// <summary>
         /// RadAjaxPanel control.
         /// </summary>
         /// <remarks>
@@ -139,5 +148,23 @@ namespace GPI.RI.Admin.MOC
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label LabelMissingArea;
+
+        /// <summary>
+        /// LoadingRecords control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl LoadingRecords;
+
+        /// <summary>
+        /// ImageLoading control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Image ImageLoading;
     }
 }

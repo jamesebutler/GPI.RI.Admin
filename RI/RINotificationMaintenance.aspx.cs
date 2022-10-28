@@ -167,19 +167,52 @@ namespace GPI.RI.Admin.MOC
             {
                 alertmessage.Visible = false;
 
-                Debug.WriteLine(RadListBoxDestination.Items.Count);
+                LoadingRecords.Visible = true;
+                string copyto = "(" + DropDownToCopy.SelectedText + ")";
+                //Debug.WriteLine(RadListBoxDestination.Items.Count);
                 for (int i = 0; i < RadListBoxDestination.Items.Count; i++)
                 {
-                    Debug.WriteLine(RadListBoxDestination.Items[i].Text);
-                    Debug.WriteLine(RadListBoxDestination.Items[i].Value);
-                    SaveNotification(DropDownSites.SelectedValue,RadListBoxDestination.Items[i].Value, DropDownBusinessUnit.SelectedValue, DropDownArea.SelectedValue, DropDownLineSystemType.SelectedValue, DropDownToCopy.SelectedValue);
+                    
+                    if (RadListBoxDestination.Items[i].Text.ToLower().Contains(copyto.ToLower())) 
+                    {
+                        //do nothing 
+
+                    }
+                    else
+                    {
+                        SaveNotification(DropDownSites.SelectedValue,RadListBoxDestination.Items[i].Value, DropDownBusinessUnit.SelectedValue, DropDownArea.SelectedValue, DropDownLineSystemType.SelectedValue, DropDownToCopy.SelectedValue);
+                    }
+
+                    //Debug.WriteLine(RadListBoxDestination.Items[i].Text);
+                    //Debug.WriteLine(RadListBoxDestination.Items[i].Value);
+                   
+               //Console.WriteLine(RadListBoxDestination.Items[i].Text.ToLower().Contains("(copy)".ToLower()));
+                
+                }
+
+                for (int i = 0; i < RadListBoxSource.Items.Count; i++)
+                {
+
+                    if (RadListBoxSource.Items[i].Text.ToLower().Contains(copyto.ToLower()))
+                    {
+                        DeleteNotification(DropDownSites.SelectedValue, RadListBoxSource.Items[i].Value, DropDownBusinessUnit.SelectedValue, DropDownArea.SelectedValue, DropDownLineSystemType.SelectedValue, DropDownToCopy.SelectedValue);
+
+                    }
+
+
+                    //Debug.WriteLine(RadListBoxDestination.Items[i].Text);
+                    //Debug.WriteLine(RadListBoxDestination.Items[i].Value);
+
+                    //Console.WriteLine(RadListBoxDestination.Items[i].Text.ToLower().Contains("(copy)".ToLower()));
 
                 }
 
 
             }
 
-
+            GetEmployees();
+            GetAssignedEmployees();
+            LoadingRecords.Visible = false;
 
             //OrderTable.Visible = true;
             //labelMill.Text = DropDownSites.SelectedValue;
@@ -269,7 +302,7 @@ namespace GPI.RI.Admin.MOC
             OracleCommand cmdSql = null/* TODO Change to default(_) if this is not a reference type */;
             string Sql = null;
             StringBuilder SQLbuilder = new StringBuilder();
-            SQLbuilder.Append("Select distinct lastname, firstname, lastname || ', ' || firstname as fullname,username From Refemployee");
+            SQLbuilder.Append("Select distinct lastname, firstname, INITCAP(lastname) || ', ' || INITCAP(firstname) as fullname,username From Refemployee");
             SQLbuilder.Append(" WHERE SITEID = '" + GetBySiteId + "'");
             SQLbuilder.Append(" AND (inactive_flag is null or inactive_flag <> 'Y') and username not in");
             SQLbuilder.Append(" (Select distinct username From reladmin.notification_by_linesystem_vw");
@@ -316,7 +349,7 @@ namespace GPI.RI.Admin.MOC
             OracleCommand cmdSql = null/* TODO Change to default(_) if this is not a reference type */;
             string Sql = null;
             StringBuilder SQLbuilder = new StringBuilder();
-            SQLbuilder.Append("Select distinct lastname, firstname, lastname || ', ' || firstname || '  (' ||  decode(notifytype,'T','To','C','Copy','Copy') || + ')' as fullname, username, decode(notifytype,'T','To','C','Copy','Copy') notifytype From reladmin.notification_by_linesystem_vw");
+            SQLbuilder.Append("Select distinct lastname, firstname, INITCAP(lastname) || ', ' || INITCAP(firstname) || '  (' ||  decode(notifytype,'T','To','C','Copy','Copy') || + ')' as fullname, username, decode(notifytype,'T','To','C','Copy','Copy') notifytype From reladmin.notification_by_linesystem_vw");
             SQLbuilder.Append(" WHERE SITEID = '" + GetBySiteId + "'");
             SQLbuilder.Append(" and (risuperarea = '" + GetByBusinessUnit + "' or risuperarea = 'All') ");
             SQLbuilder.Append(" and (subarea = '" + GetByArea + "' or subarea = 'All') ");
@@ -369,6 +402,10 @@ namespace GPI.RI.Admin.MOC
             SQLbuilder.Append("'" + GetByUserName + "',");
             SQLbuilder.Append("'" + GetByBusinessUnit + "',");
             SQLbuilder.Append("'" + GetByArea + "',");
+            if (GetByLineSystemType == "")
+            {
+                GetByLineSystemType = "All";
+            }
             SQLbuilder.Append("'" + GetByLineSystemType + "',");
             SQLbuilder.Append("'" + GetBynotifytype + "'");
 
@@ -389,6 +426,53 @@ namespace GPI.RI.Admin.MOC
 
         }
 
+        public void DeleteNotification(string GetBySiteId, string GetByUserName, string GetByBusinessUnit, string GetByArea, string GetByLineSystemType, string GetBynotifytype)
+        {
+            //insert into tblrcfanotification (siteid, username, risuperarea, subarea, area, notifytype) 
+
+            //" values('" & txtSiteid & "','" & Grouplist(I) & "','" & txtSuperArea & "','" & txtArea & "','" & txtLineSystem & "','" & txtNotifytype & "')"
+
+            string connection;
+            string Provider;
+
+            OracleConnection conCust = null/* TODO Change to default(_) if this is not a reference type */;
+            OracleCommand cmdSql = null/* TODO Change to default(_) if this is not a reference type */;
+            string Sql = null;
+
+            //, , , , , 
+            StringBuilder SQLbuilder = new StringBuilder();
+            SQLbuilder.Append("DELETE tblrcfanotification WHERE 1=1");
+            SQLbuilder.Append(" AND siteid = '" + GetBySiteId + "'");
+            SQLbuilder.Append(" AND username = '" + GetByUserName + "'");
+            SQLbuilder.Append(" AND risuperarea = '" + GetByBusinessUnit + "'");
+            SQLbuilder.Append(" AND subarea = '" + GetByArea + "'");
+            if (GetByLineSystemType == "")
+            {
+                SQLbuilder.Append(" AND area = 'All'");
+            }
+            else
+            {
+                SQLbuilder.Append(" AND area = '" + GetByLineSystemType + "'");
+            }
+            SQLbuilder.Append(" AND notifytype = '" + GetBynotifytype + "'");
+            Sql = SQLbuilder.ToString();
+            connection = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ConnectionString;
+            Provider = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ProviderName;
+            conCust = new OracleConnection(connection);
+            conCust.Open();
+            cmdSql = new OracleCommand(Sql, conCust);
+
+
+            cmdSql.ExecuteNonQuery();
+
+        }
+
+
+        protected void btnInvoke_Click(object sender, EventArgs e)
+        {
+            //System.Threading.Thread.Sleep(3000);
+            //lblText.Text = "Processing completed";
+        }
 
         //nothing below this line
     }

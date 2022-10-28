@@ -185,6 +185,15 @@
     <Content Include="App_Data\RadSpell\en-US.tdf" />
     <Content Include="App_Data\RadSpell\fr-FR.tdf" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="images\loading.gif" />
+    <Content Include="images\loading1.gif" />
+    <Content Include="images\loading2.gif" />
+    <Content Include="images\loading3.gif" />
+    <Content Include="images\loading4.gif" />
+    <Content Include="images\loading5.gif" />
+    <Content Include="images\loading6.gif" />
+    <Content Include="images\loading7.gif" />
+    <Content Include="images\LogoOnly.PNG" />
     <Content Include="RI\NotificationMaintenance.js" />
     <Content Include="RI\RINotificationMaintenance.aspx" />
     <Content Include="Scripts\bootstrap.js" />
@@ -289,7 +298,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Employee\" />
-    <Folder Include="images\" />
     <Folder Include="MOC\" />
     <Folder Include="TaskTracker\" />
   </ItemGroup>
@@ -330,7 +338,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
+      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
     </VisualStudio>
   </ProjectExtensions>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
