@@ -33,38 +33,7 @@ namespace GPI.RI.Admin.MOC
         }
 
 
-        protected void GetEmployees()
-        {
-            //Load Business Unit from Site Selected
-            RadListBoxSource.Items.Clear();
-            List<ListItem> Employeelist = new List<ListItem>();
-            Employeelist = LoadEmployees(DropDownSites.SelectedValue, DropDownBusinessUnit.SelectedValue, DropDownArea.SelectedValue,DropDownLineSystemType.SelectedValue,DropDownToCopy.SelectedValue);
-            foreach (var i in Employeelist)
-            {
-                RadListBoxItem item = new RadListBoxItem();
-                item.Text = (i.Text);
-                item.Value = (i.Value);
-                RadListBoxSource.Items.Add(item);
 
-            }
-        }
-
-
-        protected void GetAssignedEmployees()
-        {
-            //Load Business Unit from Site Selected
-            RadListBoxDestination.Items.Clear();
-            List<ListItem> Employeelist = new List<ListItem>();
-            Employeelist = LoadAssignedEmployees(DropDownSites.SelectedValue, DropDownBusinessUnit.SelectedValue, DropDownArea.SelectedValue,DropDownLineSystemType.SelectedValue,DropDownToCopy.SelectedValue);
-            foreach (var i in Employeelist)
-            {
-                RadListBoxItem item = new RadListBoxItem();
-                item.Text = (i.Text);
-                item.Value = (i.Value);
-                RadListBoxDestination.Items.Add(item);
-
-            }
-        }
 
 
     protected void DropDownSites_SelectedIndexChanged(object sender, EventArgs e)
@@ -91,10 +60,20 @@ namespace GPI.RI.Admin.MOC
 
         protected void btnGetData_Click(object sender, EventArgs e)
         {
-            GetEmployees();
-            GetAssignedEmployees();
 
-            alertmessage.Visible = false;
+            if (DropDownBusinessUnit.SelectedValue == "")
+            {
+                LabelMissingText.Text = "No Business Unit has been selected.";
+                //alertmessage.Visible = true;
+            }
+            else
+            {
+                LoadEmployees(DropDownSites.SelectedValue, DropDownBusinessUnit.SelectedValue, DropDownArea.SelectedValue, DropDownLineSystemType.SelectedValue, DropDownToCopy.SelectedValue);
+                LoadAssignedEmployees(DropDownSites.SelectedValue, DropDownBusinessUnit.SelectedValue, DropDownArea.SelectedValue, DropDownLineSystemType.SelectedValue, DropDownToCopy.SelectedValue);
+                //alertmessage.Visible = false;
+            }
+
+
         
         }
 
@@ -140,106 +119,16 @@ namespace GPI.RI.Admin.MOC
 
             }
 
-            GetEmployees();
-            GetAssignedEmployees();
+            LoadEmployees(DropDownSites.SelectedValue, DropDownBusinessUnit.SelectedValue, DropDownArea.SelectedValue, DropDownLineSystemType.SelectedValue, DropDownToCopy.SelectedValue);
+
+            LoadAssignedEmployees(DropDownSites.SelectedValue, DropDownBusinessUnit.SelectedValue, DropDownArea.SelectedValue, DropDownLineSystemType.SelectedValue, DropDownToCopy.SelectedValue);
+
             LoadingRecords.Visible = false;
 
 
 
         }
 
-
-
-
-
-
-       public List<ListItem> LoadEmployees(string GetBySiteId, string GetByBusinessUnit, string GetByArea, string GetByLineSystemType, string GetBynotifytype)
-        {
-            string connection;
-            string Provider;
-
-
-            OracleConnection conCust = null/* TODO Change to default(_) if this is not a reference type */;
-            OracleCommand cmdSql = null/* TODO Change to default(_) if this is not a reference type */;
-            string Sql = null;
-            StringBuilder SQLbuilder = new StringBuilder();
-            SQLbuilder.Append("Select distinct lastname, firstname, INITCAP(lastname) || ', ' || INITCAP(firstname) as fullname,username From Refemployee");
-            SQLbuilder.Append(" WHERE SITEID = '" + GetBySiteId + "'");
-            SQLbuilder.Append(" AND (inactive_flag is null or inactive_flag <> 'Y') and username not in");
-            SQLbuilder.Append(" (Select distinct username From reladmin.notification_by_linesystem_vw");
-            SQLbuilder.Append(" WHERE SITEID = '" + GetBySiteId + "'");
-            SQLbuilder.Append(" and (risuperarea = '" + GetByBusinessUnit + "' or risuperarea = 'All') ");
-            SQLbuilder.Append(" and (subarea = '" + GetByArea + "' or subarea = 'All') ");
-            SQLbuilder.Append(" and (area = '" + GetByLineSystemType + "' or area = 'All')");
-            SQLbuilder.Append(" and notifytype = '" + GetBynotifytype + "'");
-
-            SQLbuilder.Append(")"); 
-            SQLbuilder.Append(" Order By Lastname, firstname");
-
-
-            Sql = SQLbuilder.ToString();
-            connection = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ConnectionString;
-            Provider = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ProviderName;
-            conCust = new OracleConnection(connection);
-            conCust.Open();
-            cmdSql = new OracleCommand(Sql, conCust);
-
-            OracleDataReader dr;
-            dr = cmdSql.ExecuteReader();
-
-            List<ListItem> sites = new List<ListItem>();
-            while (dr.Read())
-                sites.Add(new ListItem()
-                {
-                    Value = dr.GetValue("username").ToString(),
-                    Text = dr.GetValue("fullname").ToString()
-                });
-
-
-            return sites;
-        }
-
-
-        public List<ListItem> LoadAssignedEmployees(string GetBySiteId, string GetByBusinessUnit, string GetByArea, string GetByLineSystemType, string GetBynotifytype)
-        {
-            string connection;
-            string Provider;
-
-
-            OracleConnection conCust = null/* TODO Change to default(_) if this is not a reference type */;
-            OracleCommand cmdSql = null/* TODO Change to default(_) if this is not a reference type */;
-            string Sql = null;
-            StringBuilder SQLbuilder = new StringBuilder();
-            SQLbuilder.Append("Select distinct lastname, firstname, INITCAP(lastname) || ', ' || INITCAP(firstname) || '  (' ||  decode(notifytype,'T','To','C','Copy','Copy') || + ')' as fullname, username, decode(notifytype,'T','To','C','Copy','Copy') notifytype From reladmin.notification_by_linesystem_vw");
-            SQLbuilder.Append(" WHERE SITEID = '" + GetBySiteId + "'");
-            SQLbuilder.Append(" and (risuperarea = '" + GetByBusinessUnit + "' or risuperarea = 'All') ");
-            SQLbuilder.Append(" and (subarea = '" + GetByArea + "' or subarea = 'All') ");
-            SQLbuilder.Append(" and (area = '" + GetByLineSystemType + "' or area = 'All')");
-            SQLbuilder.Append(" and notifytype = '" + GetBynotifytype + "'");
-            SQLbuilder.Append(" Order By Lastname, firstname");
-
-
-            Sql = SQLbuilder.ToString();
-            connection = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ConnectionString;
-            Provider = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ProviderName;
-            conCust = new OracleConnection(connection);
-            conCust.Open();
-            cmdSql = new OracleCommand(Sql, conCust);
-
-            OracleDataReader dr;
-            dr = cmdSql.ExecuteReader();
-
-            List<ListItem> sites = new List<ListItem>();
-            while (dr.Read())
-                sites.Add(new ListItem()
-                {
-                    Value = dr.GetValue("username").ToString(),
-                    Text = dr.GetValue("fullname").ToString()
-                });
-
-
-            return sites;
-        }
 
 
         public void SaveNotification(string GetBySiteId,string GetByUserName, string GetByBusinessUnit, string GetByArea, string GetByLineSystemType, string GetBynotifytype)
@@ -490,6 +379,98 @@ namespace GPI.RI.Admin.MOC
             RadAjaxManager1.FocusControl(DropDownLineSystemType);
         }
 
+        protected void LoadEmployees(string GetBySiteId, string GetByBusinessUnit, string GetByArea, string GetByLineSystemType, string GetBynotifytype)
+        {
+
+            string connection;
+            string Provider;
+
+
+            OracleConnection conCust = null/* TODO Change to default(_) if this is not a reference type */;
+            OracleCommand cmdSql = null/* TODO Change to default(_) if this is not a reference type */;
+            string Sql = null;
+            StringBuilder SQLbuilder = new StringBuilder();
+            SQLbuilder.Append("Select distinct lastname, firstname, INITCAP(lastname) || ', ' || INITCAP(firstname) as fullname,username From Refemployee");
+            SQLbuilder.Append(" WHERE SITEID = '" + GetBySiteId + "'");
+            SQLbuilder.Append(" AND (inactive_flag is null or inactive_flag <> 'Y') and username not in");
+            SQLbuilder.Append(" (Select distinct username From reladmin.notification_by_linesystem_vw");
+            SQLbuilder.Append(" WHERE SITEID = '" + GetBySiteId + "'");
+            SQLbuilder.Append(" and (risuperarea = '" + GetByBusinessUnit + "' or risuperarea = 'All') ");
+            SQLbuilder.Append(" and (subarea = '" + GetByArea + "' or subarea = 'All') ");
+            SQLbuilder.Append(" and (area = '" + GetByLineSystemType + "' or area = 'All')");
+            SQLbuilder.Append(" and notifytype = '" + GetBynotifytype + "'");
+
+            SQLbuilder.Append(")");
+            SQLbuilder.Append(" Order By Lastname, firstname");
+
+
+            Sql = SQLbuilder.ToString();
+            connection = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ConnectionString;
+            Provider = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ProviderName;
+            conCust = new OracleConnection(connection);
+            conCust.Open();
+            cmdSql = new OracleCommand(Sql, conCust);
+
+            OracleDataReader dr;
+            dr = cmdSql.ExecuteReader();
+
+            //Create a new DataTable.
+            DataTable dt = new DataTable();
+            //Load DataReader into the DataTable.
+            dt.Load(dr);
+
+
+            RadListBoxSource.DataTextField = "fullname";
+            RadListBoxSource.DataValueField = "username";
+            RadListBoxSource.DataSource = dt;
+            RadListBoxSource.DataBind();
+
+            //RadAjaxManager1.FocusControl(RadListBoxSource);
+        }
+
+        protected void LoadAssignedEmployees(string GetBySiteId, string GetByBusinessUnit, string GetByArea, string GetByLineSystemType, string GetBynotifytype)
+        {
+
+            string connection;
+            string Provider;
+
+
+            OracleConnection conCust = null/* TODO Change to default(_) if this is not a reference type */;
+            OracleCommand cmdSql = null/* TODO Change to default(_) if this is not a reference type */;
+            string Sql = null;
+            StringBuilder SQLbuilder = new StringBuilder();
+            SQLbuilder.Append("Select distinct lastname, firstname, INITCAP(lastname) || ', ' || INITCAP(firstname) || '  (' ||  decode(notifytype,'T','To','C','Copy','Copy') || + ')' as fullname, username, decode(notifytype,'T','To','C','Copy','Copy') notifytype From reladmin.notification_by_linesystem_vw");
+            SQLbuilder.Append(" WHERE SITEID = '" + GetBySiteId + "'");
+            SQLbuilder.Append(" and (risuperarea = '" + GetByBusinessUnit + "' or risuperarea = 'All') ");
+            SQLbuilder.Append(" and (subarea = '" + GetByArea + "' or subarea = 'All') ");
+            SQLbuilder.Append(" and (area = '" + GetByLineSystemType + "' or area = 'All')");
+            SQLbuilder.Append(" and notifytype = '" + GetBynotifytype + "'");
+            SQLbuilder.Append(" Order By Lastname, firstname");
+
+
+            Sql = SQLbuilder.ToString();
+            connection = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ConnectionString;
+            Provider = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ProviderName;
+            conCust = new OracleConnection(connection);
+            conCust.Open();
+            cmdSql = new OracleCommand(Sql, conCust);
+
+            OracleDataReader dr;
+            dr = cmdSql.ExecuteReader();
+
+            //Create a new DataTable.
+            DataTable dt = new DataTable();
+            //Load DataReader into the DataTable.
+            dt.Load(dr);
+
+
+            RadListBoxDestination.DataTextField = "fullname";
+            RadListBoxDestination.DataValueField = "username";
+            RadListBoxDestination.DataSource = dt;
+            RadListBoxDestination.DataBind();
+
+            //RadAjaxManager1.FocusControl(RadListBoxDestination);
+        }
 
 
         protected void DropDownSites_SelectedIndexChanged(object o, RadComboBoxSelectedIndexChangedEventArgs e)

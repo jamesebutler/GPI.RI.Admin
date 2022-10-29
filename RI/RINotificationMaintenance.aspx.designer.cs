@@ -186,13 +186,13 @@ namespace GPI.RI.Admin.MOC
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl alertmessage;
 
         /// <summary>
-        /// LabelMissingArea control.
+        /// LabelMissingText control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LabelMissingArea;
+        protected global::System.Web.UI.WebControls.Label LabelMissingText;
 
         /// <summary>
         /// LoadingRecords control.

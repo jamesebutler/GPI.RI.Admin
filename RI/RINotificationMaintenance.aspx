@@ -39,31 +39,26 @@
 <telerik:RadAjaxPanel ID="RadAjaxPanel" runat="server">
 
      <telerik:RadAjaxManager ID="RadAjaxManager1" runat="server">
-            <AjaxSettings>
-                
-                <telerik:AjaxSetting AjaxControlID="DropDownSites">
-                    <UpdatedControls>
-<%--                        <telerik:AjaxUpdatedControl ControlID="DropDownBusinessUnit" LoadingPanelID="LoadingPanel1"></telerik:AjaxUpdatedControl>
-                        <telerik:AjaxUpdatedControl ControlID="DropDownArea" LoadingPanelID="LoadingPanel1"></telerik:AjaxUpdatedControl>
-                        <telerik:AjaxUpdatedControl ControlID="DropDownLineSystemType" LoadingPanelID="LoadingPanel1"></telerik:AjaxUpdatedControl>
-                     --%></UpdatedControls>
-                </telerik:AjaxSetting>
-                
-                <telerik:AjaxSetting AjaxControlID="DropDownBusinessUnit">
-                    <UpdatedControls>
-      <%--                  <telerik:AjaxUpdatedControl ControlID="DropDownArea" LoadingPanelID="LoadingPanel1"></telerik:AjaxUpdatedControl>
-                        <telerik:AjaxUpdatedControl ControlID="DropDownLineSystemType" LoadingPanelID="LoadingPanel1"></telerik:AjaxUpdatedControl>
-                   --%> </UpdatedControls>
+  
+         <AjaxSettings>
+                <telerik:AjaxSetting AjaxControlID="ButtonShowAssignments">
+                <UpdatedControls>
+                 <telerik:AjaxUpdatedControl ControlID="ButtonShowAssignments" ></telerik:AjaxUpdatedControl>
+                    <telerik:AjaxUpdatedControl ControlID="RadListBoxSource" LoadingPanelID="LoadingPanel1"></telerik:AjaxUpdatedControl>
+                     <telerik:AjaxUpdatedControl ControlID="RadListBoxDestination" LoadingPanelID="LoadingPanel1"></telerik:AjaxUpdatedControl>
+                </UpdatedControls>
                 </telerik:AjaxSetting>
 
-                <telerik:AjaxSetting AjaxControlID="DropDownArea">
-                    <UpdatedControls>
-             <%--           <telerik:AjaxUpdatedControl ControlID="DropDownLineSystemType" LoadingPanelID="LoadingPanel1"></telerik:AjaxUpdatedControl>
-                   --%> </UpdatedControls>
+
+             <telerik:AjaxSetting AjaxControlID="ButtonSaveAssignments">
+                <UpdatedControls>
+                 <telerik:AjaxUpdatedControl ControlID="ButtonSaveAssignments" ></telerik:AjaxUpdatedControl>
+                    <telerik:AjaxUpdatedControl ControlID="RadListBoxSource" LoadingPanelID="LoadingPanel1"></telerik:AjaxUpdatedControl>
+                     <telerik:AjaxUpdatedControl ControlID="RadListBoxDestination" LoadingPanelID="LoadingPanel1"></telerik:AjaxUpdatedControl>
+                </UpdatedControls>
                 </telerik:AjaxSetting>
-            
-            
-            </AjaxSettings>
+         </AjaxSettings>
+
         </telerik:RadAjaxManager>
 
 
@@ -155,7 +150,8 @@
 
 </div>
     <br />
-     <div class="row">
+     
+    <div class="row">
 
              <div class="col-md-12">
                 <div class="NotificationMaintenance"  runat="server">
@@ -166,40 +162,44 @@
                 </div>
             </div>
       </div>
-    
- 
  
 
 <br />
+   
    <div class="row">
 
-       <div class="col-md-2">
+       <div class="col-md-2" >
            </div>
-       
-    <%--Employees--%>
-     
-        <div class="col-md-10" >
-                 <div class="wrapper">
+    <%--Avaiable Employees--%>
     <div class="NotificationMaintenance size-narrow" id="NotificationMaintenanceContainer" runat="server">
-        <div class="wrapper">
+                                         
+        <div class="col-md-4" >
+                                <%--<div class="wrapper">
+                                    <div class="NotificationMaintenance size-narrow" id="NotificationMaintenanceContainer" runat="server">
+                                        <div class="wrapper">--%>
             <telerik:RadListBox RenderMode="Lightweight" runat="server" 
-                ID="RadListBoxSource" Height="400px" Width="430px"
+                ID="RadListBoxSource" Height="400px" Width="400px"
                   SelectionMode="Multiple" 
                 AllowTransfer="true" 
                 AllowTransferOnDoubleClick="true"
                 TransferToID="RadListBoxDestination"
                   ButtonSettings-VerticalAlign="Middle"
                  ButtonSettings-RenderButtonText="true"
-                 ButtonSettings-AreaWidth="125px" >
+                  ButtonSettings-AreaWidth="125px" >
                  <HeaderTemplate>
                     <h4>Site Resources</h4>
                 </HeaderTemplate>
                 
             </telerik:RadListBox>
+       </div>
+        </div>
+
+        <%--Assigned Employees--%>
+       <div class="col-md-4" >
             <telerik:RadListBox RenderMode="Lightweight" runat="server" 
-                ID="RadListBoxDestination" Height="400px" Width="330px"
+                ID="RadListBoxDestination" Height="400px" Width="300px"
                 SelectionMode="Multiple"
-                ButtonSettings-AreaWidth="105px" >
+                 >
                 <HeaderTemplate>
                     <h4>Assigned Notification</h4>
                 </HeaderTemplate>
@@ -207,15 +207,15 @@
                 <FooterTemplate></FooterTemplate>
             </telerik:RadListBox>
         </div>
-    </div>
 
-                </div>
-         </div>
-
+              <div class="col-md-2" >
+           </div>
+    
   </div>
 
 
-         <br />
+         
+    <br />
 
 
 
@@ -231,17 +231,12 @@
             <p class="text-center">
                 <br />
             <span id="alertmessage" runat="server" visible="false" style="background-color:red; display:block;"  >
-                <asp:Label Font-Bold="true" ForeColor="white" ID="LabelMissingArea" runat="server" Text="No Area has been selected."></asp:Label>
+                <asp:Label Font-Bold="true" ForeColor="white" ID="LabelMissingText" runat="server" Text=""></asp:Label>
             </span>
                <span id="LoadingRecords" runat="server" visible="false" style="background-color:white; display:block;"  >
-                   <asp:Image ID="ImageLoading" runat="server"  src="../images/loading1.gif"/>
+                   <asp:Image ID="ImageLoading" runat="server" Width="35"  Height="35"  src="../images/loading4.gif"/>
                    </span>
             </p>
-
-
-
-
-
 
 
 
@@ -252,6 +247,8 @@
                 BackgroundPosition="Center">
             </telerik:RadAjaxLoadingPanel>
         </div>
+
+
 
 
  </telerik:RadAjaxPanel>
