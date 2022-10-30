@@ -24,12 +24,28 @@
                     </UpdatedControls>
                 </telerik:AjaxSetting>
 
-                 <telerik:AjaxSetting AjaxControlID="CheckBoxAcitveOnly">
+                 <telerik:AjaxSetting AjaxControlID="RadioButtonShowEmployees">
                     <UpdatedControls>
-                     <telerik:AjaxUpdatedControl ControlID="CheckBoxAcitveOnly" ></telerik:AjaxUpdatedControl>
+                     <telerik:AjaxUpdatedControl ControlID="RadioButtonShowEmployees" ></telerik:AjaxUpdatedControl>
                         <telerik:AjaxUpdatedControl ControlID="RadGridEmployees" LoadingPanelID="LoadingPanel1"></telerik:AjaxUpdatedControl>
+   
                     </UpdatedControls>
                 </telerik:AjaxSetting>
+
+
+                <telerik:AjaxSetting AjaxControlID="ButtonSearchForByEmail">
+                    <UpdatedControls>
+                     <telerik:AjaxUpdatedControl ControlID="ButtonSearchForByEmail" ></telerik:AjaxUpdatedControl>
+                         <telerik:AjaxUpdatedControl ControlID="ButtonAddEmployee" ></telerik:AjaxUpdatedControl>
+                        <telerik:AjaxUpdatedControl ControlID="EmailFound" ></telerik:AjaxUpdatedControl>
+                      <telerik:AjaxUpdatedControl ControlID="EmailNotFound" ></telerik:AjaxUpdatedControl>
+                     
+                        <telerik:AjaxUpdatedControl ControlID="panelEmployeeInfo" LoadingPanelID="LoadingPanel1"></telerik:AjaxUpdatedControl>
+                    </UpdatedControls>
+                </telerik:AjaxSetting>
+
+
+
         </AjaxSettings>
 
         </telerik:RadAjaxManager>
@@ -39,7 +55,9 @@
     <h3>Reliability Employee Maintenance</h3>
     <h4>Add Employee</h4>
  
-
+<div class="container">
+   <div class="row"> 
+    <div class="col-lg-12">
     <asp:Label ID="LabelFacility" runat="server" AssociatedControlID="DropDownSites">Facility:</asp:Label>
     <telerik:RadComboBox RenderMode="Lightweight" 
                     runat="server" 
@@ -52,29 +70,60 @@
                     AllowCustomText="false" 
                     AutoPostBack="true">
          </telerik:RadComboBox>
-<br /><br />
-<div class="container">
+</div>
+       </div>
+<br />
+
 <div class="row">
 
-<div class="col-sm-9 col-md-6 col-lg-12" style="background-color:#E0E1E2;">
+<div class="col-lg-12" style="background-color:#E0E1E2;">
 <h4>Enter the email then Click "Search".  If the email is found the nessary fields will populate.  Click on the "Add Employee" button to add employee.</h4>
 </div>
-<div class="col-lg-12">
-                <br />
-                <asp:Label ID="LabelLookUpByEmail" runat="server" AssociatedControlID="EmailTextBox">Email:</asp:Label>
-                <telerik:RadTextBox RenderMode="Lightweight" ID="EmailTextBox" Width="300px" runat="server" />
-                <telerik:RadButton ID="ButtonSearchForByEmail" OnClick="ButtonSearchForByEmail_Click" Skin="Black" runat="server"   Text="Search">
-                <Icon PrimaryIconCssClass="rbSearch" />
-                    </telerik:RadButton>
+</div>
     <br />
+        <div class="row" >
 
 
-</div>
-</div>
+            <div class="col-lg-4" >
+                            <asp:Label ID="LabelLookUpByEmail" runat="server" AssociatedControlID="EmailTextBox">Email:</asp:Label>
+                            <telerik:RadTextBox RenderMode="Lightweight" EmptyMessage="enter email" ID="EmailTextBox" AssociatedControlID="ButtonSearchForByEmail" Width="310" runat="server" />
+               
 
-<hr />
-    <div class="row">
-        <div class="col-lg-3">
+            </div>
+            
+            <div class="col-lg-2" >
+                    <telerik:RadButton ID="ButtonSearchForByEmail" OnClick="ButtonSearchForByEmail_Click" Skin="Black" runat="server"  Text="Search">
+                    <Icon PrimaryIconCssClass="rbSearch" />
+                    </telerik:RadButton>
+                            <h4>  <p class="text-success" id="EmailFound" runat="server" visible="false">Success</p></h4>
+             <p class="text-danger"  id="EmailNotFound" runat="server" visible="false">Not Found</p>
+ 
+       
+            </div>
+
+            <div class="col-lg-6  pull-left" >
+     
+                </div>
+
+
+
+        </div>
+
+    <br />
+<telerik:RadAjaxPanel ID="panelEmployeeInfo" runat="server" >
+
+<%--     <div class="row">
+      
+         <div class="col-lg-12">
+                     <img src="../images/found.png" width="20" height="20" id="ImageFound" runat="server" visible="true" />
+                      <img src="../images/notfound.png"  width="30" height="30"  id="ImageNotFound" runat="server" visible="false" />
+           
+             </div>
+         </div>
+      --%>
+ <div class="row">
+      
+         <div class="col-lg-3">
              <asp:Label ID="LabelNetWorkID" runat="server" >NetWorkID:</asp:Label><br />
               <telerik:RadTextBox RenderMode="Lightweight" ReadOnly="true" ID="TextBoxNetWorkID" Width="200px" runat="server" />
         </div>
@@ -99,7 +148,7 @@
         <div class="row">
         <div class="col-lg-3">
              <asp:Label ID="LabelEmailAddress" runat="server" >Email Address:</asp:Label><br />
-              <telerik:RadTextBox RenderMode="Lightweight" ReadOnly="true" ID="TextBoxEmailAddress" Width="200px" runat="server" />
+              <telerik:RadTextBox RenderMode="Lightweight" ReadOnly="true" ID="TextBoxEmailAddress" Width="250px" runat="server" />
         </div>
 
             <div class="col-lg-3">
@@ -119,11 +168,13 @@
 
     </div>
 
+</telerik:RadAjaxPanel>
+
     <p></p>
 
-                <div class="row">
+      <div class="row">
         <div class="col-lg-5">
-                        </div>
+         </div>
             
 
 
@@ -136,9 +187,25 @@
 
 <br />
 
-     <div class="row">
+         <div class="row">
+         <div class="pull-right">
+            <div class="col-lg-12 pull-right">
+           <telerik:RadRadioButtonList runat="server" ID="RadioButtonShowEmployees" Direction="Horizontal" OnSelectedIndexChanged="RadioButtonShowEmployees_SelectedIndexChanged" >
+            <Items>
+                <telerik:ButtonListItem Text="Show Active Users" Selected="true" Value="N" />
+                <telerik:ButtonListItem Text="Show InActive Users" Value="Y" />
+                <telerik:ButtonListItem Text="Show Both Acitve and InActive" Value="B" />
+            </Items>
+        </telerik:RadRadioButtonList>
+                </div>
+             </div>
+             </div>
+
+<%--     <div class="row">
          <div class="pull-right">
             <div class="col-lg-11 pull-right">
+                <telerik:RadCheckBox ID="CheckBoxInAcitveOnly" OnCheckedChanged="CheckBoxAcitveOnly_CheckedChanged"  Checked="false" runat="server" Text="Show Only Inactive Users"  >
+                </telerik:RadCheckBox>
                 <telerik:RadCheckBox ID="CheckBoxAcitveOnly" OnCheckedChanged="CheckBoxAcitveOnly_CheckedChanged"  Checked="false" runat="server" Text="Show Inactive Users"  >
                 </telerik:RadCheckBox>
                 </div>
@@ -146,10 +213,10 @@
                  <div class="col-lg-1">
                 </div>
         </div>
-     </div>
+     </div>--%>
 
 
-        <div class="row">
+      <div class="row">
         <div class="col-lg-12">
             
 

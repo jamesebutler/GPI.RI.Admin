@@ -87,6 +87,33 @@ namespace GPI.RI.Admin.Employee
         protected global::Telerik.Web.UI.RadButton ButtonSearchForByEmail;
 
         /// <summary>
+        /// EmailFound control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl EmailFound;
+
+        /// <summary>
+        /// EmailNotFound control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl EmailNotFound;
+
+        /// <summary>
+        /// panelEmployeeInfo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Telerik.Web.UI.RadAjaxPanel panelEmployeeInfo;
+
+        /// <summary>
         /// LabelNetWorkID control.
         /// </summary>
         /// <remarks>
@@ -240,13 +267,13 @@ namespace GPI.RI.Admin.Employee
         protected global::Telerik.Web.UI.RadButton ButtonAddEmployee;
 
         /// <summary>
-        /// CheckBoxAcitveOnly control.
+        /// RadioButtonShowEmployees control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Telerik.Web.UI.RadCheckBox CheckBoxAcitveOnly;
+        protected global::Telerik.Web.UI.RadRadioButtonList RadioButtonShowEmployees;
 
         /// <summary>
         /// RadGridEmployees control.

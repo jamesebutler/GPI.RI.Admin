@@ -189,6 +189,7 @@
     <Content Include="App_Data\RadSpell\en-US.tdf" />
     <Content Include="App_Data\RadSpell\fr-FR.tdf" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="images\found.png" />
     <Content Include="images\loading.gif" />
     <Content Include="images\loading1.gif" />
     <Content Include="images\loading2.gif" />
@@ -198,6 +199,7 @@
     <Content Include="images\loading6.gif" />
     <Content Include="images\loading7.gif" />
     <Content Include="images\LogoOnly.PNG" />
+    <Content Include="images\notfound.png" />
     <Content Include="RI\NotificationMaintenance.js" />
     <Content Include="RI\RINotificationMaintenance.aspx" />
     <Content Include="RI\RINotificationMaintenanceBackup.aspx" />
@@ -358,6 +360,14 @@
     <ProjectReference Include="..\GPI.MILL.DataAccess.Oracle\GPI.MILL.DataAccess.Oracle.csproj">
       <Project>{a021e0b4-a738-479a-a9dd-7007687139b5}</Project>
       <Name>GPI.MILL.DataAccess.Oracle</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GPI.MILL.Ldap\GPI.MILL.Ldap.csproj">
+      <Project>{1e20fed6-9202-4878-8fda-8d69a319595a}</Project>
+      <Name>GPI.MILL.Ldap</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GPI.UserModel\GPI.User.Model.csproj">
+      <Project>{683d13f3-3b22-4a23-adf3-a3b8db153b46}</Project>
+      <Name>GPI.User.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

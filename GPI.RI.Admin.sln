@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GPI.MILL.DataAccess.Oracle"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GPI.MILL.Ldap", "..\GPI.MILL.Ldap\GPI.MILL.Ldap.csproj", "{1E20FED6-9202-4878-8FDA-8D69A319595A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GPI.User.Model", "..\GPI.UserModel\GPI.User.Model.csproj", "{683D13F3-3B22-4A23-ADF3-A3B8DB153B46}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{1E20FED6-9202-4878-8FDA-8D69A319595A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1E20FED6-9202-4878-8FDA-8D69A319595A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1E20FED6-9202-4878-8FDA-8D69A319595A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{683D13F3-3B22-4A23-ADF3-A3B8DB153B46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{683D13F3-3B22-4A23-ADF3-A3B8DB153B46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{683D13F3-3B22-4A23-ADF3-A3B8DB153B46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{683D13F3-3B22-4A23-ADF3-A3B8DB153B46}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
