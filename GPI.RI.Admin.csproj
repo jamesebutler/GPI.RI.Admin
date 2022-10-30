@@ -170,6 +170,10 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Default.aspx" />
+    <Content Include="Employee\EmployeeAdd.aspx" />
+    <Content Include="Employee\EmployeeDelete.aspx" />
+    <Content Include="Employee\EmployeeRoles.aspx" />
+    <Content Include="Employee\EmployeeTransfer.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -264,6 +268,34 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Employee\EmployeeAdd.aspx.cs">
+      <DependentUpon>EmployeeAdd.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Employee\EmployeeAdd.aspx.designer.cs">
+      <DependentUpon>EmployeeAdd.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Employee\EmployeeDelete.aspx.cs">
+      <DependentUpon>EmployeeDelete.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Employee\EmployeeDelete.aspx.designer.cs">
+      <DependentUpon>EmployeeDelete.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Employee\EmployeeRoles.aspx.cs">
+      <DependentUpon>EmployeeRoles.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Employee\EmployeeRoles.aspx.designer.cs">
+      <DependentUpon>EmployeeRoles.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Employee\EmployeeTransfer.aspx.cs">
+      <DependentUpon>EmployeeTransfer.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Employee\EmployeeTransfer.aspx.designer.cs">
+      <DependentUpon>EmployeeTransfer.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -305,7 +337,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Employee\" />
     <Folder Include="MOC\" />
     <Folder Include="TaskTracker\" />
   </ItemGroup>
@@ -322,6 +353,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\licenses.licx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GPI.MILL.DataAccess.Oracle\GPI.MILL.DataAccess.Oracle.csproj">
+      <Project>{a021e0b4-a738-479a-a9dd-7007687139b5}</Project>
+      <Name>GPI.MILL.DataAccess.Oracle</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -346,7 +383,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
+      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
     </VisualStudio>
   </ProjectExtensions>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

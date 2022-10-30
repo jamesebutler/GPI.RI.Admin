@@ -13,7 +13,7 @@
             <h2>Employee</h2>
             <%--<p>You can Add, Update, Delete Employess. </p>--%>
             <p>
-                 <a class="btn btn-lg btn-primary" style="width: 220px;" href="#">Add &raquo;</a>
+                 <a class="btn btn-lg btn-primary" style="width: 220px;" href="../Employee/EmployeeAdd.aspx">Add &raquo;</a>
                <br /><br />
                 <a class="btn btn-lg btn-primary" style="width: 220px;" href="#">Delete &raquo;</a>
                <br /> <br />

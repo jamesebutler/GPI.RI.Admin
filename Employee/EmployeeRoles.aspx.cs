@@ -5,14 +5,12 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace GPI.RI.Admin
+namespace GPI.RI.Admin.Employee
 {
-    public partial class SiteMaster : MasterPage
+    public partial class EmployeeRoles : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
-
 
         }
     }

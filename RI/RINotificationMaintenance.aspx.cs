@@ -9,12 +9,18 @@ using System.Web.UI;
 
 using Telerik.Web.UI;
 using Devart.Data.Oracle;
+using GPI.MILL.DataAccess.Oracle;
+
 
 
 namespace GPI.RI.Admin.MOC
 {
+
     public partial class RINotificationMaintenance : System.Web.UI.Page
     {
+        //GPI.MILL.DataAccess.Oracle.RetrieveData dataaccess = new GPI.MILL.DataAccess.Oracle.RetrieveData();
+
+
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -221,27 +227,12 @@ namespace GPI.RI.Admin.MOC
 
         protected void LoadSites()
         {
-            string connection;
-            string Provider;
-
-
-            OracleConnection conCust = null/* TODO Change to default(_) if this is not a reference type */;
-            OracleCommand cmdSql = null/* TODO Change to default(_) if this is not a reference type */;
             string Sql = null;
             Sql = "select siteid,sitename from refsite where domain = 'NA' and inactive_flag = 'N'";
-            connection = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ConnectionString;
-            Provider = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ProviderName;
-            conCust = new OracleConnection(connection);
-            conCust.Open();
-            cmdSql = new OracleCommand(Sql, conCust);
 
             OracleDataReader dr;
-            dr = cmdSql.ExecuteReader();
-
-
+            dr = RetrieveData.GetOracleDataReader(Sql);
             //Create a new DataTable.
- 
-
             DataTable dt = new DataTable();
             //Load DataReader into the DataTable.
             dt.Load(dr);
@@ -260,31 +251,15 @@ namespace GPI.RI.Admin.MOC
 
         protected void LoadBusinessUnits(string GetBySiteId)
         {
-            string connection;
-            string Provider;
-
-
-
-
-            OracleConnection conCust = null/* TODO Change to default(_) if this is not a reference type */;
-            OracleCommand cmdSql = null/* TODO Change to default(_) if this is not a reference type */;
             string Sql = null;
             //Sql = "select distinct risuperarea from refsitearea where bustype = 'PM'  and siteid = '" + GetBySiteId + "' order by risuperarea";
             Sql = "Select distinct risuperarea  From TBLRISUPERAREA where bustype = 'PM' order by risuperarea";
 
-            connection = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ConnectionString;
-            Provider = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ProviderName;
-            conCust = new OracleConnection(connection);
-            conCust.Open();
-            cmdSql = new OracleCommand(Sql, conCust);
 
             OracleDataReader dr;
-            dr = cmdSql.ExecuteReader();
-
+            dr = RetrieveData.GetOracleDataReader(Sql);
 
             //Create a new DataTable.
-
-
             DataTable dt = new DataTable();
             //Load DataReader into the DataTable.
             dt.Load(dr);
@@ -305,32 +280,19 @@ namespace GPI.RI.Admin.MOC
         protected void LoadArea(string GetBySiteId, string GetByBusinessUnit)
         {
 
-
-            string connection;
-            string Provider;
-
-
-            OracleConnection conCust = null/* TODO Change to default(_) if this is not a reference type */;
-            OracleCommand cmdSql = null/* TODO Change to default(_) if this is not a reference type */;
             string Sql = null;
             //Sql = "select distinct a.subarea from refsitearea a where 1=1 and a.bustype = 'PM'  and a.risuperarea = '" + businessunit + "' and a.siteid = '" + siteid + "'  order by a.subarea";
             Sql = "Select Distinct SubArea From TBLRISUPERAREA where bustype = 'PM'  and risuperarea = '" + GetByBusinessUnit + "'  order by subarea";
 
             Debug.WriteLine(Sql);
-            connection = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ConnectionString;
-            Provider = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ProviderName;
-            conCust = new OracleConnection(connection);
-            conCust.Open();
-            cmdSql = new OracleCommand(Sql, conCust);
 
             OracleDataReader dr;
-            dr = cmdSql.ExecuteReader();
-
             //Create a new DataTable.
+            dr = RetrieveData.GetOracleDataReader(Sql);
+
             DataTable dt = new DataTable();
             //Load DataReader into the DataTable.
             dt.Load(dr);
-
 
             DropDownArea.DataTextField = "SubArea";
             DropDownArea.DataValueField = "SubArea";
@@ -346,24 +308,14 @@ namespace GPI.RI.Admin.MOC
         protected void LoadLine(string GetBySiteId, string GetByBusinessUnit, string GetByArea)
         {
 
-            string connection;
-            string Provider;
-
-            OracleConnection conCust = null/* TODO Change to default(_) if this is not a reference type */;
-            OracleCommand cmdSql = null/* TODO Change to default(_) if this is not a reference type */;
             string Sql = null;
             Sql = "select distinct a.area from refsitearea a where 1=1 and a.bustype = 'PM'  and a.risuperarea = '" + GetByBusinessUnit + "' and a.siteid = '" + GetBySiteId + "'" + " and a.subarea = '" + GetByArea + "' order by a.area";
             Debug.WriteLine(Sql);
-            connection = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ConnectionString;
-            Provider = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ProviderName;
-            conCust = new OracleConnection(connection);
-            conCust.Open();
-            cmdSql = new OracleCommand(Sql, conCust);
 
             OracleDataReader dr;
-            dr = cmdSql.ExecuteReader();
-
             //Create a new DataTable.
+            dr = RetrieveData.GetOracleDataReader(Sql);
+
             DataTable dt = new DataTable();
             //Load DataReader into the DataTable.
             dt.Load(dr);
@@ -382,12 +334,6 @@ namespace GPI.RI.Admin.MOC
         protected void LoadEmployees(string GetBySiteId, string GetByBusinessUnit, string GetByArea, string GetByLineSystemType, string GetBynotifytype)
         {
 
-            string connection;
-            string Provider;
-
-
-            OracleConnection conCust = null/* TODO Change to default(_) if this is not a reference type */;
-            OracleCommand cmdSql = null/* TODO Change to default(_) if this is not a reference type */;
             string Sql = null;
             StringBuilder SQLbuilder = new StringBuilder();
             SQLbuilder.Append("Select distinct lastname, firstname, INITCAP(lastname) || ', ' || INITCAP(firstname) as fullname,username From Refemployee");
@@ -403,18 +349,12 @@ namespace GPI.RI.Admin.MOC
             SQLbuilder.Append(")");
             SQLbuilder.Append(" Order By Lastname, firstname");
 
-
             Sql = SQLbuilder.ToString();
-            connection = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ConnectionString;
-            Provider = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ProviderName;
-            conCust = new OracleConnection(connection);
-            conCust.Open();
-            cmdSql = new OracleCommand(Sql, conCust);
 
             OracleDataReader dr;
-            dr = cmdSql.ExecuteReader();
-
             //Create a new DataTable.
+            dr = RetrieveData.GetOracleDataReader(Sql);
+
             DataTable dt = new DataTable();
             //Load DataReader into the DataTable.
             dt.Load(dr);
@@ -431,12 +371,6 @@ namespace GPI.RI.Admin.MOC
         protected void LoadAssignedEmployees(string GetBySiteId, string GetByBusinessUnit, string GetByArea, string GetByLineSystemType, string GetBynotifytype)
         {
 
-            string connection;
-            string Provider;
-
-
-            OracleConnection conCust = null/* TODO Change to default(_) if this is not a reference type */;
-            OracleCommand cmdSql = null/* TODO Change to default(_) if this is not a reference type */;
             string Sql = null;
             StringBuilder SQLbuilder = new StringBuilder();
             SQLbuilder.Append("Select distinct lastname, firstname, INITCAP(lastname) || ', ' || INITCAP(firstname) || '  (' ||  decode(notifytype,'T','To','C','Copy','Copy') || + ')' as fullname, username, decode(notifytype,'T','To','C','Copy','Copy') notifytype From reladmin.notification_by_linesystem_vw");
@@ -446,19 +380,12 @@ namespace GPI.RI.Admin.MOC
             SQLbuilder.Append(" and (area = '" + GetByLineSystemType + "' or area = 'All')");
             SQLbuilder.Append(" and notifytype = '" + GetBynotifytype + "'");
             SQLbuilder.Append(" Order By Lastname, firstname");
-
-
             Sql = SQLbuilder.ToString();
-            connection = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ConnectionString;
-            Provider = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ProviderName;
-            conCust = new OracleConnection(connection);
-            conCust.Open();
-            cmdSql = new OracleCommand(Sql, conCust);
 
             OracleDataReader dr;
-            dr = cmdSql.ExecuteReader();
-
             //Create a new DataTable.
+            dr = RetrieveData.GetOracleDataReader(Sql);
+
             DataTable dt = new DataTable();
             //Load DataReader into the DataTable.
             dt.Load(dr);

@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.32630.194
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GPI.RI.Admin", "GPI.RI.Admin.csproj", "{0A574D1B-3C77-422D-AF8D-434B43571793}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GPI.MILL.DataAccess.Oracle", "..\GPI.MILL.DataAccess.Oracle\GPI.MILL.DataAccess.Oracle.csproj", "{A021E0B4-A738-479A-A9DD-7007687139B5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GPI.MILL.Ldap", "..\GPI.MILL.Ldap\GPI.MILL.Ldap.csproj", "{1E20FED6-9202-4878-8FDA-8D69A319595A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{0A574D1B-3C77-422D-AF8D-434B43571793}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A574D1B-3C77-422D-AF8D-434B43571793}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A574D1B-3C77-422D-AF8D-434B43571793}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A021E0B4-A738-479A-A9DD-7007687139B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A021E0B4-A738-479A-A9DD-7007687139B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A021E0B4-A738-479A-A9DD-7007687139B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A021E0B4-A738-479A-A9DD-7007687139B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E20FED6-9202-4878-8FDA-8D69A319595A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E20FED6-9202-4878-8FDA-8D69A319595A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E20FED6-9202-4878-8FDA-8D69A319595A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E20FED6-9202-4878-8FDA-8D69A319595A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
