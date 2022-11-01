@@ -17,7 +17,24 @@
          <telerik:RadAjaxManager ID="RadAjaxManager1" runat="server">
   
          <AjaxSettings>
-                <telerik:AjaxSetting AjaxControlID="DropDownSites">
+                
+             
+                 <telerik:AjaxSetting AjaxControlID="ButtonAddEmployee">
+                    <UpdatedControls>
+                            <telerik:AjaxUpdatedControl ControlID="ButtonAddEmployee" ></telerik:AjaxUpdatedControl>
+                     <telerik:AjaxUpdatedControl ControlID="SuccessAdded" LoadingPanelID="LoadingPanel1"></telerik:AjaxUpdatedControl>
+                     <telerik:AjaxUpdatedControl ControlID="EmailFound" ></telerik:AjaxUpdatedControl>
+                    <telerik:AjaxUpdatedControl ControlID="EmailNotFound" ></telerik:AjaxUpdatedControl>
+                    <telerik:AjaxUpdatedControl ControlID="EmailInactive" ></telerik:AjaxUpdatedControl>
+                    <telerik:AjaxUpdatedControl ControlID="EmailInRI" ></telerik:AjaxUpdatedControl>
+                    <telerik:AjaxUpdatedControl ControlID="EmailNotValid" ></telerik:AjaxUpdatedControl>
+                        <telerik:AjaxUpdatedControl ControlID="RadGridEmployees" LoadingPanelID="LoadingPanel1"></telerik:AjaxUpdatedControl>
+                    </UpdatedControls>
+                </telerik:AjaxSetting>
+            
+             
+             
+             <telerik:AjaxSetting AjaxControlID="DropDownSites">
                     <UpdatedControls>
                      <telerik:AjaxUpdatedControl ControlID="DropDownSites" ></telerik:AjaxUpdatedControl>
                         <telerik:AjaxUpdatedControl ControlID="RadGridEmployees" LoadingPanelID="LoadingPanel1"></telerik:AjaxUpdatedControl>
@@ -35,12 +52,17 @@
 
                 <telerik:AjaxSetting AjaxControlID="ButtonSearchForByEmail">
                     <UpdatedControls>
-                     <telerik:AjaxUpdatedControl ControlID="ButtonSearchForByEmail" ></telerik:AjaxUpdatedControl>
-                         <telerik:AjaxUpdatedControl ControlID="ButtonAddEmployee" ></telerik:AjaxUpdatedControl>
-                        <telerik:AjaxUpdatedControl ControlID="EmailFound" ></telerik:AjaxUpdatedControl>
-                      <telerik:AjaxUpdatedControl ControlID="EmailNotFound" ></telerik:AjaxUpdatedControl>
-                     
-                        <telerik:AjaxUpdatedControl ControlID="panelEmployeeInfo" LoadingPanelID="LoadingPanel1"></telerik:AjaxUpdatedControl>
+                    <telerik:AjaxUpdatedControl ControlID="ButtonSearchForByEmail" ></telerik:AjaxUpdatedControl>
+                    <telerik:AjaxUpdatedControl ControlID="ButtonAddEmployee" ></telerik:AjaxUpdatedControl>
+                    <telerik:AjaxUpdatedControl ControlID="EmailFound" ></telerik:AjaxUpdatedControl>
+                    <telerik:AjaxUpdatedControl ControlID="EmailNotFound" ></telerik:AjaxUpdatedControl>
+                    <telerik:AjaxUpdatedControl ControlID="EmailInactive" ></telerik:AjaxUpdatedControl>
+                    <telerik:AjaxUpdatedControl ControlID="EmailInRI" ></telerik:AjaxUpdatedControl>
+                    <telerik:AjaxUpdatedControl ControlID="EmailNotValid" ></telerik:AjaxUpdatedControl>
+                        <telerik:AjaxUpdatedControl ControlID="SuccessAdded" LoadingPanelID="LoadingPanel1"></telerik:AjaxUpdatedControl>
+ 
+                        
+                    <telerik:AjaxUpdatedControl ControlID="panelEmployeeInfo" LoadingPanelID="LoadingPanel1"></telerik:AjaxUpdatedControl>
                     </UpdatedControls>
                 </telerik:AjaxSetting>
 
@@ -81,29 +103,64 @@
 </div>
 </div>
     <br />
-        <div class="row" >
 
+<%--            <div class="row" style="background-color:#367CCF;color:white" >
+                <div class="col-lg-1" >test1</div>
+                <div class="col-lg-1" >test2</div>
+                <div class="col-lg-1" >test3</div>
+                <div class="col-lg-1" >test4</div>
+                <div class="col-lg-1" >test5</div>
+                <div class="col-lg-1" >test6</div>
+                <div class="col-lg-1" >test7</div>
+                <div class="col-lg-1" >test8</div>
+                <div class="col-lg-1" >test9</div>
+                <div class="col-lg-1" >test10</div>
+                <div class="col-lg-1" >test11</div>
+                <div class="col-lg-1" >test12</div>
+            </div>
+            <br />--%>
+       
+    <div class="row" >
 
             <div class="col-lg-4" >
                             <asp:Label ID="LabelLookUpByEmail" runat="server" AssociatedControlID="EmailTextBox">Email:</asp:Label>
                             <telerik:RadTextBox RenderMode="Lightweight" EmptyMessage="enter email" ID="EmailTextBox" AssociatedControlID="ButtonSearchForByEmail" Width="310" runat="server" />
-               
-
+                                    <asp:RegularExpressionValidator
+                                    id="emailValidator"
+                                    runat="server"
+                                    Display="Dynamic"
+                                    ErrorMessage="Please, enter valid e-mail address."
+                                    ValidationExpression="^[\w\.\-]+@[a-zA-Z0-9\-]+(\.[a-zA-Z0-9\-]{1,})*(\.[a-zA-Z]{2,3}){1,2}$"
+                                    ControlToValidate="EmailTextBox">
+                                    </asp:RegularExpressionValidator>
             </div>
             
             <div class="col-lg-2" >
                     <telerik:RadButton ID="ButtonSearchForByEmail" OnClick="ButtonSearchForByEmail_Click" Skin="Black" runat="server"  Text="Search">
                     <Icon PrimaryIconCssClass="rbSearch" />
                     </telerik:RadButton>
-                            <h4>  <p class="text-success" id="EmailFound" runat="server" visible="false">Success</p></h4>
-             <p class="text-danger"  id="EmailNotFound" runat="server" visible="false">Not Found</p>
  
        
             </div>
+                <div class="col-lg-6" >
+                    <asp:Label ID="EmailFound" Width="100%" runat="server" Text="Email found. Click the 'Add Employee' button to add." Visible="false" style="background-color:#0F8F14;color:white;text-align:center;font-size: 21px;"></asp:Label>
+                     <asp:Label ID="EmailNotFound" Width="100%" runat="server" Text="Email Not Found In Active Directory" Visible="false" style="background-color:#FF0000;color:white;text-align:center;font-size: 21px;"></asp:Label>
+                     <asp:Label ID="EmailInactive" Width="100%" runat="server" Text="Email Is Inactive in Active Directory" Visible="false" style="background-color:#FFFF26;color:black;text-align:center;font-size: 21px;"></asp:Label>
+                     <asp:Label ID="EmailInRI" Width="100%" runat="server" Text="Email Already In Database" Visible="false" style="background-color:#FFFF26;color:black;text-align:center;font-size: 21px;"></asp:Label>
+                    <asp:Label ID="EmailNotValid" Width="100%" runat="server" Text="The entered email is not valid. Check spelling." Visible="false" style="background-color:#FF0000;color:white;text-align:center;font-size: 21px;"></asp:Label>
+                    <asp:Label ID="SuccessAdded" Width="100%" runat="server" Text="Employee Added." Visible="false" style="background-color:#0F8F14;color:white;text-align:center;font-size: 21px;"></asp:Label>
+                      
 
-            <div class="col-lg-6  pull-left" >
-     
                 </div>
+
+<%--                <div class="col-lg-1" >test9</div>
+                <div class="col-lg-1" >test10</div>
+                <div class="col-lg-1" >test11</div>
+                <div class="col-lg-1" >test12</div>--%>
+
+<%--            <div class="col-lg-6  pull-left" >
+     
+                </div>--%>
 
 
 
@@ -179,7 +236,7 @@
 
 
         <div class="col-lg-7">
-                 <telerik:RadButton ID="ButtonAddEmployee" Enabled="false" OnClick="ButtonSearchForByEmail_Click" Skin="Black" runat="server"   Text="Add Employee">
+                 <telerik:RadButton ID="ButtonAddEmployee" Enabled="false" OnClick="ButtonAddEmployee_Click" Skin="Black" runat="server"   Text="Add Employee">
                 <Icon PrimaryIconCssClass="rbAdd" />
                     </telerik:RadButton>
             </div>

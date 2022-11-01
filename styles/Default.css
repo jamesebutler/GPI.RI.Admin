@@ -178,6 +178,7 @@ body {
 .Button{background-color:#8A2020;color:White;font-weight:bold;cursor:hand;}
 .ButtonHover,.Button:hover{background-color:#D2F17C;color:Black;font-weight:bold;cursor:hand;}    
 .ButtonBlack{background-color:#000000;color:White;font-weight:bold;cursor:hand;}
+
 Table.Main {
 	width: 100%;
 }
@@ -209,38 +210,7 @@ th {
 	font-family: Verdana;
 	font-size: 12px;
 }
-/*Menu */
-.mainMenuBack, .mainMenuBack tr {
-	height: 24px;
-}
-.mainMenuBack {
-	color: White;
-	text-align: center;
-	font-weight: bold;
-	background-color: #ffffff;
-}
-.mainMenuBack a:Link, .mainMenuBack a:Visited {
-	text-decoration: none;
-	color: White;
-}
-.mainMenuBackHover {
-	background-color: #D2F17C;
-	text-decoration: none;
-	color: White;
-}
-.mainMenuBack .normallink {
-	padding: 0px;
-	font-weight: bold;
-	text-align: center;
-	color: #FFFFFF;
-	background-color: #000000;
-}
-.mainMenuBack .selectedlink {
-	padding: 0px;
-	text-align: center;
-	background-color: #D2F17C;
-	color: #000000;
-}
+
 
 /* Label Styles */
 

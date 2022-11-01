@@ -1,0 +1,44 @@
+<Menu>
+	<Group>
+
+
+		<Item Text="Home" AccessKey="S"  Href="~/Default.aspx">
+		</Item>
+		
+		<Item Text="Employee" AccessKey="U"  >
+			<Group>
+			<Item Text="Add Employee"   Href="~/Employee/EmployeeAdd.aspx" />
+		</Group>
+		</Item>	
+		
+
+
+		<Item Text="RI" AccessKey="H"  Href="">
+			<Group>
+				<Item Text="Analysis Leaders" Href="~/RI/RINotificationMaintenance.aspx" />
+				<!--<Item Text="Impersonate User" AccessKey="I"  Href="~/Admin/ImpersonateUser.aspx" />
+			<Item Text="Cache Viewer" AccessKey="C"  Href="~/Admin/CacheViewer.aspx" />-->
+			</Group>
+		</Item>		
+		
+				<Item Text="MOC"   Href="">
+			<Group>
+				<!--<Item Text="Analysis Leaders" Href="~/RI/RINotificationMaintenance.aspx" />-->
+				<!--<Item Text="Impersonate User" AccessKey="I"  Href="~/Admin/ImpersonateUser.aspx" />
+			<Item Text="Cache Viewer" AccessKey="C"  Href="~/Admin/CacheViewer.aspx" />-->
+			</Group>
+		</Item>	
+		
+						<Item Text="Task Tracker"   Href="">
+			<Group>
+				<!--<Item Text="Analysis Leaders" Href="~/RI/RINotificationMaintenance.aspx" />-->
+				<!--<Item Text="Impersonate User" AccessKey="I"  Href="~/Admin/ImpersonateUser.aspx" />
+			<Item Text="Cache Viewer" AccessKey="C"  Href="~/Admin/CacheViewer.aspx" />-->
+			</Group>
+		</Item>	
+
+		
+		
+		
+	</Group>
+</Menu>

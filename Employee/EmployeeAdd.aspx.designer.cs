@@ -78,6 +78,15 @@ namespace GPI.RI.Admin.Employee
         protected global::Telerik.Web.UI.RadTextBox EmailTextBox;
 
         /// <summary>
+        /// emailValidator control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator emailValidator;
+
+        /// <summary>
         /// ButtonSearchForByEmail control.
         /// </summary>
         /// <remarks>
@@ -93,7 +102,7 @@ namespace GPI.RI.Admin.Employee
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl EmailFound;
+        protected global::System.Web.UI.WebControls.Label EmailFound;
 
         /// <summary>
         /// EmailNotFound control.
@@ -102,7 +111,43 @@ namespace GPI.RI.Admin.Employee
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl EmailNotFound;
+        protected global::System.Web.UI.WebControls.Label EmailNotFound;
+
+        /// <summary>
+        /// EmailInactive control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label EmailInactive;
+
+        /// <summary>
+        /// EmailInRI control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label EmailInRI;
+
+        /// <summary>
+        /// EmailNotValid control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label EmailNotValid;
+
+        /// <summary>
+        /// SuccessAdded control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label SuccessAdded;
 
         /// <summary>
         /// panelEmployeeInfo control.

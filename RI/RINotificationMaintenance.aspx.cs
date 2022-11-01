@@ -18,7 +18,7 @@ namespace GPI.RI.Admin.MOC
 
     public partial class RINotificationMaintenance : System.Web.UI.Page
     {
-        //GPI.MILL.DataAccess.Oracle.RetrieveData dataaccess = new GPI.MILL.DataAccess.Oracle.RetrieveData();
+        GPI.MILL.DataAccess.Oracle.RetrieveData da = new MILL.DataAccess.Oracle.RetrieveData();
 
 
         protected void Page_Load(object sender, EventArgs e)
@@ -231,7 +231,7 @@ namespace GPI.RI.Admin.MOC
             Sql = "select siteid,sitename from refsite where domain = 'NA' and inactive_flag = 'N'";
 
             OracleDataReader dr;
-            dr = RetrieveData.GetOracleDataReader(Sql);
+            dr = da.GetOracleDataReader(Sql);
             //Create a new DataTable.
             DataTable dt = new DataTable();
             //Load DataReader into the DataTable.
@@ -257,7 +257,7 @@ namespace GPI.RI.Admin.MOC
 
 
             OracleDataReader dr;
-            dr = RetrieveData.GetOracleDataReader(Sql);
+            dr = da.GetOracleDataReader(Sql);
 
             //Create a new DataTable.
             DataTable dt = new DataTable();
@@ -288,7 +288,7 @@ namespace GPI.RI.Admin.MOC
 
             OracleDataReader dr;
             //Create a new DataTable.
-            dr = RetrieveData.GetOracleDataReader(Sql);
+            dr = da.GetOracleDataReader(Sql);
 
             DataTable dt = new DataTable();
             //Load DataReader into the DataTable.
@@ -314,7 +314,7 @@ namespace GPI.RI.Admin.MOC
 
             OracleDataReader dr;
             //Create a new DataTable.
-            dr = RetrieveData.GetOracleDataReader(Sql);
+            dr = da.GetOracleDataReader(Sql);
 
             DataTable dt = new DataTable();
             //Load DataReader into the DataTable.
@@ -353,7 +353,7 @@ namespace GPI.RI.Admin.MOC
 
             OracleDataReader dr;
             //Create a new DataTable.
-            dr = RetrieveData.GetOracleDataReader(Sql);
+            dr = da.GetOracleDataReader(Sql);
 
             DataTable dt = new DataTable();
             //Load DataReader into the DataTable.
@@ -384,7 +384,7 @@ namespace GPI.RI.Admin.MOC
 
             OracleDataReader dr;
             //Create a new DataTable.
-            dr = RetrieveData.GetOracleDataReader(Sql);
+            dr = da.GetOracleDataReader(Sql);
 
             DataTable dt = new DataTable();
             //Load DataReader into the DataTable.
