@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Text;
+using System.Web;
 using System.Collections.Generic;
 using System.Web.UI.WebControls;
 using System.Diagnostics;
@@ -30,6 +31,9 @@ namespace GPI.RI.Admin.Employee
 
         protected void Page_Load(object sender, EventArgs e)
         {
+
+
+
             if (!IsPostBack)
             {
 
@@ -109,116 +113,19 @@ namespace GPI.RI.Admin.Employee
             //RadAjaxManager1.FocusControl(DropDownSites);
         }
 
-
+        protected void SetStatusLabels()
+        {
+            EmailFound.Visible = false;
+            EmailNotFound.Visible = false;
+            EmailInactive.Visible = false;
+            EmailInRI.Visible = false;
+            EmailNotValid.Visible = false;
+            SuccessAdded.Visible = false;
+        }
         protected void ButtonAddEmployee_Click(object sender, EventArgs e)
         {
-            // OracleParameterCollection paramCollection = new OracleParameterCollection();
-            //OracleParameter param = new OracleParameter();
 
-
-            //param = new OracleParameter();
-            //param.ParameterName = "inUsername";
-            //param.OracleDbType = OracleDbType.VarChar;
-            //param.Direction = System.Data.ParameterDirection.Input;
-            //param.Value = TextBoxNetWorkID.Text;
-            //paramCollection.Add(param);
-
-            //param = new OracleParameter();
-            //param.ParameterName = "inDomain";
-            //param.OracleDbType = OracleDbType.VarChar;
-            //param.Direction = System.Data.ParameterDirection.Input;
-            //param.Value = TextBoxDomain.Text;
-            //paramCollection.Add(param);
-
-            //param = new OracleParameter();
-            //param.ParameterName = "inFirstname";
-            //param.OracleDbType = OracleDbType.VarChar;
-            //param.Direction = System.Data.ParameterDirection.Input;
-            //param.Value = TextBoxFirstName.Text;
-            //paramCollection.Add(param);
-
-            //param = new OracleParameter();
-            //param.ParameterName = "inLastname";
-            //param.OracleDbType = OracleDbType.VarChar;
-            //param.Direction = System.Data.ParameterDirection.Input;
-            //param.Value = TextBoxLastName.Text;
-            //paramCollection.Add(param);
-
-
-
-            //param = new OracleParameter();
-            //param.ParameterName = "inEmail";
-            //param.OracleDbType = OracleDbType.VarChar;
-            //param.Direction = System.Data.ParameterDirection.Input;
-            //param.Value = TextBoxEmailAddress.Text;
-            //paramCollection.Add(param);
-
-
-            //param = new OracleParameter();
-            //param.ParameterName = "inExtension";
-            //param.OracleDbType = OracleDbType.VarChar;
-            //param.Direction = System.Data.ParameterDirection.Input;
-            //param.Value = TextBoxPhoneNumber.Text;
-            //paramCollection.Add(param);
-
-            //param = new OracleParameter();
-            //param.ParameterName = "in_inactive_flag";
-            //param.OracleDbType = OracleDbType.VarChar;
-            //param.Direction = System.Data.ParameterDirection.Input;
-            //param.Value = "N";
-            //paramCollection.Add(param);
-
-            //param = new OracleParameter();
-            //param.ParameterName = "inDefault_language";
-            //param.OracleDbType = OracleDbType.VarChar;
-            //param.Direction = System.Data.ParameterDirection.Input;
-            //param.Value = "EN-US";
-            //paramCollection.Add(param);
-
-
-            //param = new OracleParameter();
-            //param.ParameterName = "inSiteid";
-            //param.OracleDbType = OracleDbType.VarChar;
-            //param.Direction = System.Data.ParameterDirection.Input;
-            //param.Value = DropDownSites.SelectedValue;
-            //paramCollection.Add(param);
-
-
-            //param = new OracleParameter();
-            //param.ParameterName = "inSignaturefile";
-            //param.OracleDbType = OracleDbType.VarChar;
-            //param.Direction = System.Data.ParameterDirection.Input;
-            //param.Value = "";
-            //paramCollection.Add(param);
-
-            //param = new OracleParameter();
-            //param.ParameterName = "inUpdateUserName";
-            //param.OracleDbType = OracleDbType.VarChar;
-            //param.Direction = System.Data.ParameterDirection.Input;
-            //param.Value = "james.butler";
-            //paramCollection.Add(param);
-
-
-            //param = new OracleParameter();
-            //param.ParameterName = "inMiddleinit";
-            //param.OracleDbType = OracleDbType.VarChar;
-            //param.Direction = System.Data.ParameterDirection.Input;
-            //param.Value = TextBoxMidInit.Text;
-            //paramCollection.Add(param);
-
-
-
-
-            ////out_status OUT number
-            //param = new OracleParameter();
-            //param.ParameterName = "out_status";
-            //param.OracleDbType = OracleDbType.VarChar;
-            //param.Direction = System.Data.ParameterDirection.Output;
-            //paramCollection.Add(param);
-
-            //System.Data.DataSet ds = null;
-            //ds = da.GetDSFromPackage(paramCollection, "Reladmin.sp_Employee_Insert","",0);
-
+            SetStatusLabels();
             try
             {
 
@@ -251,16 +158,18 @@ namespace GPI.RI.Admin.Employee
                     command.Parameters["out_status"].Direction = ParameterDirection.Output;
                 connection.Open();
                 command.ExecuteNonQuery();
-                string SomeOutVar = command.Parameters["out_status"].Value.ToString();
-                string SomeOutVar1 = command.Parameters["out_status"].Value.ToString();
+                string CheckStatus = command.Parameters["out_status"].Value.ToString();
+                //string SomeOutVar1 = command.Parameters["another_status"].Value.ToString();
 
-                    EmailFound.Visible = false;
-                    EmailNotFound.Visible = false;
-                    EmailInactive.Visible = false;
-                    EmailInRI.Visible = false;
-                    ButtonAddEmployee.Enabled = false;
-                    EmailNotValid.Visible = false;
-                    SuccessAdded.Visible = true;
+                   if (CheckStatus == "0")
+                    {
+                        ButtonAddEmployee.Enabled = false;
+ 
+                        SuccessAdded.Visible = true;
+                        LoadEmployees(DropDownSites.SelectedValue,RadioButtonShowEmployees.SelectedValue);
+                    }
+                    
+
                 }
 
 
@@ -309,12 +218,10 @@ namespace GPI.RI.Admin.Employee
         protected void ButtonSearchForByEmail_Click(object sender, EventArgs e)
         {
             
-            EmailFound.Visible = false;
-            EmailNotFound.Visible = false;
-            EmailInactive.Visible = false;
-            EmailInRI.Visible = false;
+            
+            SetStatusLabels();
+ 
             ButtonAddEmployee.Enabled = false;
-            EmailNotValid.Visible = false;
             TextBoxNetWorkID.Text = "";
             TextBoxLastName.Text = "";
             TextBoxFirstName.Text = "";

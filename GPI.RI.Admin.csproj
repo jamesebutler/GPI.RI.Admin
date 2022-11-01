@@ -625,6 +625,10 @@
     <EmbeddedResource Include="Properties\licenses.licx" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GPI.GlobalClass\GPI.GlobalClass\GPI.GlobalClass.vbproj">
+      <Project>{20ba11a0-9447-4338-8860-c04c4add3017}</Project>
+      <Name>GPI.GlobalClass</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GPI.MILL.DataAccess.Oracle\GPI.MILL.DataAccess.Oracle.csproj">
       <Project>{a021e0b4-a738-479a-a9dd-7007687139b5}</Project>
       <Name>GPI.MILL.DataAccess.Oracle</Name>
@@ -661,7 +665,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
+      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
     </VisualStudio>
   </ProjectExtensions>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

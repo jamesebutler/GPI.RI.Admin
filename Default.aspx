@@ -2,6 +2,19 @@
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
 
+  
+            <telerik:RadScriptBlock ID="RadScriptBlock1" runat="server">
+        
+            <script type="text/javascript">
+            /*<![CDATA[*/
+            
+                /*]]>*/
+            </script>
+        </telerik:RadScriptBlock>
+
+    <telerik:RadAjaxPanel ID="RadAjaxPanel" runat="server">
+
+
     <div class="jumbotron">
         <h2>Administrator System for Employee, RI, MOC, and  Task Tracker</h2>
         <p class="lead">As an administrator you can do every thing from this site.</p>
@@ -15,7 +28,7 @@
             <p>
                  <a class="btn btn-lg btn-primary" style="width: 220px;" href="../Employee/EmployeeAdd.aspx">Add &raquo;</a>
                <br /><br />
-                <a class="btn btn-lg btn-primary" style="width: 220px;" href="#">Delete &raquo;</a>
+                <a class="btn btn-lg btn-primary" style="width: 220px;" href="#">Set Inactive &raquo;</a>
                <br /> <br />
                 <a class="btn btn-lg btn-primary" style="width: 220px;" href="#">Transfer &raquo;</a>
                            <br /> <br />
@@ -60,5 +73,5 @@
             </p>
         </div>
     </div>
-
+        </telerik:RadAjaxPanel>
 </asp:Content>
