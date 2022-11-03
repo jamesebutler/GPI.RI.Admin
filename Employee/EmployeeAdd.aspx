@@ -82,7 +82,21 @@
         </div>
         </div>
  
-
+<%--            <div class="row" style="background-color:#367CCF;color:white" >
+                <div class="col-lg-1" >test1</div>
+                <div class="col-lg-1" >test2</div>
+                <div class="col-lg-1" >test3</div>
+                <div class="col-lg-1" >test4</div>
+                <div class="col-lg-1" >test5</div>
+                <div class="col-lg-1" >test6</div>
+                <div class="col-lg-1" >test7</div>
+                <div class="col-lg-1" >test8</div>
+                <div class="col-lg-1" >test9</div>
+                <div class="col-lg-1" >test10</div>
+                <div class="col-lg-1" >test11</div>
+                <div class="col-lg-1" >test12</div>
+            </div>
+            <br />--%>
 
     <div class="row">
 <div class="col-lg-12" style="background-color:#E0E1E2;">
@@ -113,21 +127,7 @@
 
    
 
-<%--            <div class="row" style="background-color:#367CCF;color:white" >
-                <div class="col-lg-1" >test1</div>
-                <div class="col-lg-1" >test2</div>
-                <div class="col-lg-1" >test3</div>
-                <div class="col-lg-1" >test4</div>
-                <div class="col-lg-1" >test5</div>
-                <div class="col-lg-1" >test6</div>
-                <div class="col-lg-1" >test7</div>
-                <div class="col-lg-1" >test8</div>
-                <div class="col-lg-1" >test9</div>
-                <div class="col-lg-1" >test10</div>
-                <div class="col-lg-1" >test11</div>
-                <div class="col-lg-1" >test12</div>
-            </div>
-            <br />--%>
+
        
     <div class="row" >
 
@@ -153,7 +153,7 @@
             </div>
                 <div class="col-lg-6" >
                     <asp:Label ID="EmailFound" Width="100%" runat="server" Text="Email found. Click the 'Add Employee' button to add." Visible="false" style="background-color:#0F8F14;color:white;text-align:center;font-size: 21px;"></asp:Label>
-                     <asp:Label ID="EmailNotFound" Width="100%" runat="server" Text="Email Not Found In Active Directory" Visible="false" style="background-color:#FF0000;color:white;text-align:center;font-size: 21px;"></asp:Label>
+                     <asp:Label ID="EmailNotFound" Width="100%" runat="server" Text="Email Not Found" Visible="false" style="background-color:#FF0000;color:white;text-align:center;font-size: 21px;"></asp:Label>
                      <asp:Label ID="EmailInactive" Width="100%" runat="server" Text="Email Is Inactive in Active Directory" Visible="false" style="background-color:#FFFF26;color:black;text-align:center;font-size: 21px;"></asp:Label>
                      <asp:Label ID="EmailInRI" Width="100%" runat="server" Text="Email Already In Database" Visible="false" style="background-color:#FFFF26;color:black;text-align:center;font-size: 21px;"></asp:Label>
                     <asp:Label ID="EmailNotValid" Width="100%" runat="server" Text="The entered email is not valid. Check spelling." Visible="false" style="background-color:#FF0000;color:white;text-align:center;font-size: 21px;"></asp:Label>

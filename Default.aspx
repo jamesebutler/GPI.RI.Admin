@@ -26,24 +26,24 @@
             <h2>Employee</h2>
             <%--<p>You can Add, Update, Delete Employess. </p>--%>
             <p>
-                 <a class="btn btn-lg btn-primary" style="width: 220px;" href="../Employee/EmployeeAdd.aspx">Add &raquo;</a>
+                 <a class="btn btn-lg btn-primary" style="width: 220px;background-color:#02776C;" href="../Employee/EmployeeAdd.aspx">Add &raquo;</a>
                <br /><br />
-                <a class="btn btn-lg btn-primary" style="width: 220px;" href="#">Set Inactive &raquo;</a>
+                <a class="btn btn-lg btn-primary" style="width: 220px;background-color:#02776C;" href="#">Set Inactive &raquo;</a>
                <br /> <br />
-                <a class="btn btn-lg btn-primary" style="width: 220px;" href="#">Transfer &raquo;</a>
+                <a class="btn btn-lg btn-primary" style="width: 220px;background-color:#02776C;" href="#">Transfer &raquo;</a>
                            <br /> <br />
-                <a class="btn btn-lg btn-primary" style="width: 220px;" href="#">Assign Roles &raquo;</a>
+                <a class="btn btn-lg btn-primary" style="width: 220px;background-color:#02776C;" href="#">Assign Roles &raquo;</a>
             </p>
         </div>
         <div class="col-md-3">
             <h2>RI</h2>
 
             <p>
-                 <a class="btn btn-lg btn-primary" style="width: 220px;" href="#">RI Notification &raquo;</a>
+                 <a class="btn btn-lg btn-primary" style="width: 220px;background-color:#02776C;" href="#">RI Notification &raquo;</a>
                <br /><br />
-                <a class="btn btn-lg btn-primary" style="width: 220px;" href="../RI/RINotificationMaintenance.aspx">RI Analysis Leaders &raquo;</a>
+                <a class="btn btn-lg btn-primary" style="width: 220px;background-color:#02776C;" href="../RI/RINotificationMaintenance.aspx">RI Analysis Leaders &raquo;</a>
                <br /> <br />
-                <a class="btn btn-lg btn-primary" style="width: 220px;" href="#">Location Maintenance &raquo;</a>
+                <a class="btn btn-lg btn-primary" style="width: 220px;background-color:#02776C;" href="#">Location Maintenance &raquo;</a>
 
             
             </p>
@@ -52,19 +52,19 @@
             <h2>MOC</h2>
 
            <p>
-                 <a class="btn btn-lg btn-primary" style="width: 220px;" href="#">MOC Notification Email &raquo;</a>
+                 <a class="btn btn-lg btn-primary" style="width: 220px;background-color:#02776C;" href="#">MOC Notification Email &raquo;</a>
                <br /><br />
-                <a class="btn btn-lg btn-primary" style="width: 220px;" href="#">MOC Reviewers &raquo;</a>
-               <br /> <br />
-                <a class="btn btn-lg btn-primary" style="width: 220px;" href="#">Location Maintenance &raquo;</a>
-            
+                <a class="btn btn-lg btn-primary" style="width: 220px;background-color:#02776C;" href="#">MOC Reviewers &raquo;</a>
+<%--               <br /> <br />
+                <a class="btn btn-lg btn-primary" style="width: 220px;background-color:#02776C;" href="#">Location Maintenance &raquo;</a>
+            --%>
             </p>
         </div>
                 <div class="col-md-3">
             <h2>Task Tracker</h2>
 
            <p>
-                 <a class="btn btn-lg btn-primary" style="width: 220px;" href="#">Task Notification Email &raquo;</a>
+                 <a class="btn btn-lg btn-primary" style="width:220px;background-color:#02776C;;" href="#">Task Notification Email &raquo;</a>
 <%--               <br /><br />
                 <a class="btn btn-lg btn-primary" style="width: 220px;" href="#">MOC Reviewers &raquo;</a>
                <br /> <br />

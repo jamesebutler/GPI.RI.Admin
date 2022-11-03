@@ -637,7 +637,7 @@
       <Project>{1e20fed6-9202-4878-8fda-8d69a319595a}</Project>
       <Name>GPI.MILL.Ldap</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GPI.UserModel\GPI.User.Model.csproj">
+    <ProjectReference Include="..\GPI.User.Model\GPI.User.Model.csproj">
       <Project>{683d13f3-3b22-4a23-adf3-a3b8db153b46}</Project>
       <Name>GPI.User.Model</Name>
     </ProjectReference>

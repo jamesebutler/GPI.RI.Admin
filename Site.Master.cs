@@ -37,23 +37,48 @@ GPI.MILL.DataAccess.Oracle.RetrieveData da = new RetrieveData();
                 //RadMenu1.Items[1].HighlightPath();
             }
 
-
-
-            string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
-            string[] fullUsername = userName.Split(System.Convert.ToChar(@"\"));
-
             
-             
             
-            LabelUserName.Text = "User: " + fullUsername[1];
+            if (Session["UserName"] == null)
+            { 
+                RIUser riuser = new RIUser();
 
-          
+                string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
+                string[] fullUsername = userName.Split(System.Convert.ToChar(@"\"));
 
 
-             
+                riuser = riuser.GetEmployee(fullUsername[1].ToUpper());
+                //go make sure the user is in the DB
+                if (riuser.Email != null)
+                {
+                    //check for inactive
+                    if (riuser.InactiveFlag == "N")
+                    { 
+
+               
+                    //Session["riuser"] = riuser;
+                     Session.Add("riuser", riuser);
+
+                        WriteToSession(riuser);
 
 
+                        //Session.Contents();/* TODO ERROR: Skipped SkippedTokensTrivia */
 
+
+                    
+                    }
+                    else if (riuser.InactiveFlag == "Y")
+                    {
+                        //do not proceed
+                        return;
+                    }
+                }
+            }
+
+
+            LabelUserName.Text = "User: " + Session["LastName"] + ", " + Session["FirstName"];
+
+           
 
         }
 
@@ -99,6 +124,7 @@ GPI.MILL.DataAccess.Oracle.RetrieveData da = new RetrieveData();
                 {
                     LabelBannerWarning.Visible = true;
                 }
+                else
                 {
                     LabelBannerWarning.Visible = false;
                 }
@@ -110,104 +136,35 @@ GPI.MILL.DataAccess.Oracle.RetrieveData da = new RetrieveData();
         }
 
 
+        //get the Ldap and RI user settings
+
+        private RIUser  WriteToSession(RIUser riuser )
+
+        {
+
+            System.Web.HttpContext.Current.Session["UserName"] = riuser.UserName;
+            System.Web.HttpContext.Current.Session["Domain"] = riuser.Domain;
+            System.Web.HttpContext.Current.Session["SiteID"] = riuser.SiteID;
+            System.Web.HttpContext.Current.Session["EmployeeID"] = riuser.EmployeeID;
+            System.Web.HttpContext.Current.Session["FirstName"] = riuser.FirstName;
+            System.Web.HttpContext.Current.Session["LastName"] = riuser.LastName;
+            System.Web.HttpContext.Current.Session["Email"] = riuser.Email;
+            System.Web.HttpContext.Current.Session["Extension"] = riuser.Extension;
+            System.Web.HttpContext.Current.Session["InactiveFlag"] = riuser.InactiveFlag;
+            System.Web.HttpContext.Current.Session["DefaultLanguage"] = riuser.DefaultLanguage;
+            System.Web.HttpContext.Current.Session["PlantCode"] = riuser.PlantCode;
+            System.Web.HttpContext.Current.Session["SignatureFile"] = riuser.SignatureFile;
+            System.Web.HttpContext.Current.Session["LastUpdateUserName"] = riuser.LastUpdateUserName;
+            System.Web.HttpContext.Current.Session["LastUpDateDate"] = riuser.LastUpDateDate;
+            System.Web.HttpContext.Current.Session["MiddleInit"] = riuser.MiddleInit;
+            System.Web.HttpContext.Current.Session["ManagerUserName"] = riuser.ManagerUserName;
+            System.Web.HttpContext.Current.Session["UITheme"] = riuser.UITheme;
 
 
-        //public static string CreateXMLUserInfo(userprofile as currentprofile)
-        //{
 
-        //    // write results to session xml
-        //    XmlWriterSettings settings = new XmlWriterSettings();
-        //    {
-        //        var withBlock = settings;
-        //        withBlock.CloseOutput = true;
-        //        withBlock.Encoding = Encoding.UTF8;
-        //        withBlock.Indent = false;
-        //        withBlock.OmitXmlDeclaration = true;
-        //    }
-        //    System.IO.StringWriter sw = new System.IO.StringWriter();
-        //    using (XmlWriter xw = XmlWriter.Create(sw, settings))
-        //    {
-        //        {
-        //            var withBlock = xw;
-        //            withBlock.WriteStartDocument();
-        //            withBlock.WriteStartElement("UserProfileInfo");
-
-        //            withBlock.WriteStartElement("AuthLevel");
-        //            withBlock.WriteValue(userprofile.AuthLevel);
-        //            withBlock.WriteEndElement();
-
-        //            withBlock.WriteStartElement("AuthLevelID");
-        //            withBlock.WriteValue(userprofile.AuthLevelID);
-        //            withBlock.WriteEndElement();
-
-        //            withBlock.WriteStartElement("BusType");
-        //            withBlock.WriteValue(userprofile.BusType);
-        //            withBlock.WriteEndElement();
-
-        //            withBlock.WriteStartElement("DefaultDivision");
-        //            withBlock.WriteValue(userprofile.DefaultDivision);
-        //            withBlock.WriteEndElement();
-
-        //            withBlock.WriteStartElement("DefaultFacility");
-        //            withBlock.WriteValue(userprofile.DefaultFacility);
-        //            withBlock.WriteEndElement();
-
-        //            withBlock.WriteStartElement("DefaultLanguage");
-        //            withBlock.WriteValue(userprofile.DefaultLanguage);
-        //            withBlock.WriteEndElement();
-
-        //            withBlock.WriteStartElement("DistinguishedName");
-        //            withBlock.WriteValue(userprofile.DistinguishedName);
-        //            withBlock.WriteEndElement();
-
-        //            withBlock.WriteStartElement("DivestedLocation");
-        //            withBlock.WriteValue(userprofile.DivestedLocation);
-        //            withBlock.WriteEndElement();
-
-        //            withBlock.WriteStartElement("DomainName");
-        //            withBlock.WriteValue(userprofile.DomainName);
-        //            withBlock.WriteEndElement();
-
-        //            withBlock.WriteStartElement("Email");
-        //            withBlock.WriteValue(userprofile.Email);
-        //            withBlock.WriteEndElement();
-
-        //            withBlock.WriteStartElement("FullName");
-        //            withBlock.WriteValue(userprofile.FullName);
-        //            withBlock.WriteEndElement();
-
-        //            withBlock.WriteStartElement("GroupName");
-        //            withBlock.WriteValue(userprofile.GroupName);
-        //            withBlock.WriteEndElement();
-
-        //            withBlock.WriteStartElement("InActiveFlag");
-        //            withBlock.WriteValue(userprofile.InActiveFlag);
-        //            withBlock.WriteEndElement();
-
-        //            withBlock.WriteStartElement("ProfileTable");
-        //            withBlock.WriteValue(userprofile.ProfileTable);
-        //            withBlock.WriteEndElement();
-
-        //            withBlock.WriteStartElement("Username");
-        //            withBlock.WriteValue(userprofile.Username);
-        //            withBlock.WriteEndElement();
-
-        //            withBlock.WriteStartElement("ImpersonateUsername");
-        //            withBlock.WriteValue("nothing");
-        //            withBlock.WriteEndElement();
-
-        //            withBlock.WriteStartElement("PageTheme");
-        //            withBlock.WriteValue(userprofile.PageTheme);
-        //            withBlock.WriteEndElement();
-
-        //            withBlock.WriteEndElement();
-        //            withBlock.WriteEndDocument();
-        //        }
-        //    }
-
-
-        //    return sw.ToString();
-        //}
+            return (null);
+        }
+        
 
 
 

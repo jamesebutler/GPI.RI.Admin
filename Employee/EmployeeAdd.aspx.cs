@@ -232,8 +232,6 @@ namespace GPI.RI.Admin.Employee
             TextBoxDefaultLang.Text = "";
 
             
-
-
             if (EmailTextBox.Text == "")
             {
                 return;
@@ -242,9 +240,10 @@ namespace GPI.RI.Admin.Employee
             {
 
                 IsEmailValid("");
-                
+
                 if (IsEmailValid(EmailTextBox.Text))
                 {
+                    //check to see if email is in RI DB
                     GetByEmail(EmailTextBox.Text);
                 }
                 else
@@ -280,15 +279,12 @@ namespace GPI.RI.Admin.Employee
             if (FoundSiteName == "")
             {
 
+                
                 GPILDAP testldapemail = new GPILDAP();
                 GPI.User.Model.LdapUser _ldapuser = new GPI.User.Model.LdapUser();
-                GPI.User.Model.LdapUser _PassingUser = new GPI.User.Model.LdapUser();
                 string emailFound = EmailTextBox.Text;
-                _PassingUser.EmailAddress = emailFound;
-
-                _ldapuser = testldapemail.GetUserLdapInformationByEmail(_PassingUser);
-
-
+                _ldapuser = testldapemail.GetUserByEmail(emailFound);
+                
                 if (_ldapuser.EmailAddress.ToUpper() == EmailTextBox.Text.ToUpper())
                 {
                     TextBoxNetWorkID.Text = _ldapuser.SamAccountName.ToUpper();
@@ -314,17 +310,19 @@ namespace GPI.RI.Admin.Employee
                     {
                         //user found but is inactive
                         EmailInactive.Visible = true;
+                         ButtonAddEmployee.Enabled = false;
                     }
                     else
                     {
                         // show that the email was not found in active directory
                         EmailNotFound.Visible = true;
+                         ButtonAddEmployee.Enabled = false;
                     }
 
                 }
 
 
- ButtonAddEmployee.Enabled = true;
+
 
             }
         }
