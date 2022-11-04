@@ -8,6 +8,8 @@
 		<Item Text="Employee" AccessKey="U"  >
 			<Group>
 			<Item Text="Add Employee"   Href="~/Employee/EmployeeAdd.aspx" />
+			<Item Text="Transfer Employee"   Href="~/Employee/EmployeeTransfer.aspx" />	
+				
 		</Group>
 		</Item>	
 		

@@ -133,7 +133,7 @@
 
             <div class="col-lg-4" >
                             <asp:Label ID="LabelLookUpByEmail" runat="server" AssociatedControlID="EmailTextBox">Email:</asp:Label>
-                            <telerik:RadTextBox RenderMode="Lightweight" EmptyMessage="enter email" ID="EmailTextBox" AssociatedControlID="ButtonSearchForByEmail" Width="310" runat="server" />
+                            <telerik:RadTextBox RenderMode="Lightweight" EmptyMessage="enter email" ID="EmailTextBox" Text="@graphicpkg.com" AssociatedControlID="ButtonSearchForByEmail" Width="310" runat="server" />
                                     <asp:RegularExpressionValidator
                                     id="emailValidator"
                                     runat="server"
@@ -342,7 +342,7 @@
 		<GroupHeaderItemStyle Height="10px" /> 
 		<PagerStyle AlwaysVisible="true" />
 
-<CommandItemSettings ShowAddNewRecordButton="false" ShowRefreshButton="false" />
+<CommandItemSettings ShowAddNewRecordButton="false" ShowRefreshButton="true" />
 <Columns>
 <%--setting Display=false will still let you have access to the data but will not display or export--%>
 

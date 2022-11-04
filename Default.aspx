@@ -30,7 +30,7 @@
                <br /><br />
                 <a class="btn btn-lg btn-primary" style="width: 220px;background-color:#02776C;" href="#">Set Inactive &raquo;</a>
                <br /> <br />
-                <a class="btn btn-lg btn-primary" style="width: 220px;background-color:#02776C;" href="#">Transfer &raquo;</a>
+                <a class="btn btn-lg btn-primary" style="width: 220px;background-color:#02776C;" href="../Employee/EmployeeTransfer.aspx">Transfer &raquo;</a>
                            <br /> <br />
                 <a class="btn btn-lg btn-primary" style="width: 220px;background-color:#02776C;" href="#">Assign Roles &raquo;</a>
             </p>

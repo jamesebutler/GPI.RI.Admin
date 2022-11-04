@@ -47,7 +47,7 @@ namespace GPI.RI.Admin.Employee
         protected void LoadSites()
         {
             string Sql = null;
-            Sql = "select siteid,sitename from refsite where domain = 'NA' and inactive_flag = 'N'";
+            Sql = "select siteid,sitename from refsite where domain = 'NA' and inactive_flag = 'N' ORDER BY sitename";
 
             OracleDataReader dr;
             dr = da.GetOracleDataReader(Sql);
