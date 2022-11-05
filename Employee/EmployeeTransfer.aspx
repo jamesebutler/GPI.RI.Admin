@@ -21,27 +21,40 @@
 
 <telerik:RadAjaxPanel ID="RadAjaxPanel" runat="server">
 
-             <telerik:RadAjaxManager ID="RadAjaxManager1" runat="server">
-  
-         <AjaxSettings>
+   <telerik:RadAjaxManager ID="RadAjaxManager1" runat="server">
+   <AjaxSettings>
              
-             <telerik:AjaxSetting AjaxControlID="DropDownEmployees">
-                    <UpdatedControls>
-                    </UpdatedControls>
-             </telerik:AjaxSetting>
+<%--             <telerik:AjaxSetting AjaxControlID="RadAjaxManager1">
+                
+              <UpdatedControls>
+                   <telerik:AjaxUpdatedControl ControlID="DropDownEmployees" ></telerik:AjaxUpdatedControl>
+                  <telerik:AjaxUpdatedControl ControlID="DropDownTaskToEmployee" ></telerik:AjaxUpdatedControl>
+
+            </UpdatedControls>
+             </telerik:AjaxSetting>--%>
 
              <telerik:AjaxSetting AjaxControlID="DropDownTaskToEmployee">
                     <UpdatedControls>
                          <telerik:AjaxUpdatedControl ControlID="ButtonTransfer" ></telerik:AjaxUpdatedControl>
                     
-                        
                     </UpdatedControls>
              </telerik:AjaxSetting>
 
 
-        </AjaxSettings>
+              <telerik:AjaxSetting AjaxControlID="ButtonTransfer">
+                    <UpdatedControls>
+                        <telerik:AjaxUpdatedControl ControlID="SuccessAdded" ></telerik:AjaxUpdatedControl>
+                <telerik:AjaxUpdatedControl ControlID="ButtonTransfer" LoadingPanelID="LoadingPanel1"></telerik:AjaxUpdatedControl>
+                  
+                    </UpdatedControls>
+             </telerik:AjaxSetting>
 
-        </telerik:RadAjaxManager>
+
+      
+
+    </AjaxSettings>
+
+    </telerik:RadAjaxManager>
 
 
 
@@ -91,30 +104,58 @@ Select the Employee to transfer.  <br />Select the Mill to transfer to and Click
 </div>
 </div>
 
+<div class="row" style="background-color:#367CCF;color:white" >
+                <div class="col-lg-1" >test1</div>
+                <div class="col-lg-1" >test2</div>
+                <div class="col-lg-1" >test3</div>
+                <div class="col-lg-1" >test4</div>
+                <div class="col-lg-1" >test5</div>
+                <div class="col-lg-1" >test6</div>
+                <div class="col-lg-1" >test7</div>
+                <div class="col-lg-1" >test8</div>
+                <div class="col-lg-1" >test9</div>
+                <div class="col-lg-1" >test10</div>
+                <div class="col-lg-1" >test11</div>
+                <div class="col-lg-1" >test12</div>
+            </div>
+
+
 
 <div class="row"> 
-    <div class="col-lg-7">
+    <div class="col-lg-1">
             <asp:Label ID="LabelEmployee" runat="server" AssociatedControlID="DropDownEmployees">Employee:</asp:Label>
-            <telerik:RadComboBox RenderMode="Lightweight" 
-                            runat="server" 
+      </div>
+    <div class="col-lg-2">
+ 
+                <telerik:RadComboBox RenderMode="Lightweight" 
+                            runat="server"
+                IsTextSearchEnabled="True"
+                IsCaseSensitive="false"
+                Filter="Contains" 
+                Font-Size="14px" 
+                MarkFirstMatch="true"
                             ID="DropDownEmployees"
                             Skin="Silk"
-                            TabIndex="1" Width="200" 
+                            TabIndex="1" Width="150" 
                             OnSelectedIndexChanged="DropDownEmployees_SelectedIndexChanged"
-                            DropDownWidth="200"
+                            DropDownWidth="170"
                             EnableLoadOnDemand="true"
                             AllowCustomText="false" 
                             AutoPostBack="true">
                  </telerik:RadComboBox>
-        &nbsp;&nbsp;
+            
+        </div>
+    <div class="col-lg-1">
 
-                <asp:Label ID="LabelFacility" runat="server" AssociatedControlID="DropDownSites">Transfer to:</asp:Label>
-            &nbsp;&nbsp;<telerik:RadComboBox RenderMode="Lightweight" 
-                            runat="server" 
+                <asp:Label ID="LabelFacility" runat="server"  Text=" To " AssociatedControlID="DropDownSites"></asp:Label>
+        </div>
+    <div class="col-lg-2">
+        <telerik:RadComboBox RenderMode="Lightweight" 
+                            runat="server"
                             ID="DropDownSites"
                             Skin="Silk"
-                            TabIndex="1" Width="200" 
-                            DropDownWidth="200"
+                            TabIndex="1" Width="150" 
+                            DropDownWidth="150"
                             EnableLoadOnDemand="true"
                             AllowCustomText="false" 
                             AutoPostBack="true">
@@ -127,7 +168,7 @@ Select the Employee to transfer.  <br />Select the Mill to transfer to and Click
                     </telerik:RadButton>
              </div>
 
-             <div class="col-lg-3" >
+             <div class="col-lg-4" >
                   <asp:Label ID="SuccessAdded" Width="100%" runat="server" Text="Employee Transfered" Visible="false" style="background-color:#0F8F14;color:white;text-align:center;font-size: 21px;"></asp:Label>
                      
             </div>
@@ -149,6 +190,11 @@ Select the Employee to transfer.  <br />Select the Mill to transfer to and Click
            &nbsp;&nbsp; <telerik:RadComboBox RenderMode="Lightweight" 
                             runat="server" 
                             ID="DropDownTaskToEmployee"
+                               IsTextSearchEnabled="True"
+                IsCaseSensitive="false"
+                Filter="Contains" 
+                Font-Size="14px" 
+                MarkFirstMatch="true"
                             Skin="Silk"
                             TabIndex="1" Width="200" 
                             OnSelectedIndexChanged="DropDownTaskToEmployee_SelectedIndexChanged"

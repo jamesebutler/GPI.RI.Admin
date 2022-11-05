@@ -32,6 +32,7 @@ namespace GPI.RI.Admin.Employee
         {
 
 
+          
             if (!IsPostBack)
             {
 
@@ -52,7 +53,16 @@ namespace GPI.RI.Admin.Employee
         protected void ButtonTransfer_Click(object sender, EventArgs e)
         {
 
+           string returnvalue = da.TransferEmployee("jimm.e.butler");
 
+            DropDownEmployees.Items[DropDownEmployees.SelectedIndex].Enabled = false;
+            DropDownEmployees.SelectedIndex = 0;
+            
+
+            //LoadEmployees();
+
+            SuccessAdded.Visible = true;
+            ButtonTransfer.Enabled = false;
             //look at mttgeneraldata.transferemployee
 
             //look at mttgeneraldata.getreassigntasklist
@@ -90,7 +100,7 @@ namespace GPI.RI.Admin.Employee
         {
             string Sql = null;
             string userSite = Session["SiteID"].ToString();
-            Sql = "Select username,  INITCAP(lastname) || ', ' || INITCAP(firstname) fullname  from refemployee where 1=1 and inactive_flag = 'N' and  siteid = '" + userSite + "' ORDER BY lastname";
+            Sql = "Select username,  INITCAP(lastname) || ', ' || INITCAP(firstname) fullname  from refemployee where 1=1 and inactive_flag = 'N' and  siteid = '" + userSite + "' ORDER BY lastname,FIRSTNAME";
 
             OracleDataReader dr;
             dr = da.GetOracleDataReader(Sql);
@@ -98,6 +108,9 @@ namespace GPI.RI.Admin.Employee
             DataTable dt = new DataTable();
             //Load DataReader into the DataTable.
             dt.Load(dr);
+
+            DropDownEmployees.Items.Clear();
+            DropDownTaskToEmployee.Items.Clear();
 
 
             DropDownEmployees.DataTextField = "fullname";
@@ -112,8 +125,8 @@ namespace GPI.RI.Admin.Employee
 
 
             //insert the first item
-            DropDownEmployees.Items.Insert(0, new RadComboBoxItem("- Select an employee -"));
-            DropDownTaskToEmployee.Items.Insert(0, new RadComboBoxItem("- Select an employee -"));
+            DropDownEmployees.Items.Insert(0, new RadComboBoxItem(""));
+            DropDownTaskToEmployee.Items.Insert(0, new RadComboBoxItem(""));
 
 
         }
@@ -122,7 +135,7 @@ namespace GPI.RI.Admin.Employee
         protected void DropDownEmployees_SelectedIndexChanged(object o, Telerik.Web.UI.RadComboBoxSelectedIndexChangedEventArgs e)
         {
 
-
+            SuccessAdded.Visible = false;
             foreach (RadComboBoxItem item in DropDownTaskToEmployee.Items)
             {
                 DropDownTaskToEmployee.Items[item.Index].Enabled = true;
@@ -143,7 +156,7 @@ namespace GPI.RI.Admin.Employee
             }
 
             string taskCount = da.GetEmployeeTaskCount(e.Value);
-            if (taskCount == "0")
+                if (taskCount == "0")
             {
                 panelEmployeeHasTask.Visible = false;
                 ButtonTransfer.Enabled = true;
