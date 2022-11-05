@@ -51,6 +51,11 @@ namespace GPI.RI.Admin.Employee
 
         protected void ButtonTransfer_Click(object sender, EventArgs e)
         {
+
+
+            //look at mttgeneraldata.transferemployee
+
+            //look at mttgeneraldata.getreassigntasklist
         }
 
 
@@ -99,14 +104,71 @@ namespace GPI.RI.Admin.Employee
             DropDownEmployees.DataValueField = "username";
             DropDownEmployees.DataSource = dt;
             DropDownEmployees.DataBind();
-            //insert the first item
-            DropDownEmployees.Items.Insert(0, new RadComboBoxItem("- Select a employee -"));
 
- 
+            DropDownTaskToEmployee.DataTextField = "fullname";
+            DropDownTaskToEmployee.DataValueField = "username";
+            DropDownTaskToEmployee.DataSource = dt;
+            DropDownTaskToEmployee.DataBind();
+
+
+            //insert the first item
+            DropDownEmployees.Items.Insert(0, new RadComboBoxItem("- Select an employee -"));
+            DropDownTaskToEmployee.Items.Insert(0, new RadComboBoxItem("- Select an employee -"));
+
+
         }
 
 
+        protected void DropDownEmployees_SelectedIndexChanged(object o, Telerik.Web.UI.RadComboBoxSelectedIndexChangedEventArgs e)
+        {
 
 
-    }
+            foreach (RadComboBoxItem item in DropDownTaskToEmployee.Items)
+            {
+                DropDownTaskToEmployee.Items[item.Index].Enabled = true;
+            }
+
+
+                foreach (RadComboBoxItem item in DropDownTaskToEmployee.Items)
+            {
+
+                int toindex = item.Index;
+
+                if (e.Value == item.Value)
+                {
+                    DropDownTaskToEmployee.Items[toindex].Enabled = false;
+                    break;
+                }
+
+            }
+
+            string taskCount = da.GetEmployeeTaskCount(e.Value);
+            if (taskCount == "0")
+            {
+                panelEmployeeHasTask.Visible = false;
+                ButtonTransfer.Enabled = true;
+                LabelTasks.Text = "Tasks";
+            }
+            else
+            {
+                panelEmployeeHasTask.Visible = true;
+                ButtonTransfer.Enabled = false;
+                LabelTasks.Text = "Open tasks: " + taskCount;
+            }
+
+            
+        }
+
+        protected void DropDownTaskToEmployee_SelectedIndexChanged(object o, Telerik.Web.UI.RadComboBoxSelectedIndexChangedEventArgs e)
+        {
+           ButtonTransfer.Enabled = false;
+            if (e.Value != "")
+            {
+                ButtonTransfer.Enabled = true;
+            }
+
+        }
+
+            //nothing below this line
+        }
 }

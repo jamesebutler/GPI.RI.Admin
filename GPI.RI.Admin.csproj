@@ -462,6 +462,7 @@
     <Content Include="images\loading6.gif" />
     <Content Include="images\loading7.gif" />
     <Content Include="images\LogoOnly.PNG" />
+    <Content Include="images\note.PNG" />
     <Content Include="images\notfound.png" />
     <Content Include="Menu\Data\AdminMenu.xml" />
     <Content Include="Menu\Data\Menu - Copy.xml" />
@@ -501,6 +502,7 @@
     <Content Include="Scripts\WebForms\WebUIValidation.js" />
     <Content Include="Site.Master" />
     <Content Include="styles\Default.css" />
+    <Content Include="styles\Notes.css" />
     <Content Include="ViewSwitcher.ascx" />
     <Content Include="Web.config" />
     <Content Include="Bundle.config" />
@@ -661,7 +663,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
+      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
     </VisualStudio>
   </ProjectExtensions>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

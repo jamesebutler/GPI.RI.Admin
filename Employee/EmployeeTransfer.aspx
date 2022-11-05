@@ -2,7 +2,8 @@
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
  
 
-
+    <style type="text/css">
+        </style>
 
 
         <telerik:RadScriptBlock ID="RadScriptBlock1" runat="server">
@@ -15,12 +16,40 @@
         </telerik:RadScriptBlock>
 
 
+
+
+
 <telerik:RadAjaxPanel ID="RadAjaxPanel" runat="server">
 
+             <telerik:RadAjaxManager ID="RadAjaxManager1" runat="server">
+  
+         <AjaxSettings>
+             
+             <telerik:AjaxSetting AjaxControlID="DropDownEmployees">
+                    <UpdatedControls>
+                    </UpdatedControls>
+             </telerik:AjaxSetting>
 
-    <div class="container">
+             <telerik:AjaxSetting AjaxControlID="DropDownTaskToEmployee">
+                    <UpdatedControls>
+                         <telerik:AjaxUpdatedControl ControlID="ButtonTransfer" ></telerik:AjaxUpdatedControl>
+                    
+                        
+                    </UpdatedControls>
+             </telerik:AjaxSetting>
 
-                    <div class="row" style="background-color:#367CCF;color:white" >
+
+        </AjaxSettings>
+
+        </telerik:RadAjaxManager>
+
+
+
+  
+
+<div class="container">
+
+<%--<div class="row" style="background-color:#367CCF;color:white" >
                 <div class="col-lg-1" >test1</div>
                 <div class="col-lg-1" >test2</div>
                 <div class="col-lg-1" >test3</div>
@@ -33,43 +62,52 @@
                 <div class="col-lg-1" >test10</div>
                 <div class="col-lg-1" >test11</div>
                 <div class="col-lg-1" >test12</div>
-            </div>
+            </div>--%>
 
-    <div class="row"> 
+<div class="row"> 
     <div class="col-lg-12">
-    <h3><asp:Label ID="LabelFromMill" runat="server" Text="dd" ></asp:Label></h3>
+            <h3><asp:Label ID="LabelFromMill" runat="server" Text="dd" ></asp:Label></h3>
      
     </div>
     </div>
  
 
 
-<div class="row">
-<div class="col-lg-12" style="background-color:#E0E1E2;">
-<h4>Select the Employee to transfer.  Select the Mill to transfer to and Click "Transfer."  If there are any open Tasks, select an employee to transfer their open Task.</h4>
-           
-</div>
-</div>
+<%--    <p class="noteAltNoImage">
+    <strong>Note:</strong> Be sure to
+    <a href="https://mdbootstrap.com/docs/standard/layout/grid/">read the Grid page</a>
+    first before diving into how to modify and customize your grid columns.
+  </p>--%>
 
-    <p></p>
+
+<div class="row">
+<div class="col-lg-12" >
+    <p class="noteAltNoImage">
+<strong>
+Select the Employee to transfer.  <br />Select the Mill to transfer to and Click "Transfer." <br /> If the employee has any open tasks, assign tasks to another Mill employee.
+</strong>
+</p>
+        
+</div>
+</div>
 
 
 <div class="row"> 
     <div class="col-lg-7">
-    
             <asp:Label ID="LabelEmployee" runat="server" AssociatedControlID="DropDownEmployees">Employee:</asp:Label>
             <telerik:RadComboBox RenderMode="Lightweight" 
                             runat="server" 
                             ID="DropDownEmployees"
                             Skin="Silk"
                             TabIndex="1" Width="200" 
-  
+                            OnSelectedIndexChanged="DropDownEmployees_SelectedIndexChanged"
                             DropDownWidth="200"
                             EnableLoadOnDemand="true"
                             AllowCustomText="false" 
                             AutoPostBack="true">
                  </telerik:RadComboBox>
         &nbsp;&nbsp;
+
                 <asp:Label ID="LabelFacility" runat="server" AssociatedControlID="DropDownSites">Transfer to:</asp:Label>
             &nbsp;&nbsp;<telerik:RadComboBox RenderMode="Lightweight" 
                             runat="server" 
@@ -81,27 +119,75 @@
                             AllowCustomText="false" 
                             AutoPostBack="true">
                  </telerik:RadComboBox>
-              </div>
-
-                    
-
-         <div class="col-lg-2" style="background-color:#367CCF;">
-                                 <telerik:RadButton ID="ButtonTransfer" OnClick="ButtonTransfer_Click" Skin="Black" runat="server"  Text="Transfer">
+            
+        </div>
+             <div class="col-lg-2" >
+                                 <telerik:RadButton ID="ButtonTransfer" Enabled="false" OnClick="ButtonTransfer_Click" Skin="Black" runat="server"  Text="Transfer">
                     <Icon PrimaryIconCssClass="rbNext" />
                     </telerik:RadButton>
              </div>
 
-             <div class="col-lg-3" style="background-color:#367CCF;color:white">
-                  <asp:Label ID="SuccessAdded" Width="100%" runat="server" Text="Employee Transfered" Visible="true" style="background-color:#0F8F14;color:white;text-align:center;font-size: 21px;"></asp:Label>
+             <div class="col-lg-3" >
+                  <asp:Label ID="SuccessAdded" Width="100%" runat="server" Text="Employee Transfered" Visible="false" style="background-color:#0F8F14;color:white;text-align:center;font-size: 21px;"></asp:Label>
                      
-             </div>
+            </div>
 </div>
 
 
+       
 
 
 
+<telerik:RadAjaxPanel ID="panelEmployeeHasTask" runat="server" Visible="false" >
+     <br />
+<div class="row">
+<div class="col-lg-12" >
 
+
+
+            <asp:Label ID="LabelEmployeeTask" runat="server" AssociatedControlID="DropDownTaskToEmployee">Assign open tasks to:</asp:Label>
+           &nbsp;&nbsp; <telerik:RadComboBox RenderMode="Lightweight" 
+                            runat="server" 
+                            ID="DropDownTaskToEmployee"
+                            Skin="Silk"
+                            TabIndex="1" Width="200" 
+                            OnSelectedIndexChanged="DropDownTaskToEmployee_SelectedIndexChanged"
+                            DropDownWidth="200"
+                            EnableLoadOnDemand="true"
+                            AllowCustomText="false" 
+                            AutoPostBack="true">
+                 </telerik:RadComboBox>
+
+
+
+</div>
+</div>
+
+</telerik:RadAjaxPanel>
+
+<hr class="hr hr-blurry" />
+
+
+   <div class="row"> 
+    <div class="col-lg-12" style="background-color:#367CCF;color:white">
+    <h4><asp:Label ID="LabelTasks" runat="server" Text="Tasks" ></asp:Label></h4>
+    </div>
+    </div>
+
+<%--<br />
+    <div class="row"> 
+    <div class="col-lg-12" style="background-color:#367CCF;color:white">
+    <h4><asp:Label ID="LabelReviewer" runat="server" Text="Reviewer" ></asp:Label></h4>
+    </div>
+    </div>
+<br />
+     <div class="row"> 
+    <div class="col-lg-12" style="background-color:#367CCF;color:white">
+    <h4><asp:Label ID="LabelRoles" runat="server" Text="Roles" ForeColor="white" ></asp:Label></h4>
+    </div>
+    </div>--%>
+
+<br />
 
 
 
@@ -124,7 +210,8 @@
                 runat="server" 
                 BackgroundPosition="Center">
             </telerik:RadAjaxLoadingPanel>
-        </div>
+
+            </div>
 </div>
 </telerik:RadAjaxPanel>
 

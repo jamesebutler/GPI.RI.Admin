@@ -98,11 +98,21 @@
             </div>
             <br />--%>
 
-    <div class="row">
+<div class="row">
+<div class="col-lg-12" >
+    <p class="noteAltNoImage">
+<strong>
+Enter the email then Click "Search".  <br />If the email is found the nessary fields will populate.  <br />Click on the "Add Employee" button to add employee.
+</strong>
+</p>
+
+</div>
+    </div>
+<%--    <div class="row">
 <div class="col-lg-12" style="background-color:#E0E1E2;">
 <h4>Enter the email then Click "Search".  If the email is found the nessary fields will populate.  Click on the "Add Employee" button to add employee.</h4>
 </div>
-</div>
+</div>--%>
 
     <p></p>
 

@@ -33,6 +33,15 @@ namespace GPI.RI.Admin.Employee
         protected global::Telerik.Web.UI.RadAjaxPanel RadAjaxPanel;
 
         /// <summary>
+        /// RadAjaxManager1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Telerik.Web.UI.RadAjaxManager RadAjaxManager1;
+
+        /// <summary>
         /// LabelFromMill control.
         /// </summary>
         /// <remarks>
@@ -94,6 +103,42 @@ namespace GPI.RI.Admin.Employee
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label SuccessAdded;
+
+        /// <summary>
+        /// panelEmployeeHasTask control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Telerik.Web.UI.RadAjaxPanel panelEmployeeHasTask;
+
+        /// <summary>
+        /// LabelEmployeeTask control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LabelEmployeeTask;
+
+        /// <summary>
+        /// DropDownTaskToEmployee control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Telerik.Web.UI.RadComboBox DropDownTaskToEmployee;
+
+        /// <summary>
+        /// LabelTasks control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LabelTasks;
 
         /// <summary>
         /// LoadingPanel1 control.
