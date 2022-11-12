@@ -243,6 +243,7 @@
         <div class="panelBottom">
             <telerik:RadAjaxLoadingPanel 
                 ID="LoadingPanel1" 
+                 Skin="Telerik"
                 runat="server" 
                 BackgroundPosition="Center">
             </telerik:RadAjaxLoadingPanel>

@@ -18,31 +18,59 @@ using GPI.MILL.DataAccess.Oracle;
 using GPI.MILL.Ldap;
 using GPI.User.Model;
 
+
+
 namespace GPI.RI.Admin.Employee
 {
     public partial class EmployeeAdd : System.Web.UI.Page
     {
 
         
-        GPI.MILL.DataAccess.Oracle.RetrieveData da = new MILL.DataAccess.Oracle.RetrieveData();
         
+        GPI.MILL.DataAccess.Oracle.RetrieveData da = new MILL.DataAccess.Oracle.RetrieveData();
+        RIUser riuser = new RIUser();
         string FoundSiteName = string.Empty;
         string FoundInActive = string.Empty;
+
+        protected void Page_Init(object sender, EventArgs e)
+        { 
+        
+        }
+
+        protected void Page_PreInit(object sender, EventArgs e)
+        {
+            
+
+
+
+        }
 
         protected void Page_Load(object sender, EventArgs e)
         {
 
+
+            string mydefaultsiteName = System.Web.HttpContext.Current.Session["SiteName"].ToString();
+            string mydefaultsiteID = System.Web.HttpContext.Current.Session["SiteID"].ToString();
+
+            EventLog.WriteEntry("RIAdmin in EmployeeAdd", mydefaultsiteName.ToString()); 
 
 
             if (!IsPostBack)
             {
 
                 LoadSites();
-                LoadEmployees("TS","N");
-                DropDownSites.SelectedValue = "TS";
+                LoadEmployees(mydefaultsiteID,"N");
+                DropDownSites.SelectedValue = mydefaultsiteID;
 
             }
+
+            ButtonSearchForByEmail.Focus();
+
+
+            LabelAddMill.Text = "Add Employee to " + mydefaultsiteName;
+
         }
+
 
         protected void LoadSites()
         {
@@ -105,7 +133,7 @@ namespace GPI.RI.Admin.Employee
             Session["EmployeeRecords"] = dt;
 
 
-        RadGridEmployees.DataSource = dt;
+            RadGridEmployees.DataSource = dt;
             RadGridEmployees.DataBind();
             //insert the first item
             //DropDownSites.Items.Insert(0, new RadComboBoxItem("- Select a continent -"));
@@ -217,8 +245,8 @@ namespace GPI.RI.Admin.Employee
 
         protected void ButtonSearchForByEmail_Click(object sender, EventArgs e)
         {
-            
-            
+
+
             SetStatusLabels();
  
             ButtonAddEmployee.Enabled = false;
@@ -241,13 +269,16 @@ namespace GPI.RI.Admin.Employee
 
                 IsEmailValid("");
 
-                if (IsEmailValid(EmailTextBox.Text))
+                if (IsEmailValid(EmailTextBox.Text + LabelLookUpAt.Text))
                 {
-                    //check to see if email is in RI DB
-                    GetByEmail(EmailTextBox.Text);
+                    // only allow _ or . in name
+                    var trimmed = Regex.Replace(EmailTextBox.Text, @"[^0-9a-zA-Z_.]+", "");
+                    EmailTextBox.Text = trimmed;
+                    GetByEmail(EmailTextBox.Text + LabelLookUpAt.Text);
                 }
                 else
                 {
+                    EmailNotValid.Text = EmailTextBox.Text + LabelLookUpAt.Text + " email is not valid. Check spelling.";
                     EmailNotValid.Visible = true;
                     return;
                 }
@@ -282,10 +313,10 @@ namespace GPI.RI.Admin.Employee
                 
                 GPILDAP testldapemail = new GPILDAP();
                 GPI.User.Model.LdapUser _ldapuser = new GPI.User.Model.LdapUser();
-                string emailFound = EmailTextBox.Text;
+                string emailFound = EmailTextBox.Text + LabelLookUpAt.Text;
                 _ldapuser = testldapemail.GetUserByEmail(emailFound);
                 
-                if (_ldapuser.EmailAddress.ToUpper() == EmailTextBox.Text.ToUpper())
+                if (_ldapuser.EmailAddress.ToUpper() == EmailTextBox.Text.ToUpper() + LabelLookUpAt.Text.ToUpper())
                 {
                     TextBoxNetWorkID.Text = _ldapuser.SamAccountName.ToUpper();
                     TextBoxLastName.Text = _ldapuser.Surname;
@@ -315,6 +346,7 @@ namespace GPI.RI.Admin.Employee
                     else
                     {
                         // show that the email was not found in active directory
+                        EmailNotFound.Text = emailFound + " email was not found";
                         EmailNotFound.Visible = true;
                          ButtonAddEmployee.Enabled = false;
                     }
@@ -363,7 +395,9 @@ namespace GPI.RI.Admin.Employee
             string WhatWasSelected = RadioButtonShowEmployees.SelectedValue;
             LoadEmployees(DropDownSites.SelectedValue,WhatWasSelected);
 
-            
+            LabelAddMill.Text = "Add Employee to " + DropDownSites.Items[DropDownSites.SelectedIndex].Text.ToString();
+
+                
         }
 
 

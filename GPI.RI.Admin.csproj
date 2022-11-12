@@ -503,6 +503,7 @@
     <Content Include="Site.Master" />
     <Content Include="styles\Default.css" />
     <Content Include="styles\Notes.css" />
+    <Content Include="UnderStandingAjaxControls.aspx" />
     <Content Include="ViewSwitcher.ascx" />
     <Content Include="Web.config" />
     <Content Include="Bundle.config" />
@@ -525,6 +526,9 @@
     <Compile Include="ASMX\MaintNotifications.asmx.cs">
       <DependentUpon>MaintNotifications.asmx</DependentUpon>
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="App_Code\BasePage.cs">
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Contact.aspx.cs">
       <DependentUpon>Contact.aspx</DependentUpon>
@@ -600,6 +604,13 @@
     <Compile Include="Site.Mobile.Master.designer.cs">
       <DependentUpon>Site.Mobile.Master</DependentUpon>
     </Compile>
+    <Compile Include="UnderStandingAjaxControls.aspx.cs">
+      <DependentUpon>UnderStandingAjaxControls.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UnderStandingAjaxControls.aspx.designer.cs">
+      <DependentUpon>UnderStandingAjaxControls.aspx</DependentUpon>
+    </Compile>
     <Compile Include="ViewSwitcher.ascx.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -663,7 +674,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
+      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
     </VisualStudio>
   </ProjectExtensions>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -31,5 +31,19 @@ namespace GPI.RI.Admin
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Telerik.Web.UI.RadAjaxPanel RadAjaxPanel;
+
+        /// <summary>
+        /// Master property.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated property.
+        /// </remarks>
+        public new GPI.RI.Admin.SiteMaster Master
+        {
+            get
+            {
+                return ((GPI.RI.Admin.SiteMaster)(base.Master));
+            }
+        }
     }
 }

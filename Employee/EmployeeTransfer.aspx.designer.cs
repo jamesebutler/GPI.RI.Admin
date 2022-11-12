@@ -42,6 +42,15 @@ namespace GPI.RI.Admin.Employee
         protected global::Telerik.Web.UI.RadAjaxManager RadAjaxManager1;
 
         /// <summary>
+        /// RadAjaxManagerProxy1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Telerik.Web.UI.RadAjaxManagerProxy RadAjaxManagerProxy1;
+
+        /// <summary>
         /// LabelFromMill control.
         /// </summary>
         /// <remarks>
@@ -60,15 +69,6 @@ namespace GPI.RI.Admin.Employee
         protected global::System.Web.UI.WebControls.Label LabelEmployee;
 
         /// <summary>
-        /// DropDownEmployees control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Telerik.Web.UI.RadComboBox DropDownEmployees;
-
-        /// <summary>
         /// LabelFacility control.
         /// </summary>
         /// <remarks>
@@ -76,6 +76,15 @@ namespace GPI.RI.Admin.Employee
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label LabelFacility;
+
+        /// <summary>
+        /// DropDownEmployees control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Telerik.Web.UI.RadComboBox DropDownEmployees;
 
         /// <summary>
         /// DropDownSites control.
@@ -103,6 +112,15 @@ namespace GPI.RI.Admin.Employee
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label SuccessAdded;
+
+        /// <summary>
+        /// FailureAdded control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label FailureAdded;
 
         /// <summary>
         /// panelEmployeeHasTask control.

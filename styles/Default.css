@@ -95,7 +95,18 @@
 	
 }
 
+
+
 /* Form Styles */
+
+
+form {
+	height: 100%;
+	padding: 0;
+    margin-left: 3px; 
+	margin-top: 2px;
+}
+
 .form thead
 {
     font-weight: bolder;

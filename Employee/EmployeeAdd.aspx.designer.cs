@@ -24,15 +24,6 @@ namespace GPI.RI.Admin.Employee
         protected global::Telerik.Web.UI.RadScriptBlock RadScriptBlock1;
 
         /// <summary>
-        /// RadAjaxPanel control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Telerik.Web.UI.RadAjaxPanel RadAjaxPanel;
-
-        /// <summary>
         /// RadAjaxManager1 control.
         /// </summary>
         /// <remarks>
@@ -60,6 +51,15 @@ namespace GPI.RI.Admin.Employee
         protected global::Telerik.Web.UI.RadComboBox DropDownSites;
 
         /// <summary>
+        /// LabelAddMill control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LabelAddMill;
+
+        /// <summary>
         /// LabelLookUpByEmail control.
         /// </summary>
         /// <remarks>
@@ -85,6 +85,15 @@ namespace GPI.RI.Admin.Employee
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RegularExpressionValidator emailValidator;
+
+        /// <summary>
+        /// LabelLookUpAt control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LabelLookUpAt;
 
         /// <summary>
         /// ButtonSearchForByEmail control.
@@ -337,5 +346,19 @@ namespace GPI.RI.Admin.Employee
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Telerik.Web.UI.RadAjaxLoadingPanel LoadingPanel1;
+
+        /// <summary>
+        /// Master property.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated property.
+        /// </remarks>
+        public new GPI.RI.Admin.SiteMaster Master
+        {
+            get
+            {
+                return ((GPI.RI.Admin.SiteMaster)(base.Master));
+            }
+        }
     }
 }

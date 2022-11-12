@@ -53,16 +53,28 @@ namespace GPI.RI.Admin.Employee
         protected void ButtonTransfer_Click(object sender, EventArgs e)
         {
 
-           string returnvalue = da.TransferEmployee("jimm.e.butler");
+           string returnvalue = da.TransferEmployee(DropDownSites.SelectedValue,Session["UserName"].ToString(),DropDownEmployees.SelectedValue);
 
-            DropDownEmployees.Items[DropDownEmployees.SelectedIndex].Enabled = false;
-            DropDownEmployees.SelectedIndex = 0;
-            
+            if (returnvalue == "")
+            {
+                LoadEmployees();
 
-            //LoadEmployees();
+                SuccessAdded.Visible = true;
+                ButtonTransfer.Enabled = false;
+                //DropDownEmployees.Items[DropDownEmployees.SelectedIndex].Enabled = false;
+                DropDownEmployees.Items[0].Selected = true;
+                DropDownTaskToEmployee.Visible = false;
+                panelEmployeeHasTask.Visible = false;
 
-            SuccessAdded.Visible = true;
-            ButtonTransfer.Enabled = false;
+            }
+            else
+            {
+                FailureAdded.Visible = true;
+            }
+
+
+
+
             //look at mttgeneraldata.transferemployee
 
             //look at mttgeneraldata.getreassigntasklist
@@ -75,7 +87,7 @@ namespace GPI.RI.Admin.Employee
         {
             string Sql = null;
             string userSite = Session["SiteID"].ToString();
-            Sql = "select siteid,sitename from refsite where domain = 'NA' and inactive_flag = 'N' and  siteid <> '" + userSite + "' ORDER BY sitename";
+            Sql = "select rcfaflid,sitename from refsite where domain = 'NA' and inactive_flag = 'N' and  siteid <> '" + userSite + "' ORDER BY sitename";
 
             OracleDataReader dr;
             dr = da.GetOracleDataReader(Sql);
@@ -86,7 +98,7 @@ namespace GPI.RI.Admin.Employee
 
 
             DropDownSites.DataTextField = "sitename";
-            DropDownSites.DataValueField = "siteid";
+            DropDownSites.DataValueField = "rcfaflid";
             DropDownSites.DataSource = dt;
             DropDownSites.DataBind();
             //insert the first item
@@ -135,6 +147,13 @@ namespace GPI.RI.Admin.Employee
         protected void DropDownEmployees_SelectedIndexChanged(object o, Telerik.Web.UI.RadComboBoxSelectedIndexChangedEventArgs e)
         {
 
+
+            if (DropDownEmployees.SelectedValue == "")
+            {
+                return;
+            }
+
+
             SuccessAdded.Visible = false;
             foreach (RadComboBoxItem item in DropDownTaskToEmployee.Items)
             {
@@ -166,6 +185,7 @@ namespace GPI.RI.Admin.Employee
             {
                 panelEmployeeHasTask.Visible = true;
                 ButtonTransfer.Enabled = false;
+                LabelTasks.Visible = true;
                 LabelTasks.Text = "Open tasks: " + taskCount;
             }
 

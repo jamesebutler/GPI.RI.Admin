@@ -12,6 +12,17 @@ using GPI.User.Model;
 using System.Xml;
 using System.Text;
 
+using System.Web.Security;
+
+
+
+using System.Security.Principal;
+using System.Net;
+
+using Devart.Data.Oracle;
+
+
+
 namespace GPI.RI.Admin
 {
     public partial class SiteMaster : MasterPage
@@ -20,6 +31,86 @@ namespace GPI.RI.Admin
         GPI.User.Model.LdapUser ldap = new LdapUser();
       
         protected void Page_Load(object sender, EventArgs e)
+        {
+
+            
+            if (Session["DatabaseName"] == null)
+            { 
+            
+                string SqlString = " SELECT DISTINCT UPPER(SERVICE_NAME) SERVICE_NAME FROM V$SESSION WHERE USER# IN (SELECT USER_ID FROM USER_USERS)";
+                string ServiceName = "Database ({0})";
+                ServiceName = string.Format(ServiceName, da.GetDatabaseName(SqlString));
+                //ServiceName = string.Format(ServiceName, GetDatabaseName(SqlString));
+
+
+                LabelDatabase.Text =  ServiceName;
+                System.Web.HttpContext.Current.Session["DatabaseName"] = ServiceName;
+                bool check = ServiceName.Contains("GPCIOD02");
+
+                if (check)
+                {
+                    System.Web.HttpContext.Current.Session["TestDatabase"] = "YES";
+                    LabelBannerWarning.Visible = true;
+
+                }
+                else
+                {
+                    System.Web.HttpContext.Current.Session["TestDatabase"] = "NO";
+                    LabelBannerWarning.Visible = false;
+                }
+
+            }
+            else
+            {
+                LabelDatabase.Text = Session["DatabaseName"].ToString();
+
+                if (Session["TestDatabase"].ToString() == "NO")
+                {
+                    LabelBannerWarning.Visible = false;
+                }
+                else
+                {
+                    LabelBannerWarning.Visible = true;
+                }
+            }
+            
+            string myname = Request.LogonUserIdentity.Name;
+            System.Web.HttpContext.Current.Session["iname"] = myname;
+
+
+            RIUser riuser = new RIUser();
+            string[] fullUsername = myname.Split(System.Convert.ToChar(@"\"));
+            riuser = riuser.GetEmployee(fullUsername[1].ToUpper());
+
+            //go make sure the user is in the DB
+            if (riuser.Email != null)
+            {
+                //check for inactive
+                if (riuser.InactiveFlag == "N")
+                {
+
+                }
+                else if (riuser.InactiveFlag == "Y")
+                {
+                    //do not proceed
+                    return;
+                }
+            }
+
+
+            WriteToSession(riuser);
+
+            LabelUserName.Text = "User: " + Session["LastName"] + ", " + Session["FirstName"] + " (" + Session["SiteID"].ToString() + ")";
+           
+
+
+ 
+
+        }
+
+
+
+        protected void Page_Init(object sender, EventArgs e)
         {
 
 
@@ -38,94 +129,11 @@ namespace GPI.RI.Admin
             }
 
 
-            if (Session["TestDatabase"] == null)
 
-            {
+            
+            
 
-                string SqlString = " SELECT DISTINCT UPPER(SERVICE_NAME) SERVICE_NAME FROM V$SESSION WHERE USER# IN (SELECT USER_ID FROM USER_USERS)";
-                string ServiceName = "Database ({0})";
-                ServiceName = string.Format(ServiceName, da.GetDatabaseName(SqlString));
-                //Application.Add("ServiceName", ServiceName);
-                LabelDatabase.Text = ServiceName;
-                Session["DatabaseName"] = ServiceName;
-                bool check = ServiceName.Contains("GPCIOD02");
-
-                if (check)
-                {
-                    Session["TestDatabase"] = "YES";
-                    LabelBannerWarning.Visible = true;
-
-                }
-                else
-                {
-                    Session["TestDatabase"] = "NO";
-                    LabelBannerWarning.Visible = false;
-                }
-
-            }
-
-            else
-
-            {
-                if (Session["TestDatabase"].ToString() == "YES")
-                {
-                    LabelBannerWarning.Visible = true;
-                }
-                else
-                {
-                    LabelBannerWarning.Visible = false;
-                }
-
-            }
-
-            LabelDatabase.Text = Session["DatabaseName"].ToString();
-
-
-        }
-
-
-
-        protected void Page_Init(object sender, EventArgs e)
-        {
-
-            if (Session["UserName"] == null)
-            {
-                RIUser riuser = new RIUser();
-
-                string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
-                string[] fullUsername = userName.Split(System.Convert.ToChar(@"\"));
-
-
-                riuser = riuser.GetEmployee(fullUsername[1].ToUpper());
-                //go make sure the user is in the DB
-                if (riuser.Email != null)
-                {
-                    //check for inactive
-                    if (riuser.InactiveFlag == "N")
-                    {
-
-
-                        //Session["riuser"] = riuser;
-                        Session.Add("riuser", riuser);
-
-                        WriteToSession(riuser);
-
-
-                        //Session.Contents();/* TODO ERROR: Skipped SkippedTokensTrivia */
-
-
-
-                    }
-                    else if (riuser.InactiveFlag == "Y")
-                    {
-                        //do not proceed
-                        return;
-                    }
-                }
-            }
-
-
-            LabelUserName.Text = "User: " + Session["LastName"] + ", " + Session["FirstName"] + " (" + Session["SiteID"].ToString() + ")";
+          
 
 
         }
@@ -159,7 +167,6 @@ namespace GPI.RI.Admin
             System.Web.HttpContext.Current.Session["ManagerUserName"] = riuser.ManagerUserName;
             System.Web.HttpContext.Current.Session["UITheme"] = riuser.UITheme;
             System.Web.HttpContext.Current.Session["SiteName"] = riuser.SiteName;
-
 
 
             return (null);

@@ -11,7 +11,7 @@ namespace GPI.RI.Admin
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+              label1.Text = System.Web.HttpContext.Current.Session["iname"].ToString();
         }
     }
 }

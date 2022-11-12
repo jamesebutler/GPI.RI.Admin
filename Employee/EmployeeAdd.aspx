@@ -1,5 +1,8 @@
 ﻿<%@ Page Title="Add Employee" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" 
     CodeBehind="EmployeeAdd.aspx.cs" Inherits="GPI.RI.Admin.Employee.EmployeeAdd" %>
+
+<%@ MasterType VirtualPath="~/Site.Master" %>
+
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
  
    
@@ -14,7 +17,7 @@
         </telerik:RadScriptBlock>
 
 
-<telerik:RadAjaxPanel ID="RadAjaxPanel" runat="server">
+<%--<telerik:RadAjaxPanel ID="RadAjaxPanel" runat="server">--%>
 
          <telerik:RadAjaxManager ID="RadAjaxManager1" runat="server">
   
@@ -23,7 +26,7 @@
              
                  <telerik:AjaxSetting AjaxControlID="ButtonAddEmployee">
                     <UpdatedControls>
-                            <telerik:AjaxUpdatedControl ControlID="ButtonAddEmployee" ></telerik:AjaxUpdatedControl>
+                     <telerik:AjaxUpdatedControl ControlID="ButtonAddEmployee" ></telerik:AjaxUpdatedControl>
                      <telerik:AjaxUpdatedControl ControlID="SuccessAdded" LoadingPanelID="LoadingPanel1"></telerik:AjaxUpdatedControl>
                      <telerik:AjaxUpdatedControl ControlID="EmailFound" ></telerik:AjaxUpdatedControl>
                     <telerik:AjaxUpdatedControl ControlID="EmailNotFound" ></telerik:AjaxUpdatedControl>
@@ -40,6 +43,10 @@
                     <UpdatedControls>
                      <telerik:AjaxUpdatedControl ControlID="DropDownSites" ></telerik:AjaxUpdatedControl>
                         <telerik:AjaxUpdatedControl ControlID="RadGridEmployees" LoadingPanelID="LoadingPanel1"></telerik:AjaxUpdatedControl>
+                    <telerik:AjaxUpdatedControl ControlID="LabelAddMill" LoadingPanelID="LoadingPanel1"></telerik:AjaxUpdatedControl>
+                    
+                    
+                    
                     </UpdatedControls>
                 </telerik:AjaxSetting>
 
@@ -62,8 +69,6 @@
                     <telerik:AjaxUpdatedControl ControlID="EmailInRI" ></telerik:AjaxUpdatedControl>
                     <telerik:AjaxUpdatedControl ControlID="EmailNotValid" ></telerik:AjaxUpdatedControl>
                     <telerik:AjaxUpdatedControl ControlID="SuccessAdded" ></telerik:AjaxUpdatedControl>
- 
-                        
                     <telerik:AjaxUpdatedControl ControlID="panelEmployeeInfo" LoadingPanelID="LoadingPanel1"></telerik:AjaxUpdatedControl>
                     </UpdatedControls>
                 </telerik:AjaxSetting>
@@ -74,15 +79,9 @@
 
         </telerik:RadAjaxManager>
 
-<div class="container">
 
-    <div class="row"> 
-    <div class="col-lg-12">
-    <h3>Add Employee</h3>
-        </div>
-        </div>
- 
-<%--            <div class="row" style="background-color:#367CCF;color:white" >
+
+            <%--<div class="row" style="background-color:#367CCF;color:white" >
                 <div class="col-lg-1" >test1</div>
                 <div class="col-lg-1" >test2</div>
                 <div class="col-lg-1" >test3</div>
@@ -98,28 +97,15 @@
             </div>
             <br />--%>
 
-<div class="row">
-<div class="col-lg-12" >
-    <p class="noteAltNoImage">
-<strong>
-Enter the email then Click "Search".  <br />If the email is found the nessary fields will populate.  <br />Click on the "Add Employee" button to add employee.
-</strong>
-</p>
 
-</div>
-    </div>
-<%--    <div class="row">
-<div class="col-lg-12" style="background-color:#E0E1E2;">
-<h4>Enter the email then Click "Search".  If the email is found the nessary fields will populate.  Click on the "Add Employee" button to add employee.</h4>
-</div>
-</div>--%>
-
-    <p></p>
-
-   <div class="row"> 
-    <div class="col-lg-12">
+       <div class="row" style="background-color:#FF0000;color:white" > 
+    <div class="col-lg-1">
     <asp:Label ID="LabelFacility" runat="server" AssociatedControlID="DropDownSites">Facility:</asp:Label>
-    <telerik:RadComboBox RenderMode="Lightweight" 
+
+    </div>
+
+       <div class="col-lg-3">
+               <telerik:RadComboBox RenderMode="Lightweight" 
                     runat="server" 
                     OnSelectedIndexChanged="DropDownSites_SelectedIndexChanged"
                     ID="DropDownSites"
@@ -130,9 +116,46 @@ Enter the email then Click "Search".  <br />If the email is found the nessary fi
                     AllowCustomText="false" 
                     AutoPostBack="true">
          </telerik:RadComboBox>
+           </div>
+
+       <div class="col-lg-8" style="font-size:30PX">
+            
+            TESTING PURPOSE ONLY
+           </div>
+
 </div>
-       </div>
-<br />
+
+
+    <div class="row">
+<div class="col-lg-12" >
+    <p class="noteAltNoImage">
+<strong>
+Enter the email then Click "Search".  <br />If the email is found the nessary fields will populate.  <br />Click on the "Add Employee" button to add employee.
+</strong>
+</p>
+
+</div>
+    </div>
+
+
+    <div class="row"> 
+    <div class="col-lg-12">
+            <h3><asp:Label ID="LabelAddMill" runat="server" Text="dd" ></asp:Label></h3>
+     
+    </div>
+    </div>
+ 
+
+
+
+<%--    <div class="row">
+<div class="col-lg-12" style="background-color:#E0E1E2;">
+<h4>Enter the email then Click "Search".  If the email is found the nessary fields will populate.  Click on the "Add Employee" button to add employee.</h4>
+</div>
+</div>--%>
+
+    <p></p>
+
 
 
    
@@ -141,49 +164,53 @@ Enter the email then Click "Search".  <br />If the email is found the nessary fi
        
     <div class="row" >
 
-            <div class="col-lg-4" >
+            <div class="col-lg-3" >
                             <asp:Label ID="LabelLookUpByEmail" runat="server" AssociatedControlID="EmailTextBox">Email:</asp:Label>
-                            <telerik:RadTextBox RenderMode="Lightweight" EmptyMessage="enter email" ID="EmailTextBox" Text="@graphicpkg.com" AssociatedControlID="ButtonSearchForByEmail" Width="310" runat="server" />
+                            <telerik:RadTextBox RenderMode="Lightweight" 
+                                EmptyMessage="enter name" 
+                                ID="EmailTextBox" 
+                                Text="" 
+                                AssociatedControlID="ButtonSearchForByEmail" 
+                                Width="170" 
+                                runat="server" />
                                     <asp:RegularExpressionValidator
                                     id="emailValidator"
                                     runat="server"
                                     Display="Dynamic"
-                                    ErrorMessage="Please, enter valid e-mail address."
+                                    ErrorMessage="Please, name only."
                                     ValidationExpression="^[\w\.\-]+@[a-zA-Z0-9\-]+(\.[a-zA-Z0-9\-]{1,})*(\.[a-zA-Z]{2,3}){1,2}$"
-                                    ControlToValidate="EmailTextBox">
+                                        ControlToValidate="EmailTextBox">
                                     </asp:RegularExpressionValidator>
+                <asp:Label ID="LabelLookUpAt" runat="server" AssociatedControlID="EmailTextBox" Text="@graphicpkg.com"></asp:Label>
             </div>
             
-            <div class="col-lg-2" >
+            <div class="col-lg-1" >
                     <telerik:RadButton ID="ButtonSearchForByEmail" OnClick="ButtonSearchForByEmail_Click" Skin="Black" runat="server"  Text="Search">
                     <Icon PrimaryIconCssClass="rbSearch" />
                     </telerik:RadButton>
  
        
             </div>
-                <div class="col-lg-6" >
+                <div class="col-lg-8" >
+  
+
+                </div>
+
+    </div>
+
+     <div class="row">
+      
+         <div class="col-lg-12">
                     <asp:Label ID="EmailFound" Width="100%" runat="server" Text="Email found. Click the 'Add Employee' button to add." Visible="false" style="background-color:#0F8F14;color:white;text-align:center;font-size: 21px;"></asp:Label>
                      <asp:Label ID="EmailNotFound" Width="100%" runat="server" Text="Email Not Found" Visible="false" style="background-color:#FF0000;color:white;text-align:center;font-size: 21px;"></asp:Label>
                      <asp:Label ID="EmailInactive" Width="100%" runat="server" Text="Email Is Inactive in Active Directory" Visible="false" style="background-color:#FFFF26;color:black;text-align:center;font-size: 21px;"></asp:Label>
                      <asp:Label ID="EmailInRI" Width="100%" runat="server" Text="Email Already In Database" Visible="false" style="background-color:#FFFF26;color:black;text-align:center;font-size: 21px;"></asp:Label>
                     <asp:Label ID="EmailNotValid" Width="100%" runat="server" Text="The entered email is not valid. Check spelling." Visible="false" style="background-color:#FF0000;color:white;text-align:center;font-size: 21px;"></asp:Label>
                     <asp:Label ID="SuccessAdded" Width="100%" runat="server" Text="Employee Added." Visible="false" style="background-color:#0F8F14;color:white;text-align:center;font-size: 21px;"></asp:Label>
-                      
+                    
 
-                </div>
-
-<%--                <div class="col-lg-1" >test9</div>
-                <div class="col-lg-1" >test10</div>
-                <div class="col-lg-1" >test11</div>
-                <div class="col-lg-1" >test12</div>--%>
-
-<%--            <div class="col-lg-6  pull-left" >
-     
-                </div>--%>
-
-
-
-        </div>
+             </div>
+         </div>
 
     <br />
 <telerik:RadAjaxPanel ID="panelEmployeeInfo" runat="server" >
@@ -398,16 +425,17 @@ ResizeGridOnColumnResize="False"></Resizing>
         </div>
 
 
-</div>
+
 
             <div class="panelBottom">
             <telerik:RadAjaxLoadingPanel 
                 ID="LoadingPanel1" 
                 runat="server" 
+                Skin="Telerik"
                 BackgroundPosition="Center">
             </telerik:RadAjaxLoadingPanel>
         </div>
 
-</telerik:RadAjaxPanel>
+<%--</telerik:RadAjaxPanel>--%>
 
 </asp:Content>
