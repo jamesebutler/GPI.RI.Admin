@@ -52,7 +52,7 @@ namespace GPI.RI.Admin.Employee
             string mydefaultsiteName = System.Web.HttpContext.Current.Session["SiteName"].ToString();
             string mydefaultsiteID = System.Web.HttpContext.Current.Session["SiteID"].ToString();
 
-            EventLog.WriteEntry("RIAdmin in EmployeeAdd", mydefaultsiteName.ToString()); 
+            //EventLog.WriteEntry("RIAdmin in EmployeeAdd", mydefaultsiteName.ToString()); 
 
 
             if (!IsPostBack)

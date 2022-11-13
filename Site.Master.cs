@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -33,32 +34,15 @@ namespace GPI.RI.Admin
         protected void Page_Load(object sender, EventArgs e)
         {
 
-            
+
+            try
+            {
+
+  
+
             if (Session["DatabaseName"] == null)
-            { 
-            
-                string SqlString = " SELECT DISTINCT UPPER(SERVICE_NAME) SERVICE_NAME FROM V$SESSION WHERE USER# IN (SELECT USER_ID FROM USER_USERS)";
-                string ServiceName = "Database ({0})";
-                ServiceName = string.Format(ServiceName, da.GetDatabaseName(SqlString));
-                //ServiceName = string.Format(ServiceName, GetDatabaseName(SqlString));
-
-
-                LabelDatabase.Text =  ServiceName;
-                System.Web.HttpContext.Current.Session["DatabaseName"] = ServiceName;
-                bool check = ServiceName.Contains("GPCIOD02");
-
-                if (check)
-                {
-                    System.Web.HttpContext.Current.Session["TestDatabase"] = "YES";
-                    LabelBannerWarning.Visible = true;
-
-                }
-                else
-                {
-                    System.Web.HttpContext.Current.Session["TestDatabase"] = "NO";
-                    LabelBannerWarning.Visible = false;
-                }
-
+            {
+                CheckDataBaseBeingUsed();
             }
             else
             {
@@ -76,35 +60,40 @@ namespace GPI.RI.Admin
             
             string myname = Request.LogonUserIdentity.Name;
             System.Web.HttpContext.Current.Session["iname"] = myname;
-
-
-            RIUser riuser = new RIUser();
             string[] fullUsername = myname.Split(System.Convert.ToChar(@"\"));
-            riuser = riuser.GetEmployee(fullUsername[1].ToUpper());
+            string myusername = fullUsername[1].ToUpper();
 
-            //go make sure the user is in the DB
-            if (riuser.Email != null)
+            
+            if (myusername != "")
+            { 
+                if (Session["UserName"] == null)
+                {
+                    RetrieveUser(myusername);
+                }
+
+                else
+                {
+                    LabelUserName.Text = "User: " + Session["LastName"] + ", " + Session["FirstName"] + " (" + Session["SiteID"].ToString() + ")";
+                }
+            }
+            else
             {
-                //check for inactive
-                if (riuser.InactiveFlag == "N")
-                {
 
-                }
-                else if (riuser.InactiveFlag == "Y")
-                {
-                    //do not proceed
-                    return;
-                }
+                //GET OUT OF HERE - WE HAVE A PROBLEM
             }
 
 
-            WriteToSession(riuser);
 
-            LabelUserName.Text = "User: " + Session["LastName"] + ", " + Session["FirstName"] + " (" + Session["SiteID"].ToString() + ")";
-           
-
-
- 
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.StackTrace CurrentStack = new System.Diagnostics.StackTrace(true);
+                string Myself = CurrentStack.GetFrame(0).GetMethod().Name;
+                string MyCaller = CurrentStack.GetFrame(1).GetMethod().Name;
+                string cur_file = CurrentStack.GetFrame(1).GetFileName();
+                int line_num = CurrentStack.GetFrame(1).GetFileLineNumber();
+                throw;
+            }
 
         }
 
@@ -128,20 +117,74 @@ namespace GPI.RI.Admin
                 //RadMenu1.Items[1].HighlightPath();
             }
 
-
-
-            
-            
-
-          
-
-
         }
 
         protected void Page_PreInit(object sender, EventArgs e)
         {
         }
 
+
+
+        private void CheckDataBaseBeingUsed()
+        {
+
+            string SqlString = " SELECT DISTINCT UPPER(SERVICE_NAME) SERVICE_NAME FROM V$SESSION WHERE USER# IN (SELECT USER_ID FROM USER_USERS)";
+            string ServiceName = "Database ({0})";
+            ServiceName = string.Format(ServiceName, da.GetDatabaseName(SqlString));
+            //ServiceName = string.Format(ServiceName, GetDatabaseName(SqlString));
+
+
+            LabelDatabase.Text = ServiceName;
+            System.Web.HttpContext.Current.Session["DatabaseName"] = ServiceName;
+            bool check = ServiceName.Contains("GPCIOD02");
+
+            if (check)
+            {
+                System.Web.HttpContext.Current.Session["TestDatabase"] = "YES";
+                LabelBannerWarning.Visible = true;
+
+            }
+            else
+            {
+                System.Web.HttpContext.Current.Session["TestDatabase"] = "NO";
+                LabelBannerWarning.Visible = false;
+            }
+
+
+
+        }
+
+        private void RetrieveUser(string myusername)
+        {
+            RIUser riuser = new RIUser();
+            riuser = riuser.GetEmployee(myusername);
+
+            //go make sure the user is in the DB
+            if (riuser.Email != null)
+            {
+                //check for inactive
+                if (riuser.InactiveFlag == "N")
+                {
+                    WriteToSession(riuser);
+                    LabelUserName.Text = "User: " + Session["LastName"] + ", " + Session["FirstName"] + " (" + Session["SiteID"].ToString() + ")";
+
+                }
+                else if (riuser.InactiveFlag == "Y")
+                {
+                    //do not proceed
+                    return;
+                }
+            }
+        }
+
+
+        private void CheckLdapUser(string myusername)
+        {
+
+
+
+
+        }
 
         //get the Ldap and RI user settings
 
