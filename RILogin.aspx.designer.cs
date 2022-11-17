@@ -11,7 +11,16 @@ namespace GPI.RI.Admin
 {
 
 
-    public partial class About
+    public partial class RILogin
     {
+
+        /// <summary>
+        /// Labeluser control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Labeluser;
     }
 }

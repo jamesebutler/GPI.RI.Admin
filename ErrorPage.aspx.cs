@@ -7,20 +7,23 @@ using System.Web.UI.WebControls;
 
 namespace GPI.RI.Admin
 {
-    public partial class _Default : System.Web.UI.Page
+    public partial class ErrorPage : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
             
-            string mySessionVar = Session["UserName"] as string;
+
+
+        }
+
+        protected void Page_PreInit(object sender, EventArgs e)
+        {
+
+            string mySessionVar = Session["errormessage"] as string;
             //errormessage.Text = "what is this";
             if (mySessionVar != null)
             {
-               //continue on
-            }
-            else
-            {
-                //do an error or something
+                errormessage.Text = mySessionVar;
             }
 
 

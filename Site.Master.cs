@@ -6,22 +6,22 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Configuration;
+
+using System.Xml;
+using System.Text;
+using System.Web.Security;
+using System.Security.Principal;
+using System.Net;
+using System.Security.Claims;
+
+using Devart.Data.Oracle;
 using Telerik.Web.UI;
+
 using GPI.MILL.DataAccess.Oracle;
 using GPI.MILL.Ldap;
 using GPI.User.Model;
-using System.Xml;
-using System.Text;
-
-using System.Web.Security;
-
-
-
-using System.Security.Principal;
-using System.Net;
-
-using Devart.Data.Oracle;
-
+using GPI.Error.Logging;
+using GPI.RI.Admin;
 
 
 namespace GPI.RI.Admin
@@ -30,15 +30,89 @@ namespace GPI.RI.Admin
     {
         GPI.MILL.DataAccess.Oracle.RetrieveData da = new RetrieveData();
         GPI.User.Model.LdapUser ldap = new LdapUser();
-      
-        protected void Page_Load(object sender, EventArgs e)
+        ErrorLog errorLog = new ErrorLog();
+
+
+
+        protected void Page_Error(object sender, EventArgs e)
+        {
+            //Log Errors Here
+            //LogError();
+        }
+
+        //public static void LogError(string MethodName = "RIADMIN", string additionalErrMsg = "", Exception excep = new Exception)
+        public static void LogError()
         {
 
+            Exception excep = new Exception();
+            Exception le;
+            System.Text.StringBuilder errorMessage = new StringBuilder();
+            int errorCount = 0;
+            string errMsg = string.Empty;
+            int chunkLength = 0;
+            int maxLen = 3500;
+            string redirectURL = "~/Help/ErrorPage.aspx";
 
             try
             {
 
-  
+
+                if (excep != null)
+                {
+                    le = excep;
+                }
+                else
+                {
+                    le = HttpContext.Current.Server.GetLastError();
+                }
+
+
+                HttpContext.Current.Session.Clear();
+
+
+
+
+
+            }
+            catch (Exception)
+            {
+
+                HttpContext.Current.Server.ClearError();
+            }
+            finally
+            {
+                // clear le
+                le = new Exception();
+                try
+                {
+                    HttpContext.Current.Server.ClearError();
+                    HttpContext.Current.Response.Redirect(redirectURL, false);
+                }
+                catch (Exception)
+                {
+                    HttpContext.Current.Server.ClearError();
+                }
+            }
+
+
+        }
+
+
+
+
+
+
+
+
+        protected void Page_Load(object sender, EventArgs e)
+        {
+
+            //try
+            //{
+
+            //testing error handling
+            //object m = null;
+            //string s = m.ToString();
 
             if (Session["DatabaseName"] == null)
             {
@@ -57,18 +131,19 @@ namespace GPI.RI.Admin
                     LabelBannerWarning.Visible = true;
                 }
             }
-            
+
             string myname = Request.LogonUserIdentity.Name;
             System.Web.HttpContext.Current.Session["iname"] = myname;
             string[] fullUsername = myname.Split(System.Convert.ToChar(@"\"));
             string myusername = fullUsername[1].ToUpper();
 
-            
+
             if (myusername != "")
-            { 
+            {
                 if (Session["UserName"] == null)
                 {
                     RetrieveUser(myusername);
+
                 }
 
                 else
@@ -82,18 +157,21 @@ namespace GPI.RI.Admin
                 //GET OUT OF HERE - WE HAVE A PROBLEM
             }
 
+            //gocheck ldap
+
+            //get before to check    
+            var currentHttpcontext = HttpContext.Current;
+
+            ///set the user IsAuthenticated to true
+            ClaimsIdentity identity = new ClaimsIdentity("Custom");
+            currentHttpcontext.User = new ClaimsPrincipal(identity);
+
+            //get after to check
+            var currentHttpcontext1 = HttpContext.Current;
 
 
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.StackTrace CurrentStack = new System.Diagnostics.StackTrace(true);
-                string Myself = CurrentStack.GetFrame(0).GetMethod().Name;
-                string MyCaller = CurrentStack.GetFrame(1).GetMethod().Name;
-                string cur_file = CurrentStack.GetFrame(1).GetFileName();
-                int line_num = CurrentStack.GetFrame(1).GetFileLineNumber();
-                throw;
-            }
+            // LabelUserName.Text = "User: " + Session["LastName"] + ", " + Session["FirstName"] + " (" + Session["SiteID"].ToString() + ")";
+
 
         }
 
@@ -101,7 +179,6 @@ namespace GPI.RI.Admin
 
         protected void Page_Init(object sender, EventArgs e)
         {
-
 
             RadMenu1.LoadContentFile("~/Menu/Data/AdminMenu.xml");
 
@@ -171,9 +248,17 @@ namespace GPI.RI.Admin
                 }
                 else if (riuser.InactiveFlag == "Y")
                 {
-                    //do not proceed
-                    return;
+                    LoganError("RetrieveUser error", "User is not active");
+                    Server.ClearError();
+                    Server.Transfer("~/LoginError.aspx");
                 }
+            }
+            else
+            {
+                //do not proceed
+                LoganError("RetrieveUser error", "Did not found user.RIAdmin project");
+                Server.ClearError();
+                Server.Transfer("~/LoginError.aspx");
             }
         }
 
@@ -216,6 +301,22 @@ namespace GPI.RI.Admin
         }
 
 
+
+        private void LoganError(string errormessage, string errormessageshort)
+
+        {
+            errorLog.UserName = Request.LogonUserIdentity.Name;
+            errorLog.ErrorNumber = 0;
+            errorLog.ErrorSeverity = 0;
+            errorLog.ErrorState = 0;
+            errorLog.ErrorProcedure = "";
+            errorLog.ErrorForm = "Global.asax";
+            errorLog.ErrorLine = 0;
+            errorLog.ErrorMessage = errormessage;
+            errorLog.ErrorMessageShort = errormessageshort;
+            errorLog.DBConnection = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ConnectionString; ;
+            string test = errorLog.LogError();
+        }
 
         // nothing below this line
     }

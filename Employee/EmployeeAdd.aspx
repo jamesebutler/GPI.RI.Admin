@@ -130,7 +130,10 @@
 <div class="col-lg-12" >
     <p class="noteAltNoImage">
 <strong>
-Enter the email then Click "Search".  <br />If the email is found the nessary fields will populate.  <br />Click on the "Add Employee" button to add employee.
+Enter the name only then Click "Search".  <br />
+If the email is found the nessary fields will populate.  <br />
+Click on the "Add Employee" button to add employee.<br />
+Task Tracker Notifications (default) records will be added automatically.
 </strong>
 </p>
 
@@ -164,7 +167,8 @@ Enter the email then Click "Search".  <br />If the email is found the nessary fi
        
     <div class="row" >
 
-            <div class="col-lg-3" >
+            <div class="col-lg-4" >
+            <div class="form-group">
                             <asp:Label ID="LabelLookUpByEmail" runat="server" AssociatedControlID="EmailTextBox">Email:</asp:Label>
                             <telerik:RadTextBox RenderMode="Lightweight" 
                                 EmptyMessage="enter name" 
@@ -183,16 +187,19 @@ Enter the email then Click "Search".  <br />If the email is found the nessary fi
                                     </asp:RegularExpressionValidator>
                 <asp:Label ID="LabelLookUpAt" runat="server" AssociatedControlID="EmailTextBox" Text="@graphicpkg.com"></asp:Label>
             </div>
+            </div>
             
-            <div class="col-lg-1" >
+            <div class="col-lg-2" >
+                <div class="form-group">
                     <telerik:RadButton ID="ButtonSearchForByEmail" OnClick="ButtonSearchForByEmail_Click" Skin="Black" runat="server"  Text="Search">
                     <Icon PrimaryIconCssClass="rbSearch" />
                     </telerik:RadButton>
  
-       
+       </div>
             </div>
-                <div class="col-lg-8" >
-  
+                <div class="col-lg-6" >
+              <div class="form-group">
+                  </div>
 
                 </div>
 

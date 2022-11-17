@@ -32,7 +32,7 @@
     <OutputPath>bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <WarningLevel>0</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -51,6 +51,7 @@
       <HintPath>..\..\..\..\..\RI dlls\Devart.Data.Oracle.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -410,6 +411,7 @@
     <Content Include="App_Themes\RIYellow\Menustyles.css" />
     <Content Include="ASMX\LoadSites.asmx" />
     <Content Include="ASMX\MaintNotifications.asmx" />
+    <Content Include="checkErrorFromRcfa.html" />
     <Content Include="Contact.aspx" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -421,6 +423,8 @@
     <Content Include="Employee\EmployeeDelete.aspx" />
     <Content Include="Employee\EmployeeRoles.aspx" />
     <Content Include="Employee\EmployeeTransfer.aspx" />
+    <Content Include="ErrorPage.aspx" />
+    <Content Include="ErrorTesting.html" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -464,11 +468,13 @@
     <Content Include="images\LogoOnly.PNG" />
     <Content Include="images\note.PNG" />
     <Content Include="images\notfound.png" />
+    <Content Include="LoginError.aspx" />
     <Content Include="Menu\Data\AdminMenu.xml" />
     <Content Include="Menu\Data\Menu - Copy.xml" />
     <Content Include="Menu\Data\RadMenuSimple.css" />
     <Content Include="Menu\Data\styles.css" />
     <Content Include="Menu\Data\UserMenu.xml" />
+    <Content Include="RILogin.aspx" />
     <Content Include="RI\NotificationMaintenance.js" />
     <Content Include="RI\RINotificationMaintenance.aspx" />
     <Content Include="RI\RINotificationMaintenanceBackup.aspx" />
@@ -510,7 +516,6 @@
     <Content Include="Site.Mobile.Master" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Code\HandleError.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="About.aspx.cs">
       <DependentUpon>About.aspx</DependentUpon>
@@ -573,8 +578,29 @@
     <Compile Include="Employee\EmployeeTransfer.aspx.designer.cs">
       <DependentUpon>EmployeeTransfer.aspx</DependentUpon>
     </Compile>
+    <Compile Include="ErrorPage.aspx.cs">
+      <DependentUpon>ErrorPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ErrorPage.aspx.designer.cs">
+      <DependentUpon>ErrorPage.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="LoginError.aspx.cs">
+      <DependentUpon>LoginError.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="LoginError.aspx.designer.cs">
+      <DependentUpon>LoginError.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RILogin.aspx.cs">
+      <DependentUpon>RILogin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RILogin.aspx.designer.cs">
+      <DependentUpon>RILogin.aspx</DependentUpon>
     </Compile>
     <Compile Include="RI\RINotificationMaintenance.aspx.cs">
       <DependentUpon>RINotificationMaintenance.aspx</DependentUpon>
@@ -639,6 +665,10 @@
     <EmbeddedResource Include="Properties\licenses.licx" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GPI.Error.Logging\GPI.Error.Logging.csproj">
+      <Project>{c51b41a5-3cfc-46d9-b9aa-e6fff3e5aacb}</Project>
+      <Name>GPI.Error.Logging</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GPI.MILL.DataAccess.Oracle\GPI.MILL.DataAccess.Oracle.csproj">
       <Project>{a021e0b4-a738-479a-a9dd-7007687139b5}</Project>
       <Name>GPI.MILL.DataAccess.Oracle</Name>
@@ -675,7 +705,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
+      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
     </VisualStudio>
   </ProjectExtensions>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

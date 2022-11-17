@@ -7,11 +7,11 @@ using System.Web.UI.WebControls;
 
 namespace GPI.RI.Admin
 {
-    public partial class About : Page
+    public partial class LoginError : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-           //  throw new System.ArgumentException("Parameter cannot be null", "why is this not right");
+
         }
     }
 }

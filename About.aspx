@@ -6,5 +6,5 @@
     <p>Use this area to provide additional information.</p>
 
     
-    <asp:TextBox ID="label1" runat="server" Text="james"></asp:TextBox>
+    
 </asp:Content>
