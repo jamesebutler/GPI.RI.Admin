@@ -23,7 +23,7 @@ namespace GPI.RI.Admin
             //errormessage.Text = "what is this";
             if (mySessionVar != null)
             {
-                errormessage.Text = mySessionVar;
+                //errormessage.Text = mySessionVar;
             }
 
 

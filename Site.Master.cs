@@ -99,11 +99,6 @@ namespace GPI.RI.Admin
 
 
 
-
-
-
-
-
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -132,6 +127,8 @@ namespace GPI.RI.Admin
                 }
             }
 
+            System.Security.Principal.IPrincipal User;
+            User = System.Web.HttpContext.Current.User;
             string myname = Request.LogonUserIdentity.Name;
             System.Web.HttpContext.Current.Session["iname"] = myname;
             string[] fullUsername = myname.Split(System.Convert.ToChar(@"\"));

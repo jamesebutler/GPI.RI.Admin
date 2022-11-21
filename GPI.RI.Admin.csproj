@@ -421,6 +421,7 @@
     <Content Include="Default.aspx" />
     <Content Include="Employee\EmployeeAdd.aspx" />
     <Content Include="Employee\EmployeeDelete.aspx" />
+    <Content Include="Employee\EmployeeNotifications.aspx" />
     <Content Include="Employee\EmployeeRoles.aspx" />
     <Content Include="Employee\EmployeeTransfer.aspx" />
     <Content Include="ErrorPage.aspx" />
@@ -509,7 +510,9 @@
     <Content Include="Site.Master" />
     <Content Include="styles\Default.css" />
     <Content Include="styles\Notes.css" />
+    <Content Include="TaskTracker\TaskTrackerNotifications.aspx" />
     <Content Include="UnderStandingAjaxControls.aspx" />
+    <Content Include="UserControls\NotificationFrequency.ascx" />
     <Content Include="ViewSwitcher.ascx" />
     <Content Include="Web.config" />
     <Content Include="Bundle.config" />
@@ -563,6 +566,13 @@
     </Compile>
     <Compile Include="Employee\EmployeeDelete.aspx.designer.cs">
       <DependentUpon>EmployeeDelete.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Employee\EmployeeNotifications.aspx.cs">
+      <DependentUpon>EmployeeNotifications.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Employee\EmployeeNotifications.aspx.designer.cs">
+      <DependentUpon>EmployeeNotifications.aspx</DependentUpon>
     </Compile>
     <Compile Include="Employee\EmployeeRoles.aspx.cs">
       <DependentUpon>EmployeeRoles.aspx</DependentUpon>
@@ -631,12 +641,25 @@
     <Compile Include="Site.Mobile.Master.designer.cs">
       <DependentUpon>Site.Mobile.Master</DependentUpon>
     </Compile>
+    <Compile Include="TaskTracker\TaskTrackerNotifications.aspx.cs">
+      <DependentUpon>TaskTrackerNotifications.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TaskTracker\TaskTrackerNotifications.aspx.designer.cs">
+      <DependentUpon>TaskTrackerNotifications.aspx</DependentUpon>
+    </Compile>
     <Compile Include="UnderStandingAjaxControls.aspx.cs">
       <DependentUpon>UnderStandingAjaxControls.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="UnderStandingAjaxControls.aspx.designer.cs">
       <DependentUpon>UnderStandingAjaxControls.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\NotificationFrequency.ascx.cs">
+      <DependentUpon>NotificationFrequency.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\NotificationFrequency.ascx.designer.cs">
+      <DependentUpon>NotificationFrequency.ascx</DependentUpon>
     </Compile>
     <Compile Include="ViewSwitcher.ascx.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
@@ -648,7 +671,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="MOC\" />
-    <Folder Include="TaskTracker\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

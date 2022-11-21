@@ -36,10 +36,8 @@ namespace GPI.RI.Admin
         void Application_Error(object sender, EventArgs e)
         {
 
-
             Exception ex = Server.GetLastError();
 
-            
             //log the error
             string errMsg = ex.ToString();
             errMsg = errMsg.Replace(ControlChars.CrLf, "<BR />");

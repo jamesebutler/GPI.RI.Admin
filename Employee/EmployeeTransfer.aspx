@@ -99,7 +99,9 @@
     <div class="col-lg-12" >
             <p class="noteAltNoImage">
             <strong>
-            Select the Employee to transfer.  <br />Select the Mill to transfer to and Click "Transfer." <br /> If the employee has any open tasks, assign tasks to another Mill employee.
+            Select the Employee to transfer.  <br />
+            If the employee has any open tasks, assign tasks to another Mill employee.  <br />
+            Select the Mill to transfer to and Click "Transfer." 
             </strong>
             </p>
     </div>

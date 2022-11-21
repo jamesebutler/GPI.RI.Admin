@@ -29,7 +29,8 @@ namespace GPI.RI.Admin
         protected void Page_Load(object sender, EventArgs e)
         {
 
-
+            System.Security.Principal.IPrincipal User;
+            User = System.Web.HttpContext.Current.User;
 
             Labeluser.Text = "nothing yet";
            string myname = Session["iname"].ToString();
