@@ -195,6 +195,15 @@ namespace GPI.RI.Admin.TaskTracker
         protected global::System.Web.UI.WebControls.Label _lblEnteredNotify;
 
         /// <summary>
+        /// _rbEnteredNotifImmediately control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RadioButton _rbEnteredNotifImmediately;
+
+        /// <summary>
         /// _rbEnteredNotifEveryDay control.
         /// </summary>
         /// <remarks>
@@ -202,15 +211,6 @@ namespace GPI.RI.Admin.TaskTracker
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RadioButton _rbEnteredNotifEveryDay;
-
-        /// <summary>
-        /// _rbEnteredNotifEveryWeek control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton _rbEnteredNotifEveryWeek;
 
         /// <summary>
         /// _lblResponsiblePersonFrequencyCreator control.

@@ -136,15 +136,15 @@
                         <div class="col-md-8">
                         <div class="form-group">
                             <asp:Label ID="_lblNotificationFrequencyCreator" Font-Bold="true" Text="Task Notification Frequency" runat="server"></asp:Label><br />
-                            <asp:RadioButton ID="_rbEveryDay" runat="server" Text="Daily" />
+                            <asp:RadioButton ID="_rbEveryDay" runat="server" Text="Daily" GroupName="CreatorGroup" />
                             &nbsp;&nbsp;&nbsp;&nbsp;
-                            <asp:RadioButton ID="_rbEveryWeek" Text="Weekly on"
+                            <asp:RadioButton ID="_rbEveryWeek" Text="Weekly on" GroupName="CreatorGroup"
                             runat="server" />
                             &nbsp;&nbsp;&nbsp;&nbsp; <asp:DropDownList ID="_ddlDayOfWeek" runat="server" Style="min-width: 50px">
                             </asp:DropDownList>
                  
                             &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
-                            <asp:RadioButton ID="_rblEveryMonth" Text="Monthly on day" runat="server" />
+                            <asp:RadioButton ID="_rblEveryMonth" Text="Monthly on day" GroupName="CreatorGroup" runat="server" />
                             &nbsp; <asp:DropDownList
                             ID="_ddlOrdinalMonth" runat="server" Style="min-width: 50px">
                             </asp:DropDownList>
@@ -226,9 +226,9 @@
                         <div class="col-md-8">
                         <div class="form-group">
                             <asp:Label ID="_lblEnteredNotify" Font-Bold="true" Text="When tasks are Entered Notify Me" runat="server"></asp:Label><br />
-                            <asp:RadioButton ID="_rbEnteredNotifEveryDay" runat="server" Text="Immediately" />
+                            <asp:RadioButton ID="_rbEnteredNotifImmediately" GroupName="ResponsibleTaskEnteredGroup" runat="server" Text="Immediately" />
                             &nbsp;&nbsp;&nbsp;&nbsp;
-                            <asp:RadioButton ID="_rbEnteredNotifEveryWeek" Text="Daily"
+                            <asp:RadioButton ID="_rbEnteredNotifEveryDay" Text="Daily" GroupName="ResponsibleTaskEnteredGroup"
                             runat="server" />
 
 
@@ -250,9 +250,9 @@
                         <div class="col-md-8">
                         <div class="form-group">
                             <asp:Label ID="_lblResponsiblePersonFrequencyCreator" Font-Bold="true" Text="Task Notification Frequency" runat="server"></asp:Label><br />
-                            <asp:RadioButton ID="_rbResponsiblePersonEveryDay" runat="server" Text="Daily" />
+                            <asp:RadioButton ID="_rbResponsiblePersonEveryDay" GroupName="ResponsibleTaskFrequencyGroup" runat="server" Text="Daily" />
                             &nbsp;&nbsp;&nbsp;&nbsp;
-                            <asp:RadioButton ID="_rbResponsiblePersonEveryWeek" Text="Weekly on"
+                            <asp:RadioButton ID="_rbResponsiblePersonEveryWeek" Text="Weekly on" GroupName="ResponsibleTaskFrequencyGroup" 
                             runat="server" />
                             &nbsp;&nbsp;&nbsp;&nbsp; <asp:DropDownList ID="_ddlResponsiblePersonDayOfWeek" runat="server" Style="min-width: 50px">
                             </asp:DropDownList>
@@ -333,15 +333,15 @@
                         <div class="col-md-8">
                         <div class="form-group">
                             <asp:Label ID="_lblNotificationManagerFrequencyCreator" Font-Bold="true" Text="Task Notification Frequency" runat="server"></asp:Label><br />
-                            <asp:RadioButton ID="_rbManagerEveryDay" runat="server" Text="Daily" />
+                            <asp:RadioButton ID="_rbManagerEveryDay" GroupName="ResponsibleTaskManagerFrequencyGroup" runat="server" Text="Daily" />
                             &nbsp;&nbsp;&nbsp;&nbsp;
-                            <asp:RadioButton ID="_rbManagerEveryWeek" Text="Weekly on"
+                            <asp:RadioButton ID="_rbManagerEveryWeek" Text="Weekly on" GroupName="ResponsibleTaskManagerFrequencyGroup" 
                             runat="server" />
                             &nbsp;&nbsp;&nbsp;&nbsp; <asp:DropDownList ID="_ddlManagerDayOfWeek" runat="server" Style="min-width: 50px">
                             </asp:DropDownList>
                  
                             &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
-                            <asp:RadioButton ID="_rblManagerEveryMonth" Text="Monthly on day" runat="server" />
+                            <asp:RadioButton ID="_rblManagerEveryMonth" Text="Monthly on day"  GroupName="ResponsibleTaskManagerFrequencyGroup" runat="server" />
                             &nbsp; <asp:DropDownList
                             ID="_ddlManagerOrdinalMonth" runat="server" Style="min-width: 50px">
                             </asp:DropDownList>
@@ -389,7 +389,7 @@
                     
                     <div class="col-md-2">
                     <div class="form-group">
-                     <telerik:RadButton ID="ButtonSave"  Skin="Black" runat="server"  Text="Save">
+                     <telerik:RadButton ID="ButtonSave"  Skin="Black" runat="server" OnClick="ButtonSave_Click"  Text="Save">
                     <Icon PrimaryIconCssClass="rbSave" />
                     </telerik:RadButton>
                      </div>   
