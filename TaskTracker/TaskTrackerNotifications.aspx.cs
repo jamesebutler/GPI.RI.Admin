@@ -12,6 +12,7 @@ using GPI.MILL.DataAccess.Oracle;
 using GPI.MILL.Ldap;
 using GPI.User.Model;
 using System.Text;
+using GPI.UserModel;
 
 namespace GPI.RI.Admin.TaskTracker
 {
@@ -24,12 +25,7 @@ namespace GPI.RI.Admin.TaskTracker
 
 
         string strUserName = "";
-        string strStatements = "";
-        string strInsert = "insert into refnotifyprofile (USERNAME,ROLESEQID,EMAILTYPE,PROFILETYPESEQID,PROFILETYPEVALUE,PLANTCODE,APPLICATION,LASTUPDATEUSERNAME,LASTUPDATEDATE) ";
-        string strValues = "";
-        string strCommit = " commit;";
-
-        string strDelete = "delete from refnotifyprofile where refnotifyprofile.username = ";//'JAMES.BUTLER' and refnotifyprofile.ROLESEQID = 5;"
+        string in_RepeatingData = "";
         StringBuilder SQLbuilder = new StringBuilder();
         
         enum DaysofWeek
@@ -207,46 +203,176 @@ namespace GPI.RI.Admin.TaskTracker
 
         }
 
-        protected void BuildCreator()
+        protected string BuildCreator()
         {
+
+            List<RecurringParametersList> rpl = new List<RecurringParametersList>();
+
+            try
+            {
+                    if (_cbOptOut.Checked)
+                    {
+                        rpl.Add(new RecurringParametersList { EmailType = "FUTURE", ProfileTypeSeqId = 10, ProfileTypeValue = "NO EMAIL", RoleseqId = 5 });
+                    }
+                    else
+                    { 
+                            //"DAILY"
+                            if (_rbEveryDay.Checked == true)
+                            {
+                                rpl.Add(new RecurringParametersList { EmailType = "FUTURE", ProfileTypeSeqId = 1, ProfileTypeValue = "DAILY", RoleseqId = 5 });
+
+                            }
+                            // "MONTHLY"
+                            if (_rblEveryMonth.Checked == true)
+                            {
+                                rpl.Add(new RecurringParametersList { EmailType = "FUTURE", ProfileTypeSeqId = 1, ProfileTypeValue = "MONTHLY", RoleseqId = 5 });
+                                //get day of month
+                                rpl.Add(new RecurringParametersList { EmailType = "FUTURE", ProfileTypeSeqId = 5, ProfileTypeValue = _ddlOrdinalMonth.SelectedValue.ToString(), RoleseqId = 5 });
+                            }
+                            // "WEEKLY"
+                            if (_rbEveryWeek.Checked == true)
+                            {
+                                rpl.Add(new RecurringParametersList { EmailType = "FUTURE", ProfileTypeSeqId = 1, ProfileTypeValue = "WEEKLY", RoleseqId = 5 });
+                                //get day of week
+                                int myday = Int32.Parse(_ddlDayOfWeek.SelectedValue);
+                                rpl.Add(new RecurringParametersList { EmailType = "FUTURE", ProfileTypeSeqId = 7, ProfileTypeValue = myday.ToString(), RoleseqId = 5 });
+                            }
+
+
+                            // loop through
+                            for (int i = 0; i <= 4; i++)
+                                if (_rblFutureNotificationPeriod.Items[i].Selected == true)
+                                {
+                                    rpl.Add(new RecurringParametersList { EmailType = "FUTURE", ProfileTypeSeqId = 10, ProfileTypeValue = _rblFutureNotificationPeriod.Items[i].Value.ToUpper(), RoleseqId = 5 });
+
+                                }
+
+                     }
+                    string creator = "";
+                    for (int i = 0; i <= rpl.Count - 1; i++)
+                        creator += rpl[i].EmailType + "|" + rpl[i].ProfileTypeSeqId + "|" + rpl[i].ProfileTypeValue + "|" + rpl[i].RoleseqId + ",";
+
+
+                    return creator;
+
+            }
+
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        protected string BuildResponsible()
+        {
+
+            List<RecurringParametersList> rpl = new List<RecurringParametersList>();
+
             try
             {
 
-                if (_cbOptOut.Checked)
+
+                //"Notify me when"
+                if (_rbEnteredNotifEveryDay.Checked == true)
                 {
+                    rpl.Add(new RecurringParametersList { EmailType = "ENTERED", ProfileTypeSeqId = 1, ProfileTypeValue = "DAILY", RoleseqId = 4 });
+
+                }
+                if (_rbEnteredNotifImmediately.Checked == true)
+                {
+                    rpl.Add(new RecurringParametersList { EmailType = "ENTERED", ProfileTypeSeqId = 1, ProfileTypeValue = "IMMEDIATE", RoleseqId = 4 });
 
                 }
 
-            }
 
+                //"DAILY"
+                if (_rbResponsiblePersonEveryDay.Checked == true)
+                {
+                    rpl.Add(new RecurringParametersList { EmailType = "FUTURE", ProfileTypeSeqId = 1, ProfileTypeValue = "DAILY", RoleseqId = 4 });
+
+                }
+                // "WEEKLY"
+                if (_rbResponsiblePersonEveryWeek.Checked == true)
+                {
+                    rpl.Add(new RecurringParametersList { EmailType = "FUTURE", ProfileTypeSeqId = 1, ProfileTypeValue = "WEEKLY", RoleseqId = 4 });
+                    //get day of week
+                    int myday = Int32.Parse(_ddlResponsiblePersonDayOfWeek.SelectedValue);
+                    rpl.Add(new RecurringParametersList { EmailType = "FUTURE", ProfileTypeSeqId = 7, ProfileTypeValue = myday.ToString(), RoleseqId = 4 });
+                }
+
+
+                // loop through
+                for (int i = 0; i <= 4; i++)
+                    if (_rblResponsiblePersonFutureNotificationPeriod.Items[i].Selected == true)
+                    {
+                        rpl.Add(new RecurringParametersList { EmailType = "FUTURE", ProfileTypeSeqId = 10, ProfileTypeValue = _rblResponsiblePersonFutureNotificationPeriod.Items[i].Value.ToUpper(), RoleseqId = 4 });
+
+                    }
+
+                string responsible = "";
+                for (int i = 0; i <= rpl.Count - 1; i++)
+                    responsible += rpl[i].EmailType + "|" + rpl[i].ProfileTypeSeqId + "|" + rpl[i].ProfileTypeValue + "|" + rpl[i].RoleseqId + ",";
+
+
+                return responsible;
+
+
+            }
             catch (Exception ex)
             {
                 throw;
             }
+
         }
 
-        protected void BuildResponsible()
+        protected string BuildBusUnitMgr()
         {
+
+            List<RecurringParametersList> rpl = new List<RecurringParametersList>();
+
             try
             {
 
+                //"DAILY"
+                if (_rbManagerEveryDay.Checked == true)
+                {
+                    rpl.Add(new RecurringParametersList { EmailType = "FUTURE", ProfileTypeSeqId = 1, ProfileTypeValue = "DAILY", RoleseqId = 1 });
+
+                }
+                // "MONTHLY"
+                    if (_rblManagerEveryMonth.Checked == true)
+                {
+                    rpl.Add(new RecurringParametersList{EmailType ="FUTURE", ProfileTypeSeqId = 1, ProfileTypeValue = "MONTHLY", RoleseqId = 1});
+                    //get day of month
+                    rpl.Add(new RecurringParametersList{EmailType ="FUTURE", ProfileTypeSeqId = 5, ProfileTypeValue =  _ddlManagerOrdinalMonth.SelectedValue.ToString(), RoleseqId = 1});
+                }
+                // "WEEKLY"
+                if (_rbManagerEveryWeek.Checked == true)
+                {
+                    rpl.Add(new RecurringParametersList{ EmailType = "FUTURE", ProfileTypeSeqId = 1, ProfileTypeValue = "WEEKLY", RoleseqId = 1 });
+                    //get day of week
+                    int myday = Int32.Parse(_ddlManagerDayOfWeek.SelectedValue);
+                    rpl.Add(new RecurringParametersList { EmailType = "FUTURE", ProfileTypeSeqId = 7, ProfileTypeValue = myday.ToString(), RoleseqId = 1 });
+                }
+
+                
+                // loop through
+                for (int i = 0; i <= 4 ; i++)
+                if (_rblManagerFutureNotificationPeriod.Items[i].Selected == true)
+                {
+                    rpl.Add(new RecurringParametersList { EmailType = "FUTURE", ProfileTypeSeqId = 10, ProfileTypeValue = _rblManagerFutureNotificationPeriod.Items[i].Value.ToUpper(), RoleseqId = 1 });
+
+                }
+
+                string busunitmgr = "";
+                for (int i = 0; i <= rpl.Count - 1; i++)
+                    busunitmgr += rpl[i].EmailType + "|" + rpl[i].ProfileTypeSeqId + "|" + rpl[i].ProfileTypeValue + "|" + rpl[i].RoleseqId + ",";
+
+
+                return busunitmgr;
+
 
             }
-
-            catch (Exception ex)
-            {
-                throw;
-            }
-        }
-
-        protected void BuildBusunitmgr()
-        {
-            try
-            {
-
-
-            }
-
             catch (Exception ex)
             {
                 throw;
@@ -256,14 +382,24 @@ namespace GPI.RI.Admin.TaskTracker
         protected void ButtonSave_Click(object sender, EventArgs e)
         {
 
-            
+           
             try
             {
 
+              in_RepeatingData = BuildBusUnitMgr();
+
+              in_RepeatingData +=  BuildResponsible();
+
+              in_RepeatingData +=  BuildCreator();
 
 
+              if (in_RepeatingData.EndsWith(","))
+                {
+                    //remove ,
+                    in_RepeatingData = in_RepeatingData.Remove(in_RepeatingData.Length - 1, 1); 
+                }
 
-
+               
             }
 
             catch (Exception ex)
@@ -275,6 +411,13 @@ namespace GPI.RI.Admin.TaskTracker
 
         }
 
+        protected void SaveUserDefaults(string strUserName)
+        {
+
+
+
+
+        }
 
         protected void LoadUserDefaults(string strUserName)
         {
