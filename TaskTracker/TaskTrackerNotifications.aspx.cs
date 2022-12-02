@@ -24,9 +24,10 @@ namespace GPI.RI.Admin.TaskTracker
        
 
 
-        string strUserName = "";
+        
         string in_RepeatingData = "";
         StringBuilder SQLbuilder = new StringBuilder();
+        string mySessionUserName = string.Empty;
         
         enum DaysofWeek
         {
@@ -42,20 +43,12 @@ namespace GPI.RI.Admin.TaskTracker
         protected void Page_Load(object sender, EventArgs e)
         {
 
-
-            string mySessionVar = Session["UserName"] as string;
-            if (mySessionVar != null)
-            {
-                //continue on
-                strUserName = mySessionVar;
-            }
-            else
+            mySessionUserName = Session["UserName"] as string;
+            if (mySessionUserName == null)
             {
                 //do an error or something
             }
-
-
-            
+      
 
             if (!IsPostBack)
             {
@@ -64,8 +57,8 @@ namespace GPI.RI.Admin.TaskTracker
                 PopulateMonthOrdinals();
                 SetPeriodOptions();
 
-                DropDownEmployees.SelectedValue = strUserName;
-                LoadUserDefaults(strUserName);
+                DropDownEmployees.SelectedValue = mySessionUserName;
+                LoadUserDefaults(mySessionUserName);
            
             }
 
@@ -399,6 +392,7 @@ namespace GPI.RI.Admin.TaskTracker
                     in_RepeatingData = in_RepeatingData.Remove(in_RepeatingData.Length - 1, 1); 
                 }
 
+             Boolean myreturn =  np.UpdateNotificationProfile("JAMES.BUTLER", in_RepeatingData, "JAMES.BUTLER");
                
             }
 
@@ -411,7 +405,7 @@ namespace GPI.RI.Admin.TaskTracker
 
         }
 
-        protected void SaveUserDefaults(string strUserName)
+        protected void SaveUserDefaults(string mySessionUserName)
         {
 
 
@@ -419,11 +413,11 @@ namespace GPI.RI.Admin.TaskTracker
 
         }
 
-        protected void LoadUserDefaults(string strUserName)
+        protected void LoadUserDefaults(string mySessionUserName)
         {
 
             List<UserModel.NotificationProfile> returnlist = new List<UserModel.NotificationProfile>();
-            returnlist = np.GetUserDefaults(strUserName);
+            returnlist = np.GetUserDefaults(mySessionUserName);
 
             //load up the fields
 

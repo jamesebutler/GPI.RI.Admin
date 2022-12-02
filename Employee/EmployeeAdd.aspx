@@ -130,9 +130,9 @@
 <div class="col-lg-12" >
     <p class="noteAltNoImage">
 <strong>
-Enter the name only then Click "Search".  <br />
-If the email is found the nessary fields will populate.  <br />
-Click on the "Add Employee" button to add employee.<br />
+Enter the name only, then Click "Search."  <br />
+If the email is found, the necessary fields will populate.  <br />
+Click on the "Add Employee" button to add an employee.<br />
 Task Tracker Notifications (default) records will be added automatically.
 </strong>
 </p>
@@ -208,7 +208,7 @@ Task Tracker Notifications (default) records will be added automatically.
      <div class="row">
       
          <div class="col-lg-12">
-                    <asp:Label ID="EmailFound" Width="100%" runat="server" Text="Email found. Click the 'Add Employee' button to add." Visible="false" style="background-color:#0F8F14;color:white;text-align:center;font-size: 21px;"></asp:Label>
+                    <asp:Label ID="EmailFound" Width="100%" runat="server" Text="Click the 'Add Employee' button to add." Visible="false" style="background-color:#0F8F14;color:white;text-align:center;font-size: 21px;"></asp:Label>
                      <asp:Label ID="EmailNotFound" Width="100%" runat="server" Text="Email Not Found" Visible="false" style="background-color:#FF0000;color:white;text-align:center;font-size: 21px;"></asp:Label>
                      <asp:Label ID="EmailInactive" Width="100%" runat="server" Text="Email Is Inactive in Active Directory" Visible="false" style="background-color:#FFFF26;color:black;text-align:center;font-size: 21px;"></asp:Label>
                      <asp:Label ID="EmailInRI" Width="100%" runat="server" Text="Email Already In Database" Visible="false" style="background-color:#FFFF26;color:black;text-align:center;font-size: 21px;"></asp:Label>

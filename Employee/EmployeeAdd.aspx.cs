@@ -25,12 +25,13 @@ namespace GPI.RI.Admin.Employee
     public partial class EmployeeAdd : System.Web.UI.Page
     {
 
-        
-        
+        GPI.UserModel.NotificationProfile np = new GPI.UserModel.NotificationProfile();
         GPI.MILL.DataAccess.Oracle.RetrieveData da = new MILL.DataAccess.Oracle.RetrieveData();
+       
         RIUser riuser = new RIUser();
         string FoundSiteName = string.Empty;
         string FoundInActive = string.Empty;
+        string mySessionUserName = string.Empty;
 
         protected void Page_Init(object sender, EventArgs e)
         { 
@@ -47,6 +48,17 @@ namespace GPI.RI.Admin.Employee
 
         protected void Page_Load(object sender, EventArgs e)
         {
+
+            mySessionUserName = Session["UserName"] as string;
+            if (mySessionUserName == null)
+            {
+                //do an error or something
+            }
+
+
+            //test
+            //System.Data.DataSet ds = null;
+            //ds = GetRoleList();
 
 
             string mydefaultsiteName = System.Web.HttpContext.Current.Session["SiteName"].ToString();
@@ -97,48 +109,100 @@ namespace GPI.RI.Admin.Employee
 
         protected void LoadEmployees(string GetBySiteId, string GetByInActive)
         {
-            string Sql = null;
- 
-            StringBuilder SQLbuilder = new StringBuilder();
-            SQLbuilder.Append(" SELECT e.username, e.lastname, e.firstname, e.middleinit, e.email, e.extension, e.domain, UPPER(e.default_language) default_language, e.inactive_flag,");
-            SQLbuilder.Append(" CASE e.inactive_flag   WHEN 'N' then 'Yes'    WHEN 'Y' then 'No'   end newinactive_flag");
-            SQLbuilder.Append(" FROM refemployee e");
-            SQLbuilder.Append(" WHERE 1=1 and e.domain = 'NA' and e.siteid = '" + GetBySiteId + "'");
-            
-            if (GetByInActive == "B")
+
+
+            try
             {
-                // get only all records
-                 
-            }
-            else
-            {
-                //get only inactive records
-                SQLbuilder.Append(" and e.inactive_flag =  '" + GetByInActive + "'");
-
-            }
-
-            SQLbuilder.Append(" ORDER by e.lastname ");
-
-
-            Sql = SQLbuilder.ToString();
 
             OracleDataReader dr;
-            dr = da.GetOracleDataReader(Sql);
-            //Create a new DataTable.
-            DataTable dt = new DataTable();
-            //Load DataReader into the DataTable.
-            dt.Load(dr);
+
+                OracleParameterCollection paramCollection = new OracleParameterCollection();
+                OracleParameter param = new OracleParameter();
+                Boolean RecordsFound = true;
+                Boolean ReturnedRecords = true;
 
 
-            Session["EmployeeRecords"] = dt;
+                // ===================================================
+
+                // input
+                param = new OracleParameter();
+                param.ParameterName = "inSiteId";
+                param.OracleDbType = OracleDbType.VarChar;
+                param.Direction = System.Data.ParameterDirection.Input;
+                param.Value = GetBySiteId;
+                paramCollection.Add(param);
+
+                param = new OracleParameter();
+                param.ParameterName = "inactive_flag";
+                param.OracleDbType = OracleDbType.VarChar;
+                param.Direction = System.Data.ParameterDirection.Input;
+                param.Value = GetByInActive;
+                paramCollection.Add(param);
+
+                // output
+                param = new OracleParameter();
+                param.ParameterName = "EmployeeList";
+                param.OracleDbType = OracleDbType.Cursor;
+                param.Direction = System.Data.ParameterDirection.Output;
+                paramCollection.Add(param);
+
+                DataTable dt1 = new DataTable();
+                dt1 = da.GetDataTableFromPackage(paramCollection, "riuser.GetEmployeesBySiteStatus");
+                if (dt1 != null)
+                {
+                    Session["EmployeeRecords"] = dt1;
+                    RadGridEmployees.DataSource = dt1;
+                    RadGridEmployees.DataBind();
+                }
 
 
-            RadGridEmployees.DataSource = dt;
-            RadGridEmployees.DataBind();
-            //insert the first item
-            //DropDownSites.Items.Insert(0, new RadComboBoxItem("- Select a continent -"));
+            //    string Sql = null;
 
-            //RadAjaxManager1.FocusControl(DropDownSites);
+            //    StringBuilder SQLbuilder = new StringBuilder();
+            //    SQLbuilder.Append(" SELECT e.username, e.lastname, e.firstname, e.middleinit, e.email, e.extension, e.domain, UPPER(e.default_language) default_language, e.inactive_flag,");
+            //    SQLbuilder.Append(" CASE e.inactive_flag   WHEN 'N' then 'Yes'    WHEN 'Y' then 'No'   end newinactive_flag");
+            //    SQLbuilder.Append(" FROM refemployee e");
+            //    SQLbuilder.Append(" WHERE 1=1 and e.domain = 'NA' and e.siteid = '" + GetBySiteId + "'");
+
+            //    if (GetByInActive == "B")
+            //    {
+            //        // get only all records
+
+            //    }
+            //    else
+            //    {
+            //        //get only inactive records
+            //        SQLbuilder.Append(" and e.inactive_flag =  '" + GetByInActive + "'");
+
+            //    }
+
+            //    SQLbuilder.Append(" ORDER by e.lastname ");
+            //    Sql = SQLbuilder.ToString();
+            //    //OracleDataReader dr;
+            //    dr = da.GetOracleDataReader(Sql);
+
+
+
+            //    //Create a new DataTable.
+            //    DataTable dt = new DataTable();
+            ////Load DataReader into the DataTable.
+            //dt.Load(dr);
+            //Session["EmployeeRecords"] = dt;
+            //RadGridEmployees.DataSource = dt;
+            //RadGridEmployees.DataBind();
+                
+                //insert the first item
+                //DropDownSites.Items.Insert(0, new RadComboBoxItem("- Select a continent -"));
+
+                //RadAjaxManager1.FocusControl(DropDownSites);
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
         }
 
         protected void SetStatusLabels()
@@ -156,7 +220,6 @@ namespace GPI.RI.Admin.Employee
             SetStatusLabels();
             try
             {
-
 
             string myconnection;
             //string provider;
@@ -191,6 +254,9 @@ namespace GPI.RI.Admin.Employee
 
                    if (CheckStatus == "0")
                     {
+
+                        //go add task tracker notifications
+                        Boolean myreturn = AddTaskTrackerNotifications(TextBoxNetWorkID.Text, mySessionUserName);
                         ButtonAddEmployee.Enabled = false;
  
                         SuccessAdded.Visible = true;
@@ -232,8 +298,11 @@ namespace GPI.RI.Admin.Employee
                 param.Direction = System.Data.ParameterDirection.Output;
                 paramCollection.Add(param);
 
-                // ds = HelperDal.GetDSFromPackage(paramCollection, "mttviewGPI.MTTVIEWSimple")
-                //ds = HelperDal.GetDSFromPackage(paramCollection, "mttgeneraldata.getrolelist");
+                
+                ds = da.GetDataSetFromPackage(paramCollection, "mttgeneraldata.getrolelist");
+
+                //if (ds.Tables[0].Rows.Count == 0)
+                //{ do something; }
 
                 return ds;
             }
@@ -310,7 +379,6 @@ namespace GPI.RI.Admin.Employee
             if (FoundSiteName == "")
             {
 
-                
                 GPILDAP testldapemail = new GPILDAP();
                 GPI.User.Model.LdapUser _ldapuser = new GPI.User.Model.LdapUser();
                 string emailFound = EmailTextBox.Text + LabelLookUpAt.Text;
@@ -453,7 +521,16 @@ namespace GPI.RI.Admin.Employee
             RadGridEmployees.DataSource = Session["EmployeeRecords"];
         }
 
+        protected Boolean AddTaskTrackerNotifications(string in_ProfileUser,string in_username)
+        {
+            
+ 
+            string in_RepeatingData = "FUTURE|1|WEEKLY|1,FUTURE|7|1|1,FUTURE|10|NEXT 30 DAYS|1,ENTERED|1|DAILY|4,FUTURE|1|WEEKLY|4,FUTURE|7|2|4,FUTURE|10|NEXT 14 DAYS|4,FUTURE|1|WEEKLY|5,FUTURE|7|1|5,FUTURE|10|NEXT 30 DAYS|5";
 
+            Boolean myreturn = np.UpdateNotificationProfile(in_ProfileUser, in_RepeatingData, in_username);
+
+            return true;
+        }
 
         //Nothing below this line =======================================
     }
