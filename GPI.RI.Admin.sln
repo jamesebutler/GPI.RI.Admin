@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GPI.User.Model", "..\GPI.Us
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GPI.Error.Logging", "..\GPI.Error.Logging\GPI.Error.Logging.csproj", "{C51B41A5-3CFC-46D9-B9AA-E6FFF3E5AACB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GPI.MILL.RI.Class", "..\GPI.MILL.RI.Class\GPI.MILL.RI.Class.csproj", "{041C3A2D-AD83-4DC8-9D8C-55653F0EDC49}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{C51B41A5-3CFC-46D9-B9AA-E6FFF3E5AACB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C51B41A5-3CFC-46D9-B9AA-E6FFF3E5AACB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C51B41A5-3CFC-46D9-B9AA-E6FFF3E5AACB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{041C3A2D-AD83-4DC8-9D8C-55653F0EDC49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{041C3A2D-AD83-4DC8-9D8C-55653F0EDC49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{041C3A2D-AD83-4DC8-9D8C-55653F0EDC49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{041C3A2D-AD83-4DC8-9D8C-55653F0EDC49}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

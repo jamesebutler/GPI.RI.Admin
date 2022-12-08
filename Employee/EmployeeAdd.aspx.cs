@@ -17,6 +17,8 @@ using Devart.Data.Oracle;
 using GPI.MILL.DataAccess.Oracle;
 using GPI.MILL.Ldap;
 using GPI.User.Model;
+using GPI.MILL.RI.Class;
+
 
 
 
@@ -24,10 +26,13 @@ namespace GPI.RI.Admin.Employee
 {
     public partial class EmployeeAdd : System.Web.UI.Page
     {
-
-        GPI.UserModel.NotificationProfile np = new GPI.UserModel.NotificationProfile();
+     GPI.UserModel.NotificationProfile np = new GPI.UserModel.NotificationProfile();
         GPI.MILL.DataAccess.Oracle.RetrieveData da = new MILL.DataAccess.Oracle.RetrieveData();
-       
+
+        GPI.MILL.RI.Class.Sites riclass = new GPI.MILL.RI.Class.Sites();
+
+
+
         RIUser riuser = new RIUser();
         string FoundSiteName = string.Empty;
         string FoundInActive = string.Empty;
@@ -86,25 +91,19 @@ namespace GPI.RI.Admin.Employee
 
         protected void LoadSites()
         {
-            string Sql = null;
-            Sql = "select siteid,sitename from refsite where domain = 'NA' and inactive_flag = 'N' ORDER BY sitename";
 
-            OracleDataReader dr;
-            dr = da.GetOracleDataReader(Sql);
-            //Create a new DataTable.
-            DataTable dt = new DataTable();
-            //Load DataReader into the DataTable.
-            dt.Load(dr);
+            DataTable datatableSites = new DataTable();
+            datatableSites = riclass.GetReaderFacility();
 
 
             DropDownSites.DataTextField = "sitename";
             DropDownSites.DataValueField = "siteid";
-            DropDownSites.DataSource = dt;
+            DropDownSites.DataSource = datatableSites;
             DropDownSites.DataBind();
             //insert the first item
             //DropDownSites.Items.Insert(0, new RadComboBoxItem("- Select a continent -"));
 
-            //RadAjaxManager1.FocusControl(DropDownSites);
+
         }
 
         protected void LoadEmployees(string GetBySiteId, string GetByInActive)
@@ -114,87 +113,16 @@ namespace GPI.RI.Admin.Employee
             try
             {
 
-            OracleDataReader dr;
+                DataTable datatableEmployee = new DataTable();
+                datatableEmployee = riuser.GetAllEmployeeBySiteByActive(GetBySiteId, GetByInActive);
 
-                OracleParameterCollection paramCollection = new OracleParameterCollection();
-                OracleParameter param = new OracleParameter();
-                Boolean RecordsFound = true;
-                Boolean ReturnedRecords = true;
-
-
-                // ===================================================
-
-                // input
-                param = new OracleParameter();
-                param.ParameterName = "inSiteId";
-                param.OracleDbType = OracleDbType.VarChar;
-                param.Direction = System.Data.ParameterDirection.Input;
-                param.Value = GetBySiteId;
-                paramCollection.Add(param);
-
-                param = new OracleParameter();
-                param.ParameterName = "inactive_flag";
-                param.OracleDbType = OracleDbType.VarChar;
-                param.Direction = System.Data.ParameterDirection.Input;
-                param.Value = GetByInActive;
-                paramCollection.Add(param);
-
-                // output
-                param = new OracleParameter();
-                param.ParameterName = "EmployeeList";
-                param.OracleDbType = OracleDbType.Cursor;
-                param.Direction = System.Data.ParameterDirection.Output;
-                paramCollection.Add(param);
-
-                DataTable dt1 = new DataTable();
-                dt1 = da.GetDataTableFromPackage(paramCollection, "riuser.GetEmployeesBySiteStatus");
-                if (dt1 != null)
+              if (datatableEmployee != null)
                 {
-                    Session["EmployeeRecords"] = dt1;
-                    RadGridEmployees.DataSource = dt1;
+                    Session["EmployeeRecords"] = datatableEmployee;
+                    RadGridEmployees.DataSource = datatableEmployee;
                     RadGridEmployees.DataBind();
                 }
 
-
-            //    string Sql = null;
-
-            //    StringBuilder SQLbuilder = new StringBuilder();
-            //    SQLbuilder.Append(" SELECT e.username, e.lastname, e.firstname, e.middleinit, e.email, e.extension, e.domain, UPPER(e.default_language) default_language, e.inactive_flag,");
-            //    SQLbuilder.Append(" CASE e.inactive_flag   WHEN 'N' then 'Yes'    WHEN 'Y' then 'No'   end newinactive_flag");
-            //    SQLbuilder.Append(" FROM refemployee e");
-            //    SQLbuilder.Append(" WHERE 1=1 and e.domain = 'NA' and e.siteid = '" + GetBySiteId + "'");
-
-            //    if (GetByInActive == "B")
-            //    {
-            //        // get only all records
-
-            //    }
-            //    else
-            //    {
-            //        //get only inactive records
-            //        SQLbuilder.Append(" and e.inactive_flag =  '" + GetByInActive + "'");
-
-            //    }
-
-            //    SQLbuilder.Append(" ORDER by e.lastname ");
-            //    Sql = SQLbuilder.ToString();
-            //    //OracleDataReader dr;
-            //    dr = da.GetOracleDataReader(Sql);
-
-
-
-            //    //Create a new DataTable.
-            //    DataTable dt = new DataTable();
-            ////Load DataReader into the DataTable.
-            //dt.Load(dr);
-            //Session["EmployeeRecords"] = dt;
-            //RadGridEmployees.DataSource = dt;
-            //RadGridEmployees.DataBind();
-                
-                //insert the first item
-                //DropDownSites.Items.Insert(0, new RadComboBoxItem("- Select a continent -"));
-
-                //RadAjaxManager1.FocusControl(DropDownSites);
 
             }
             catch (Exception)
@@ -221,51 +149,37 @@ namespace GPI.RI.Admin.Employee
             try
             {
 
-            string myconnection;
-            //string provider;
+                RIUser newuser = new RIUser();
 
-            myconnection = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ConnectionString;
-                //provider = ConfigurationManager.ConnectionStrings["connectionRCFATST"].ProviderName;
+                newuser.Domain = TextBoxDomain.Text;
+                newuser.FirstName = TextBoxFirstName.Text;
+                newuser.LastName = TextBoxLastName.Text;
+                newuser.Email = TextBoxEmailAddress.Text;
+                newuser.Extension = TextBoxPhoneNumber.Text;
+                newuser.InactiveFlag = "N";
+                newuser.DefaultLanguage = "EN-US";
+                newuser.SiteID = DropDownSites.SelectedValue;
+                newuser.SignatureFile = "";
+                newuser.UserName = TextBoxNetWorkID.Text;
+                newuser.MiddleInit = TextBoxMidInit.Text;
+                newuser.LastUpdateUserName = "JAMES.BUTLER";
 
-     
-            using (OracleConnection connection = new OracleConnection(myconnection))
+               Boolean CheckStatus = riuser.AddEmployee(newuser);
 
-            using (OracleCommand command = new OracleCommand("sp_Employee_Insert", connection))
-            {
-                command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.Add("inDomain", OracleDbType.VarChar).Value = TextBoxDomain.Text;
-                    command.Parameters.Add("inFirstname", OracleDbType.VarChar).Value = TextBoxFirstName.Text;
-                    command.Parameters.Add("inLastname", OracleDbType.VarChar).Value = TextBoxLastName.Text;
-                    command.Parameters.Add("inEmail", OracleDbType.VarChar).Value = TextBoxEmailAddress.Text;
-                    command.Parameters.Add("inExtension", OracleDbType.VarChar).Value = TextBoxPhoneNumber.Text;
-                    command.Parameters.Add("in_inactive_flag", OracleDbType.VarChar).Value = "N";
-                    command.Parameters.Add("inDefault_language", OracleDbType.VarChar).Value = "EN-US";
-                    command.Parameters.Add("inSiteid", OracleDbType.VarChar).Value = DropDownSites.SelectedValue;
-                    command.Parameters.Add("inSignaturefile", OracleDbType.VarChar).Value = "";
-                    command.Parameters.Add("inUsername", OracleDbType.VarChar).Value = TextBoxNetWorkID.Text;
-                    command.Parameters.Add("inMiddleinit", OracleDbType.VarChar).Value = TextBoxMidInit.Text;
-                    command.Parameters.Add("inUpdateUserName", OracleDbType.VarChar).Value = "james.butler";
-                    command.Parameters.Add("out_status", OracleDbType.VarChar).Value = "";
-                    command.Parameters["out_status"].Direction = ParameterDirection.Output;
-                connection.Open();
-                command.ExecuteNonQuery();
-                string CheckStatus = command.Parameters["out_status"].Value.ToString();
-                //string SomeOutVar1 = command.Parameters["another_status"].Value.ToString();
+                if (CheckStatus)
+                {
 
-                   if (CheckStatus == "0")
-                    {
+                    //go add task tracker notifications
+                    Boolean myreturn = AddTaskTrackerNotifications(TextBoxNetWorkID.Text, mySessionUserName);
+                    ButtonAddEmployee.Enabled = false;
 
-                        //go add task tracker notifications
-                        Boolean myreturn = AddTaskTrackerNotifications(TextBoxNetWorkID.Text, mySessionUserName);
-                        ButtonAddEmployee.Enabled = false;
- 
-                        SuccessAdded.Visible = true;
-                        LoadEmployees(DropDownSites.SelectedValue,RadioButtonShowEmployees.SelectedValue);
-                    }
-                    
+                    SuccessAdded.Visible = true;
+                    LoadEmployees(DropDownSites.SelectedValue, RadioButtonShowEmployees.SelectedValue);
+                }
+                else
+                {
 
                 }
-
 
             }
 

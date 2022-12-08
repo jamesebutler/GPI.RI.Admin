@@ -50,6 +50,9 @@
     <Reference Include="Devart.Data.Oracle">
       <HintPath>..\..\..\..\..\RI dlls\Devart.Data.Oracle.dll</HintPath>
     </Reference>
+    <Reference Include="GPI.MILL.RI.Class">
+      <HintPath>..\GPI.MILL.RI.Class\bin\Debug\GPI.MILL.RI.Class.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -727,7 +730,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
+      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
     </VisualStudio>
   </ProjectExtensions>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
