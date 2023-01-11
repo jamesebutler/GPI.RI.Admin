@@ -7,11 +7,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace GPI.RI.Admin.MOC
+namespace GPI.RI.Admin.Employee
 {
 
 
-    public partial class RINotificationMaintenance
+    public partial class EmployeeStaus
     {
 
         /// <summary>
@@ -42,220 +42,139 @@ namespace GPI.RI.Admin.MOC
         protected global::Telerik.Web.UI.RadAjaxManager RadAjaxManager1;
 
         /// <summary>
-        /// LabelFacility control.
+        /// RadAjaxManagerProxy1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LabelFacility;
+        protected global::Telerik.Web.UI.RadAjaxManagerProxy RadAjaxManagerProxy1;
 
         /// <summary>
-        /// DropDownSites control.
+        /// LabelSetStatus control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Telerik.Web.UI.RadComboBox DropDownSites;
+        protected global::System.Web.UI.WebControls.Label LabelSetStatus;
 
         /// <summary>
-        /// LabelBusinessUnit control.
+        /// RadioButtonShowEmployees control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LabelBusinessUnit;
+        protected global::Telerik.Web.UI.RadRadioButtonList RadioButtonShowEmployees;
 
         /// <summary>
-        /// DropDownBusinessUnit control.
+        /// LabelEmployee control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Telerik.Web.UI.RadComboBox DropDownBusinessUnit;
+        protected global::System.Web.UI.WebControls.Label LabelEmployee;
 
         /// <summary>
-        /// LabelArea control.
+        /// LabelUpdateStatusTo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LabelArea;
+        protected global::System.Web.UI.WebControls.Label LabelUpdateStatusTo;
 
         /// <summary>
-        /// DropDownArea control.
+        /// DropDownEmployees control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Telerik.Web.UI.RadComboBox DropDownArea;
+        protected global::Telerik.Web.UI.RadComboBox DropDownEmployees;
 
         /// <summary>
-        /// LabelLineSystem control.
+        /// LabelSetStatusActive control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LabelLineSystem;
+        protected global::System.Web.UI.WebControls.Label LabelSetStatusActive;
 
         /// <summary>
-        /// DropDownLineSystemType control.
+        /// LabelSetStatusInActive control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Telerik.Web.UI.RadComboBox DropDownLineSystemType;
+        protected global::System.Web.UI.WebControls.Label LabelSetStatusInActive;
 
         /// <summary>
-        /// LabelIncludeAll control.
+        /// ButtonUpdate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LabelIncludeAll;
+        protected global::Telerik.Web.UI.RadButton ButtonUpdate;
 
         /// <summary>
-        /// RadCheckBoxIncludeAll control.
+        /// SuccessStatus control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Telerik.Web.UI.RadCheckBox RadCheckBoxIncludeAll;
+        protected global::System.Web.UI.WebControls.Label SuccessStatus;
 
         /// <summary>
-        /// LabelblankforAlignmnet control.
+        /// FailureAdded control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LabelblankforAlignmnet;
+        protected global::System.Web.UI.WebControls.Label FailureAdded;
 
         /// <summary>
-        /// ButtonShowAssignments control.
+        /// panelEmployeeHasTask control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Telerik.Web.UI.RadButton ButtonShowAssignments;
+        protected global::Telerik.Web.UI.RadAjaxPanel panelEmployeeHasTask;
 
         /// <summary>
-        /// LabelShowAssignments control.
+        /// LabelEmployeeTask control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LabelShowAssignments;
+        protected global::System.Web.UI.WebControls.Label LabelEmployeeTask;
 
         /// <summary>
-        /// RadGridEmployees control.
+        /// DropDownTaskToEmployee control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Telerik.Web.UI.RadGrid RadGridEmployees;
+        protected global::Telerik.Web.UI.RadComboBox DropDownTaskToEmployee;
 
         /// <summary>
-        /// LabelError control.
+        /// LabelTasks control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LabelError;
-
-        /// <summary>
-        /// LabelSuccess control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LabelSuccess;
-
-        /// <summary>
-        /// NotificationMaintenanceContainer control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl NotificationMaintenanceContainer;
-
-        /// <summary>
-        /// RadListBoxSource control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Telerik.Web.UI.RadListBox RadListBoxSource;
-
-        /// <summary>
-        /// RadListBoxDestination control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Telerik.Web.UI.RadListBox RadListBoxDestination;
-
-        /// <summary>
-        /// ButtonSaveAssignments control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Telerik.Web.UI.RadButton ButtonSaveAssignments;
-
-        /// <summary>
-        /// alertmessage control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl alertmessage;
-
-        /// <summary>
-        /// LabelMissingText control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LabelMissingText;
-
-        /// <summary>
-        /// LoadingRecords control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl LoadingRecords;
-
-        /// <summary>
-        /// ImageLoading control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Image ImageLoading;
+        protected global::System.Web.UI.WebControls.Label LabelTasks;
 
         /// <summary>
         /// LoadingPanel1 control.
@@ -265,5 +184,19 @@ namespace GPI.RI.Admin.MOC
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Telerik.Web.UI.RadAjaxLoadingPanel LoadingPanel1;
+
+        /// <summary>
+        /// Master property.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated property.
+        /// </remarks>
+        public new GPI.RI.Admin.SiteMaster Master
+        {
+            get
+            {
+                return ((GPI.RI.Admin.SiteMaster)(base.Master));
+            }
+        }
     }
 }

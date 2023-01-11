@@ -1,4 +1,5 @@
-﻿<%@ Page Title="Add Employee" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" 
+﻿<%@ Page Title="Add Employee" Language="C#" MasterPageFile="~/Site.Master" 
+    AutoEventWireup="true" 
     CodeBehind="EmployeeAdd.aspx.cs" Inherits="GPI.RI.Admin.Employee.EmployeeAdd" %>
 
 <%@ MasterType VirtualPath="~/Site.Master" %>
@@ -126,6 +127,14 @@
 </div>
 
 
+        <div class="row"> 
+    <div class="col-lg-12">
+            <h3><asp:Label ID="LabelAddMill" runat="server" Text="dd" ></asp:Label></h3>
+     
+    </div>
+    </div>
+
+
     <div class="row">
 <div class="col-lg-12" >
     <p class="noteAltNoImage">
@@ -141,12 +150,7 @@ Task Tracker Notifications (default) records will be added automatically.
     </div>
 
 
-    <div class="row"> 
-    <div class="col-lg-12">
-            <h3><asp:Label ID="LabelAddMill" runat="server" Text="dd" ></asp:Label></h3>
-     
-    </div>
-    </div>
+
  
 
 

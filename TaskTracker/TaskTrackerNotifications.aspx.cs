@@ -13,6 +13,7 @@ using GPI.MILL.Ldap;
 using GPI.User.Model;
 using System.Text;
 using GPI.UserModel;
+using System.Diagnostics;
 
 namespace GPI.RI.Admin.TaskTracker
 {
@@ -52,6 +53,7 @@ namespace GPI.RI.Admin.TaskTracker
 
             if (!IsPostBack)
             {
+               _cbOptOut.Checked = false;
                 LoadEmployees();
                 PopulateDaysOfWeek();
                 PopulateMonthOrdinals();
@@ -191,6 +193,11 @@ namespace GPI.RI.Admin.TaskTracker
 
         protected void DropDownEmployees_SelectedIndexChanged(object o, Telerik.Web.UI.RadComboBoxSelectedIndexChangedEventArgs e)
         {
+
+            SuccessAdded.Visible = false;
+            FailureUpdate.Visible = false;
+
+            _cbOptOut.Checked = false;
             string WhatWasSelected = DropDownEmployees.SelectedValue;
             LoadUserDefaults(WhatWasSelected);
 
@@ -375,6 +382,9 @@ namespace GPI.RI.Admin.TaskTracker
         protected void ButtonSave_Click(object sender, EventArgs e)
         {
 
+            SuccessAdded.Visible = false;
+            FailureUpdate.Visible = false;
+
            
             try
             {
@@ -392,8 +402,18 @@ namespace GPI.RI.Admin.TaskTracker
                     in_RepeatingData = in_RepeatingData.Remove(in_RepeatingData.Length - 1, 1); 
                 }
 
-             Boolean myreturn =  np.UpdateNotificationProfile("JAMES.BUTLER", in_RepeatingData, "JAMES.BUTLER");
-               
+             Boolean myreturn =  np.UpdateNotificationProfile(DropDownEmployees.SelectedValue, in_RepeatingData, "JAMES.BUTLER");
+
+                
+                if (myreturn == true)
+                {
+                    SuccessAdded.Visible = true;
+                }
+                else
+                {
+                    FailureUpdate.Visible = true;
+                }
+
             }
 
             catch (Exception ex)
@@ -408,7 +428,53 @@ namespace GPI.RI.Admin.TaskTracker
         protected void SaveUserDefaults(string mySessionUserName)
         {
 
+            
+            System.Text.StringBuilder isCreator = new System.Text.StringBuilder();
+            System.Text.StringBuilder isBusinessUnitManager = new System.Text.StringBuilder();
+            System.Text.StringBuilder isResponsible = new System.Text.StringBuilder();
 
+            //Creator
+            if (_cbOptOut.Checked == false)
+
+
+            {
+
+                //FUTURE
+                if (_rbEveryDay.Checked)
+                {
+                    isCreator.Append("FUTURE|1|DAILY|5");
+                    // newProfile.Add(New NotificationProfile("Creator", roleID, "FUTURE", recurrencePatternProfileTypeSeqID, "DAILY", "RecurrencePattern"))
+
+                }
+                else if (_rbEveryWeek.Checked)
+                {
+
+                    isCreator.Append("FUTURE|1|WEEKLY|5");
+
+                    //DAY OF WEEK
+                    isCreator.Append("FUTURE|7|" + _ddlDayOfWeek.SelectedValue + "|5");
+                }
+                else if (_rblEveryMonth.Checked)
+                {
+
+
+                    isCreator.Append("FUTURE|1|MONTHLY|5");
+                    //SPECIFICDAY
+                    isCreator.Append("FUTURE|5|" + _ddlOrdinalMonth.SelectedValue + "|5");
+                }
+ 
+                    //DATERANGE
+                    isCreator.Append("FUTURE|10|" + _rblFutureNotificationPeriod.SelectedValue + "|5");
+                    
+
+            }
+
+            else
+            {
+                isCreator.Append("FUTURE|10|NO EMAIL|5");
+            }
+
+            Debug.WriteLine(isCreator);
 
 
         }
@@ -433,6 +499,11 @@ namespace GPI.RI.Admin.TaskTracker
                         switch (p.ProfileTypeSeqId)
                         {
                             case "1":
+
+                                _rblManagerEveryMonth.Checked = false;
+                                _rbManagerEveryWeek.Checked = false;
+                                _rbManagerEveryDay.Checked = false;
+
                                 if (p.ProfileTypeValue == "MONTHLY")
                                 { _rblManagerEveryMonth.Checked = true; }
                                 if (p.ProfileTypeValue == "WEEKLY")
@@ -459,6 +530,13 @@ namespace GPI.RI.Admin.TaskTracker
                                 break;
 
                             case "10":
+
+                                _rblManagerFutureNotificationPeriod.Items[0].Selected = false; 
+                                _rblManagerFutureNotificationPeriod.Items[1].Selected = false; 
+                                _rblManagerFutureNotificationPeriod.Items[2].Selected = false; 
+                                _rblManagerFutureNotificationPeriod.Items[3].Selected = false; 
+                                _rblManagerFutureNotificationPeriod.Items[4].Selected = false; 
+
                                 if (p.ProfileTypeValue == "ALL")
                                 { _rblManagerFutureNotificationPeriod.Items[0].Selected = true; }
                                 if (p.ProfileTypeValue == "NEXT 7 DAYS")
@@ -483,7 +561,9 @@ namespace GPI.RI.Admin.TaskTracker
                         {
                             case "ENTERED":
 
-                                
+                                _rbEnteredNotifImmediately.Checked = false;
+                                _rbEnteredNotifEveryDay.Checked = false;
+
                                 if (p.ProfileTypeValue == "IMMEDIATE")
                                 { _rbEnteredNotifImmediately.Checked = true; }
                                 if (p.ProfileTypeValue == "DAILY")
@@ -498,6 +578,9 @@ namespace GPI.RI.Admin.TaskTracker
                                 switch (p.ProfileTypeSeqId)
                                 {
                                     case "1":
+                                        _rbResponsiblePersonEveryWeek.Checked = false;
+                                        _rbResponsiblePersonEveryDay.Checked = false;
+
                                         if (p.ProfileTypeValue == "WEEKLY")
                                         { _rbResponsiblePersonEveryWeek.Checked = true; }
                                         if (p.ProfileTypeValue == "DAILY")
@@ -513,6 +596,15 @@ namespace GPI.RI.Admin.TaskTracker
                                         break;
 
                                     case "10":
+
+                                        _rblResponsiblePersonFutureNotificationPeriod.Items[0].Selected = false;
+                                        _rblResponsiblePersonFutureNotificationPeriod.Items[1].Selected = false;
+                                        _rblResponsiblePersonFutureNotificationPeriod.Items[2].Selected = false;
+                                        _rblResponsiblePersonFutureNotificationPeriod.Items[3].Selected = false;
+                                        _rblResponsiblePersonFutureNotificationPeriod.Items[4].Selected = false;
+
+
+
                                         if (p.ProfileTypeValue == "ALL")
                                         { _rblResponsiblePersonFutureNotificationPeriod.Items[0].Selected = true; }
                                         if (p.ProfileTypeValue == "NEXT 7 DAYS")
@@ -538,6 +630,12 @@ namespace GPI.RI.Admin.TaskTracker
                         switch (p.ProfileTypeSeqId)
                         { 
                             case "1":
+
+                                _rblEveryMonth.Checked = false;
+                                _rbEveryWeek.Checked = false;
+                                _rbEveryDay.Checked = false;
+
+
                                 if (p.ProfileTypeValue == "MONTHLY")
                                 { _rblEveryMonth.Checked = true; }
                                 if (p.ProfileTypeValue == "WEEKLY")
@@ -565,6 +663,14 @@ namespace GPI.RI.Admin.TaskTracker
                                 break;
 
                             case "10":
+
+                                _rblFutureNotificationPeriod.Items[0].Selected = false;
+                                _rblFutureNotificationPeriod.Items[1].Selected = false;
+                                _rblFutureNotificationPeriod.Items[2].Selected = false;
+                                _rblFutureNotificationPeriod.Items[3].Selected = false;
+                                _rblFutureNotificationPeriod.Items[4].Selected = false;
+
+
                                 if (p.ProfileTypeValue == "ALL")
                                 { _rblFutureNotificationPeriod.Items[0].Selected = true; }
                                 if (p.ProfileTypeValue == "NEXT 7 DAYS")

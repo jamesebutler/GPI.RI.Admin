@@ -1,8 +1,12 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="EmployeeTransfer.aspx.cs" Inherits="GPI.RI.Admin.Employee.EmployeeTransfer" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" 
+    AutoEventWireup="true" CodeBehind="EmployeeStatus.aspx.cs" 
+    Inherits="GPI.RI.Admin.Employee.EmployeeStaus" %>
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
  
+    <%@ MasterType VirtualPath="~/Site.Master" %>
 
-    <style type="text/css">
+
+<style type="text/css">
         </style>
 
 
@@ -27,19 +31,31 @@
 
           
 
+              <telerik:AjaxSetting AjaxControlID="RadioButtonShowEmployees">
+                    <UpdatedControls>
+                        
+                          <telerik:AjaxUpdatedControl ControlID="panelEmployeeHasTask" ></telerik:AjaxUpdatedControl>
+
+                  <%--   <telerik:AjaxUpdatedControl ControlID="ButtonUpdate"></telerik:AjaxUpdatedControl>
+                   --%>
+        
+
+                    </UpdatedControls>
+             </telerik:AjaxSetting>
+
 
        <telerik:AjaxSetting AjaxControlID="DropDownTaskToEmployee">
                     <UpdatedControls>
-                         <telerik:AjaxUpdatedControl ControlID="ButtonTransfer" ></telerik:AjaxUpdatedControl>
+                         <telerik:AjaxUpdatedControl ControlID="ButtonUpdate" ></telerik:AjaxUpdatedControl>
                     
                     </UpdatedControls>
              </telerik:AjaxSetting>
 
         <telerik:AjaxSetting AjaxControlID="DropDownEmployees">
                     <UpdatedControls>
-                         <telerik:AjaxUpdatedControl ControlID="panelEmployeeHasTask" ></telerik:AjaxUpdatedControl>
-                           <telerik:AjaxUpdatedControl ControlID="ButtonTransfer" LoadingPanelID="LoadingPanel1"></telerik:AjaxUpdatedControl>
-                    <telerik:AjaxUpdatedControl ControlID="DropDownTaskToEmployee" LoadingPanelID="LoadingPanel1"></telerik:AjaxUpdatedControl>
+                        <telerik:AjaxUpdatedControl ControlID="panelEmployeeHasTask" ></telerik:AjaxUpdatedControl>
+                        <telerik:AjaxUpdatedControl ControlID="ButtonUpdate" LoadingPanelID="LoadingPanel1"></telerik:AjaxUpdatedControl>
+                        <telerik:AjaxUpdatedControl ControlID="DropDownTaskToEmployee" LoadingPanelID="LoadingPanel1"></telerik:AjaxUpdatedControl>
                    
                     </UpdatedControls>
              </telerik:AjaxSetting>
@@ -54,14 +70,14 @@
         
                 <AjaxSettings>
 
-                                  <telerik:AjaxSetting AjaxControlID="ButtonTransfer">
+                    <telerik:AjaxSetting AjaxControlID="ButtonUpdate">
                     <UpdatedControls>
-                        <telerik:AjaxUpdatedControl ControlID="SuccessAdded" ></telerik:AjaxUpdatedControl>
+                        <telerik:AjaxUpdatedControl ControlID="SuccessStatus" ></telerik:AjaxUpdatedControl>
                         <telerik:AjaxUpdatedControl ControlID="FailureAdded" ></telerik:AjaxUpdatedControl>
      
-                        <telerik:AjaxUpdatedControl ControlID="ButtonTransfer" LoadingPanelID="LoadingPanel1"></telerik:AjaxUpdatedControl>
+                        <telerik:AjaxUpdatedControl ControlID="ButtonUpdate" LoadingPanelID="LoadingPanel1"></telerik:AjaxUpdatedControl>
                    <telerik:AjaxUpdatedControl ControlID="DropDownTaskToEmployee" ></telerik:AjaxUpdatedControl>
-                    <telerik:AjaxUpdatedControl ControlID="DropDownEmployees" ></telerik:AjaxUpdatedControl>
+                    <telerik:AjaxUpdatedControl ControlID="DropDownEmployees" LoadingPanelID="LoadingPanel1" ></telerik:AjaxUpdatedControl>
                      <telerik:AjaxUpdatedControl ControlID="panelEmployeeHasTask" ></telerik:AjaxUpdatedControl>
                     
                         
@@ -93,26 +109,26 @@
                     <div class="col-lg-1" >test11</div>
                     <div class="col-lg-1" >test12</div>
                 </div>--%>
-        <div class="row"> 
-            <div class="col-lg-12">
-                <h3><asp:Label ID="LabelFromMill" runat="server" Text="dd" ></asp:Label></h3>
-            </div>
-    </div>
+
 
         <div class="row row-no-gutters">
     <div class="col-lg-12" >
             <p class="noteAltNoImage">
             <strong>
-            Select the Employee to transfer.  <br />
+            Select the Employee to update the status. The status of the employee is indicated.  <br />
             If the employee has any open tasks, assign tasks to another Mill employee.  <br />
-            Select the Mill to transfer to and Click "Transfer." 
+            Click "Update" 
             </strong>
             </p>
     </div>
     </div>
 
 
-
+    <div class="row"> 
+            <div class="col-lg-12">
+                <h3><asp:Label ID="LabelSetStatus" runat="server" Text="Set Status of Employee" ></asp:Label></h3>
+            </div>
+    </div>
  
 
 
@@ -123,18 +139,31 @@
       </p>--%>
 
 
-
+             <div class="row">
+         <div class="pull-left">
+            <div class="col-lg-12 pull-right">
+                   <telerik:RadRadioButtonList runat="server" ID="RadioButtonShowEmployees" Direction="Horizontal" OnSelectedIndexChanged="RadioButtonShowEmployees_SelectedIndexChanged" >
+                    <Items>
+                        <telerik:ButtonListItem Text="Select Active Users" Selected="true" Value="N" />
+                        <telerik:ButtonListItem Text="Select InActive Users" Value="Y" />
+                
+                    </Items>
+                </telerik:RadRadioButtonList>
+                </div>
+             </div>
+             </div>
+    <br />
 
 
     <div class="row row-no-gutters"> 
 
-                    <div class="col-lg-2">
-                        <asp:Label ID="LabelEmployee" runat="server" AssociatedControlID="DropDownEmployees">Employee:</asp:Label>
+                    <div class="col-lg-3">
+                        <asp:Label ID="LabelEmployee" runat="server" >Employee:</asp:Label>
                     </div>
                     <div class="col-lg-2">
-                        <asp:Label ID="LabelFacility" runat="server"  Text="To Facility:" AssociatedControlID="DropDownSites"></asp:Label>
+                        <asp:Label ID="LabelUpdateStatusTo" runat="server"  Text="Update Status To:" ></asp:Label>
                     </div>
-                    <div class="col-lg-8"></div>
+                    <div class="col-lg-7"></div>
 
     </div>
 
@@ -142,7 +171,7 @@
     <div class="row row-no-gutters"> 
 
 
-                    <div class="col-lg-2">
+                    <div class="col-lg-3">
                         <telerik:RadComboBox RenderMode="Lightweight" 
                         runat="server"
                         IsTextSearchEnabled="True"
@@ -152,7 +181,7 @@
                         MarkFirstMatch="true"
                         ID="DropDownEmployees"
                         Skin="Silk"
-                        TabIndex="1" Width="170" 
+                        TabIndex="1" Width="250" 
                         OnSelectedIndexChanged="DropDownEmployees_SelectedIndexChanged"
                         DropDownWidth="170"
                         EnableLoadOnDemand="true"
@@ -166,25 +195,18 @@
 
 
                     <div class="col-lg-2">
-                        <telerik:RadComboBox RenderMode="Lightweight" 
-                        runat="server"
-                        ID="DropDownSites"
-                        Skin="Silk"
-                        TabIndex="1" Width="150" 
-                        DropDownWidth="150"
-                        EnableLoadOnDemand="true"
-                        AllowCustomText="false" 
-                        AutoPostBack="true">
-                    </telerik:RadComboBox>
+                        
+                    <asp:Label ID="LabelSetStatusActive" runat="server" Visible="false" Font-Bold="true"  Text="Active"  ></asp:Label>
+                    <asp:Label ID="LabelSetStatusInActive" runat="server"    Text="InActive" Font-Bold="true"  ForeColor="Red" ></asp:Label>
             
                     </div>
 
                      <div class="col-lg-2" >
-                         <telerik:RadButton ID="ButtonTransfer" Enabled="false" OnClick="ButtonTransfer_Click" Skin="Black" runat="server"  Text="Transfer">
-                        <Icon PrimaryIconCssClass="rbNext" />
+                         <telerik:RadButton ID="ButtonUpdate" Enabled="false" OnClick="ButtonUpdate_Click" Skin="Black" runat="server"  Text="Update">
+                        <Icon PrimaryIconCssClass="rbSave" />
                         </telerik:RadButton> 
                     </div>
-                    <div class="col-lg-6"></div>
+                    <div class="col-lg-5"></div>
 
 
     </div>
@@ -195,8 +217,8 @@
 
     <div class="row">
                     <div class="col-lg-12" > 
-                        <asp:Label ID="SuccessAdded" Width="100%" runat="server" Text="Employee Transfered" Visible="false" style="background-color:#0F8F14;color:white;text-align:center;font-size: 21px;"></asp:Label>
-                        <asp:Label ID="FailureAdded" Width="100%" runat="server" Text="Failed To Transfer" Visible="false" style="background-color:#FF0000;color:white;text-align:center;font-size: 21px;"></asp:Label>
+                        <asp:Label ID="SuccessStatus" Width="100%" runat="server" Text="Employee Status Updated" Visible="false" style="background-color:#0F8F14;color:white;text-align:center;font-size: 21px;"></asp:Label>
+                        <asp:Label ID="FailureAdded" Width="100%" runat="server" Text="Failed To Update Status" Visible="false" style="background-color:#FF0000;color:white;text-align:center;font-size: 21px;"></asp:Label>
                          </div>
     </div>
 
@@ -281,5 +303,10 @@
 
 </div>
 </telerik:RadAjaxPanel>
+
+
+
+
+
 
 </asp:Content>

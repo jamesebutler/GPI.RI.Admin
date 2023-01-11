@@ -34,7 +34,7 @@
     <form runat="server"  style="width:100%;">
 
 
-            <telerik:RadScriptManager ID="RadScriptManager1" runat="server">
+<telerik:RadScriptManager ID="RadScriptManager1" runat="server">
  
        <%-- <asp:ScriptManager runat="server">--%>
             <Scripts>

@@ -423,9 +423,11 @@
     <Content Include="Content\Site.css" />
     <Content Include="Default.aspx" />
     <Content Include="Employee\EmployeeAdd.aspx" />
-    <Content Include="Employee\EmployeeDelete.aspx" />
+    <Content Include="Employee\EmployeeStatus.aspx" />
     <Content Include="Employee\EmployeeNotifications.aspx" />
     <Content Include="Employee\EmployeeRoles.aspx" />
+    <Content Include="Employee\EmployeeStatusToActive.aspx" />
+    <Content Include="Employee\EmployeeStatusToInactive.aspx" />
     <Content Include="Employee\EmployeeTransfer.aspx" />
     <Content Include="ErrorPage.aspx" />
     <Content Include="ErrorTesting.html" />
@@ -460,7 +462,15 @@
     <Content Include="App_Themes\RIYellow\Default.css.old" />
     <Content Include="App_Themes\RIYellow\Master.skin" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="images\AddRecord.gif" />
+    <Content Include="images\AddRecord.png" />
+    <Content Include="images\Cancel.png" />
+    <Content Include="images\Delete.gif" />
+    <Content Include="images\Delete.png" />
+    <Content Include="images\Edit.gif" />
+    <Content Include="images\Edit.png" />
     <Content Include="images\found.png" />
+    <Content Include="images\Insert.gif" />
     <Content Include="images\loading.gif" />
     <Content Include="images\loading1.gif" />
     <Content Include="images\loading2.gif" />
@@ -471,7 +481,11 @@
     <Content Include="images\loading7.gif" />
     <Content Include="images\LogoOnly.PNG" />
     <Content Include="images\note.PNG" />
+    <Content Include="images\NoteCircle.PNG" />
     <Content Include="images\notfound.png" />
+    <Content Include="images\Refresh.gif" />
+    <Content Include="images\Refresh.png" />
+    <Content Include="images\Update.png" />
     <Content Include="LoginError.aspx" />
     <Content Include="Menu\Data\AdminMenu.xml" />
     <Content Include="Menu\Data\Menu - Copy.xml" />
@@ -481,6 +495,7 @@
     <Content Include="RILogin.aspx" />
     <Content Include="RI\NotificationMaintenance.js" />
     <Content Include="RI\RINotificationMaintenance.aspx" />
+    <Content Include="RI\RINotificationMaintenance.txt" />
     <Content Include="RI\RINotificationMaintenanceBackup.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -513,6 +528,7 @@
     <Content Include="Site.Master" />
     <Content Include="styles\Default.css" />
     <Content Include="styles\Notes.css" />
+    <Content Include="TaskTracker\NotificationsScriptsforTesting.txt" />
     <Content Include="TaskTracker\TaskTrackerNotifications.aspx" />
     <Content Include="UnderStandingAjaxControls.aspx" />
     <Content Include="UserControls\NotificationFrequency.ascx" />
@@ -563,12 +579,12 @@
     <Compile Include="Employee\EmployeeAdd.aspx.designer.cs">
       <DependentUpon>EmployeeAdd.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Employee\EmployeeDelete.aspx.cs">
-      <DependentUpon>EmployeeDelete.aspx</DependentUpon>
+    <Compile Include="Employee\EmployeeStatus.aspx.cs">
+      <DependentUpon>EmployeeStatus.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Employee\EmployeeDelete.aspx.designer.cs">
-      <DependentUpon>EmployeeDelete.aspx</DependentUpon>
+    <Compile Include="Employee\EmployeeStatus.aspx.designer.cs">
+      <DependentUpon>EmployeeStatus.aspx</DependentUpon>
     </Compile>
     <Compile Include="Employee\EmployeeNotifications.aspx.cs">
       <DependentUpon>EmployeeNotifications.aspx</DependentUpon>
@@ -583,6 +599,20 @@
     </Compile>
     <Compile Include="Employee\EmployeeRoles.aspx.designer.cs">
       <DependentUpon>EmployeeRoles.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Employee\EmployeeStatusToActive.aspx.cs">
+      <DependentUpon>EmployeeStatusToActive.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Employee\EmployeeStatusToActive.aspx.designer.cs">
+      <DependentUpon>EmployeeStatusToActive.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Employee\EmployeeStatusToInactive.aspx.cs">
+      <DependentUpon>EmployeeStatusToInactive.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Employee\EmployeeStatusToInactive.aspx.designer.cs">
+      <DependentUpon>EmployeeStatusToInactive.aspx</DependentUpon>
     </Compile>
     <Compile Include="Employee\EmployeeTransfer.aspx.cs">
       <DependentUpon>EmployeeTransfer.aspx</DependentUpon>
@@ -660,6 +690,7 @@
     </Compile>
     <Compile Include="UserControls\NotificationFrequency.ascx.cs">
       <DependentUpon>NotificationFrequency.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="UserControls\NotificationFrequency.ascx.designer.cs">
       <DependentUpon>NotificationFrequency.ascx</DependentUpon>
@@ -730,7 +761,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
+      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
     </VisualStudio>
   </ProjectExtensions>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

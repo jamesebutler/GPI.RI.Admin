@@ -7,17 +7,19 @@
 		
 		<Item Text="Employee" AccessKey="U"  >
 			<Group>
-			<Item Text="Add Employee"   Href="~/Employee/EmployeeAdd.aspx" />
-			<Item Text="Transfer Employee"   Href="~/Employee/EmployeeTransfer.aspx" />	
-				
-		</Group>
+			<Item Text="Add"   Href="~/Employee/EmployeeAdd.aspx" />
+				<Item Text="Set Active"   Href="~/Employee/EmployeeStatusToActive.aspx" />	
+			<Item Text="Set Inactive"   Href="~/Employee/EmployeeStatusToInactive.aspx" />	
+				<Item Text="Transfer"   Href="~/Employee/EmployeeTransfer.aspx" />
+		
+			</Group>
 		</Item>	
 		
 
 
 		<Item Text="RI" AccessKey="H"  Href="">
 			<Group>
-				<Item Text="Analysis Leaders" Href="~/RI/RINotificationMaintenance.aspx" />
+				<Item Text="RI Notification" Href="~/RI/RINotificationMaintenance.aspx" />
 				<!--<Item Text="Impersonate User" AccessKey="I"  Href="~/Admin/ImpersonateUser.aspx" />
 			<Item Text="Cache Viewer" AccessKey="C"  Href="~/Admin/CacheViewer.aspx" />-->
 			</Group>

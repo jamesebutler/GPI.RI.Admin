@@ -186,7 +186,7 @@ namespace GPI.RI.Admin.Employee
                 panelEmployeeHasTask.Visible = true;
                 ButtonTransfer.Enabled = false;
                 LabelTasks.Visible = true;
-                LabelTasks.Text = "Open tasks: " + taskCount;
+                LabelTasks.Text = "Open tasks total: " + taskCount;
             }
 
             

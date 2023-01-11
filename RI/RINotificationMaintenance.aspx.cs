@@ -67,15 +67,20 @@ namespace GPI.RI.Admin.MOC
         protected void btnGetData_Click(object sender, EventArgs e)
         {
 
+            LabelShowAssignments.Text = "";
+
             if (DropDownBusinessUnit.SelectedValue == "")
             {
-                LabelMissingText.Text = "No Business Unit has been selected.";
+                Session["EmployeeRecords"] = null;
+                RadGridEmployees.DataSource = null;
+                RadGridEmployees.Rebind();
+                LabelShowAssignments.Text = "No Business Unit has been selected.";
                 //alertmessage.Visible = true;
             }
             else
             {
-                LoadEmployees(DropDownSites.SelectedValue, DropDownBusinessUnit.SelectedValue, DropDownArea.SelectedValue, DropDownLineSystemType.SelectedValue, DropDownToCopy.SelectedValue);
-                LoadAssignedEmployees(DropDownSites.SelectedValue, DropDownBusinessUnit.SelectedValue, DropDownArea.SelectedValue, DropDownLineSystemType.SelectedValue, DropDownToCopy.SelectedValue);
+                LoadEmployees(DropDownSites.SelectedValue, DropDownBusinessUnit.SelectedValue, DropDownArea.SelectedValue, DropDownLineSystemType.SelectedValue, "");
+                LoadAssignedEmployees(DropDownSites.SelectedValue, DropDownBusinessUnit.SelectedValue, DropDownArea.SelectedValue, DropDownLineSystemType.SelectedValue, "");
                 //alertmessage.Visible = false;
             }
 
@@ -86,50 +91,50 @@ namespace GPI.RI.Admin.MOC
 
         protected void btnSaveNotification_Click(object sender, EventArgs e)
         {
-            if (DropDownArea.SelectedValue == "")
-            {
-                alertmessage.Visible = true;
-            }
-            else
-            {
-                alertmessage.Visible = false;
+            //if (DropDownArea.SelectedValue == "")
+            //{
+            //    alertmessage.Visible = true;
+            //}
+            //else
+            //{
+            //    alertmessage.Visible = false;
 
-                LoadingRecords.Visible = true;
-                string copyto = "(" + DropDownToCopy.SelectedText + ")";
-                //Debug.WriteLine(RadListBoxDestination.Items.Count);
-                for (int i = 0; i < RadListBoxDestination.Items.Count; i++)
-                {
+            //    LoadingRecords.Visible = true;
+            //    string copyto = "(" + DropDownToCopy.SelectedText + ")";
+            //    //Debug.WriteLine(RadListBoxDestination.Items.Count);
+            //    for (int i = 0; i < RadListBoxDestination.Items.Count; i++)
+            //    {
                     
-                    if (RadListBoxDestination.Items[i].Text.ToLower().Contains(copyto.ToLower())) 
-                    {
-                        //do nothing 
+            //        if (RadListBoxDestination.Items[i].Text.ToLower().Contains(copyto.ToLower())) 
+            //        {
+            //            //do nothing 
 
-                    }
-                    else
-                    {
-                        SaveNotification(DropDownSites.SelectedValue,RadListBoxDestination.Items[i].Value, DropDownBusinessUnit.SelectedValue, DropDownArea.SelectedValue, DropDownLineSystemType.SelectedValue, DropDownToCopy.SelectedValue);
-                    }
+            //        }
+            //        else
+            //        {
+            //            SaveNotification(DropDownSites.SelectedValue,RadListBoxDestination.Items[i].Value, DropDownBusinessUnit.SelectedValue, DropDownArea.SelectedValue, DropDownLineSystemType.SelectedValue, DropDownToCopy.SelectedValue);
+            //        }
 
-                }
+            //    }
 
-                for (int i = 0; i < RadListBoxSource.Items.Count; i++)
-                {
+            //    for (int i = 0; i < RadListBoxSource.Items.Count; i++)
+            //    {
 
-                    if (RadListBoxSource.Items[i].Text.ToLower().Contains(copyto.ToLower()))
-                    {
-                        DeleteNotification(DropDownSites.SelectedValue, RadListBoxSource.Items[i].Value, DropDownBusinessUnit.SelectedValue, DropDownArea.SelectedValue, DropDownLineSystemType.SelectedValue, DropDownToCopy.SelectedValue);
+            //        if (RadListBoxSource.Items[i].Text.ToLower().Contains(copyto.ToLower()))
+            //        {
+            //            DeleteNotification(DropDownSites.SelectedValue, RadListBoxSource.Items[i].Value, DropDownBusinessUnit.SelectedValue, DropDownArea.SelectedValue, DropDownLineSystemType.SelectedValue, DropDownToCopy.SelectedValue);
 
-                    }
-                }
+            //        }
+            //    }
 
 
-            }
+            //}
 
-            LoadEmployees(DropDownSites.SelectedValue, DropDownBusinessUnit.SelectedValue, DropDownArea.SelectedValue, DropDownLineSystemType.SelectedValue, DropDownToCopy.SelectedValue);
+            //LoadEmployees(DropDownSites.SelectedValue, DropDownBusinessUnit.SelectedValue, DropDownArea.SelectedValue, DropDownLineSystemType.SelectedValue, DropDownToCopy.SelectedValue);
 
-            LoadAssignedEmployees(DropDownSites.SelectedValue, DropDownBusinessUnit.SelectedValue, DropDownArea.SelectedValue, DropDownLineSystemType.SelectedValue, DropDownToCopy.SelectedValue);
+            //LoadAssignedEmployees(DropDownSites.SelectedValue, DropDownBusinessUnit.SelectedValue, DropDownArea.SelectedValue, DropDownLineSystemType.SelectedValue, DropDownToCopy.SelectedValue);
 
-            LoadingRecords.Visible = false;
+            //LoadingRecords.Visible = false;
 
 
 
@@ -371,31 +376,140 @@ namespace GPI.RI.Admin.MOC
         protected void LoadAssignedEmployees(string GetBySiteId, string GetByBusinessUnit, string GetByArea, string GetByLineSystemType, string GetBynotifytype)
         {
 
-            string Sql = null;
-            StringBuilder SQLbuilder = new StringBuilder();
-            SQLbuilder.Append("Select distinct lastname, firstname, INITCAP(lastname) || ', ' || INITCAP(firstname) || '  (' ||  decode(notifytype,'T','To','C','Copy','Copy') || + ')' as fullname, username, decode(notifytype,'T','To','C','Copy','Copy') notifytype From reladmin.notification_by_linesystem_vw");
-            SQLbuilder.Append(" WHERE SITEID = '" + GetBySiteId + "'");
-            SQLbuilder.Append(" and (risuperarea = '" + GetByBusinessUnit + "' or risuperarea = 'All') ");
-            SQLbuilder.Append(" and (subarea = '" + GetByArea + "' or subarea = 'All') ");
-            SQLbuilder.Append(" and (area = '" + GetByLineSystemType + "' or area = 'All')");
-            SQLbuilder.Append(" and notifytype = '" + GetBynotifytype + "'");
-            SQLbuilder.Append(" Order By Lastname, firstname");
-            Sql = SQLbuilder.ToString();
-
-            OracleDataReader dr;
-            //Create a new DataTable.
-            dr = da.GetOracleDataReader(Sql);
-
-            DataTable dt = new DataTable();
-            //Load DataReader into the DataTable.
-            dt.Load(dr);
+            try
+            {
 
 
-            RadListBoxDestination.DataTextField = "fullname";
-            RadListBoxDestination.DataValueField = "username";
-            RadListBoxDestination.DataSource = dt;
-            RadListBoxDestination.DataBind();
 
+                string Sql = null;
+                StringBuilder SQLbuilder = new StringBuilder();
+                SQLbuilder.Append("Select distinct lastname, firstname, INITCAP(lastname) || ', ' || INITCAP(firstname) || '  (' ||  decode(notifytype,'T','To','C','Copy','Copy') || + ')' as fullname, username, decode(notifytype,'T','To','C','Copy','Copy') notifytype From reladmin.notification_by_linesystem_vw");
+                SQLbuilder.Append(" WHERE SITEID = '" + GetBySiteId + "'");
+                SQLbuilder.Append(" and (risuperarea = '" + GetByBusinessUnit + "' or risuperarea = 'All') ");
+                SQLbuilder.Append(" and (subarea = '" + GetByArea + "' or subarea = 'All') ");
+                SQLbuilder.Append(" and (area = '" + GetByLineSystemType + "' or area = 'All')");
+                //SQLbuilder.Append(" and notifytype = '" + GetBynotifytype + "'");
+                SQLbuilder.Append(" Order By Lastname, firstname");
+                Sql = SQLbuilder.ToString();
+
+                OracleDataReader dr;
+                //Create a new DataTable.
+                dr = da.GetOracleDataReader(Sql);
+
+                DataTable dt = new DataTable();
+                //Load DataReader into the DataTable.
+                dt.Load(dr);
+
+
+                RadListBoxDestination.DataTextField = "fullname";
+                RadListBoxDestination.DataValueField = "username";
+                RadListBoxDestination.DataSource = dt;
+                RadListBoxDestination.DataBind();
+
+
+
+                //testing new way using grid
+
+                string Sql1 = null;
+                StringBuilder SQLbuilder1 = new StringBuilder();
+
+                SQLbuilder1.Append(" Select  '1', ");
+                SQLbuilder1.Append(" lastname, firstname, risuperarea,subarea,area,");
+                SQLbuilder1.Append(" INITCAP(lastname) || ', ' || INITCAP(firstname)  as fullname, ");
+                SQLbuilder1.Append(" username, decode(notifytype,'T','To','C','Copy','Copy') notifytype , siteid ");
+                SQLbuilder1.Append(" From reladmin.notification_by_linesystem_vw ");
+                SQLbuilder1.Append(" WHERE SITEID = '" + GetBySiteId + "'");
+                
+                if (GetByBusinessUnit == "All")
+                    {
+                    SQLbuilder1.Append(" and risuperarea <> '" + GetByBusinessUnit + "'");
+                    }
+                 
+                else
+                { 
+
+                    if (GetByBusinessUnit.Length > 0)
+                    {
+                    SQLbuilder1.Append(" and risuperarea = '" + GetByBusinessUnit + "'");
+                    }
+
+                    if (GetByArea.Length > 0)
+                    {
+                        SQLbuilder1.Append(" and subarea = '" + GetByArea + "'");
+                    }
+
+                    if (GetByLineSystemType.Length > 0)
+                    {
+                        SQLbuilder1.Append(" and area = '" + GetByLineSystemType + "'");
+                    }
+
+                }
+
+
+                if (RadCheckBoxIncludeAll.Checked == true)
+
+                    { 
+
+                    SQLbuilder1.Append(" union");
+
+
+                    SQLbuilder1.Append(" Select '2',");
+                    SQLbuilder1.Append(" lastname, firstname, risuperarea,subarea,area,");
+                    SQLbuilder1.Append(" INITCAP(lastname) || ', ' || INITCAP(firstname)  as fullname, ");
+                    SQLbuilder1.Append(" username, decode(notifytype,'T','To','C','Copy','Copy') notifytype , siteid");
+                    SQLbuilder1.Append(" From reladmin.notification_by_linesystem_vw ");
+                    SQLbuilder1.Append(" WHERE SITEID = '" + GetBySiteId + "'");
+                    SQLbuilder1.Append(" and (risuperarea = 'All')  ");
+                    SQLbuilder1.Append(" and (subarea = 'All')  ");
+                    SQLbuilder1.Append(" and (area = 'All') ");
+
+
+                    if (GetByBusinessUnit == "All")
+                    {
+                        SQLbuilder1.Append(" Order By Lastname, firstname");
+
+                    }
+                    else
+                    {
+                        SQLbuilder1.Append(" Order By 1, risuperarea,subarea,area,Lastname, firstname");
+
+                    }
+
+                }
+
+                Sql1 = SQLbuilder1.ToString();
+
+                OracleDataReader dr1;
+                //Create a new DataTable.
+                dr1 = da.GetOracleDataReader(Sql1);
+
+                DataTable datatableEmployee = new DataTable();
+                //Load DataReader into the DataTable.
+                datatableEmployee.Load(dr1);
+
+
+                if (datatableEmployee != null)
+                {
+                    Session["EmployeeRecords"] = datatableEmployee;
+                    RadGridEmployees.DataSource = datatableEmployee;
+                    RadGridEmployees.DataBind();
+                }
+                else
+                {
+                    Session["EmployeeRecords"] = null;
+                    RadGridEmployees.DataSource = null;
+                    RadGridEmployees.Rebind();
+                }
+
+
+
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
             //RadAjaxManager1.FocusControl(RadListBoxDestination);
         }
 
@@ -439,6 +553,120 @@ namespace GPI.RI.Admin.MOC
         protected void DropDownLineSystemType_ItemsRequested(object o, RadComboBoxItemsRequestedEventArgs e)
         {
             LoadLine(DropDownSites.SelectedValue, DropDownBusinessUnit.SelectedValue,DropDownArea.SelectedValue);
+        }
+
+
+
+        protected void RadGridEmployees_ItemDataBound(object sender, Telerik.Web.UI.GridItemEventArgs e)
+        {
+
+
+
+            if ((e.Item is GridDataItem))
+            {
+
+
+                //Get the instance of the right type
+                GridDataItem dataBoundItem = e.Item as GridDataItem;
+                //if(dataBoundItem.GetDataKeyValue("ID").ToString() == "you Compared Text") // you can also use datakey also
+                if (dataBoundItem["risuperarea"].Text == "All")
+                {
+                    //dataBoundItem["newinactive_flag"].Font.Size = 15;
+                    dataBoundItem["risuperarea"].Font.Bold = true;
+                    dataBoundItem["risuperarea"].ForeColor = System.Drawing.Color.Red; // chanmge particuler cell
+                    //dataBoundItem["newinactive_flag"].BackColor = System.Drawing.Color.LightGoldenrodYellow; // chanmge particuler cell
+
+                    //if (RadioButtonShowEmployees.SelectedValue == "Y")
+                    //{
+                    //    //do nothing
+                    //}
+                    //else
+                    //{
+                    //    e.Item.BackColor = System.Drawing.Color.LightGoldenrodYellow; // for whole row
+                    //}
+                }
+
+                //if (dataBoundItem["notifytype"].Text == "Copy")
+                //{
+                //    e.Item.BackColor = System.Drawing.Color.LightGoldenrodYellow; // for whole row
+                //}
+            }
+        }
+
+
+        protected void RadGridEmployees_NeedDataSource(object source, Telerik.Web.UI.GridNeedDataSourceEventArgs e)
+        {
+
+            // In the business tier, session can be accessed with:   
+            // System.Web.HttpContext.Current.Session
+
+            RadGridEmployees.DataSource = Session["EmployeeRecords"];
+        }
+
+
+
+        protected void RadGrid_ItemCreated(object sender, GridItemEventArgs e)
+        {
+            //(this.RadGrid1.MasterTableView.AutoGeneratedColumns[0] as GridBoundColumn).MaxLength = 5;
+            //GridEditableItem item = e.Item as GridEditableItem;
+            //if (item != null && e.Item.IsInEditMode && e.Item.ItemIndex != -1)
+            //{
+            //    (item.EditManager.GetColumnEditor("CustomerID").ContainerControl.Controls[0] as TextBox).Enabled = false;
+            //}
+        }
+
+        protected void RadGridEmployees_ItemUpdated(object source, Telerik.Web.UI.GridUpdatedEventArgs e)
+        {
+            //if (e.Exception != null)
+            //{
+            //    e.KeepInEditMode = true;
+            //    e.ExceptionHandled = true;
+            //    DisplayMessage(true, "Customer " + e.Item.OwnerTableView.DataKeyValues[e.Item.ItemIndex]["CustomerID"] + " cannot be updated due to invalid data.");
+            //}
+            //else
+            //{
+            //    DisplayMessage(false, "Customer " + e.Item.OwnerTableView.DataKeyValues[e.Item.ItemIndex]["CustomerID"] + " updated");
+            //}
+        }
+
+        protected void RadGridEmployees_ItemInserted(object source, GridInsertedEventArgs e)
+        {
+            //if (e.Exception != null)
+            //{
+            //    e.ExceptionHandled = true;
+            //    e.KeepInInsertMode = true;
+            //    DisplayMessage(true, "Customer cannot be inserted due to invalid data.");
+            //}
+            //else
+            //{
+            //    DisplayMessage(false, "Customer inserted");
+            //}
+        }
+
+        protected void RadGridEmployees_ItemDeleted(object source, GridDeletedEventArgs e)
+        {
+            //if (e.Exception != null)
+            //{
+            //    e.ExceptionHandled = true;
+            //    DisplayMessage(true, "Customer " + e.Item.OwnerTableView.DataKeyValues[e.Item.ItemIndex]["CustomerID"] + " cannot be deleted");
+            //}
+            //else
+            //{
+            //    DisplayMessage(false, "Customer " + e.Item.OwnerTableView.DataKeyValues[e.Item.ItemIndex]["CustomerID"] + " deleted");
+            //}
+        }
+
+        private void DisplayMessage(bool isError, string text)
+        {
+            if (isError)
+            {
+                this.LabelError.Text = text;
+            }
+            else
+            {
+                this.LabelSuccess.Text = text;
+
+            }
         }
 
         //nothing below this line

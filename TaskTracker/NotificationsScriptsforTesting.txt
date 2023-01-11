@@ -1,0 +1,31 @@
+﻿--business unit maanager
+select a.emailtype,a.profiletypeseqid,a.profiletypevalue,a.roleseqid,a.username,a.plantcode,a.application,a.lastupdateusername,a.lastupdatedate
+from refnotifyprofile a
+where a.username = 'JAMES.BUTLER' and a.roleseqid = 1;
+
+--responsible
+select a.emailtype,a.profiletypeseqid,a.profiletypevalue,a.roleseqid,a.username,a.plantcode,a.application,a.lastupdateusername,a.lastupdatedate
+from refnotifyprofile a
+where a.username = 'JAMES.BUTLER' and a.roleseqid = 4;
+
+--creator
+select a.emailtype,a.profiletypeseqid,a.profiletypevalue,a.roleseqid,a.username,a.plantcode,a.application,a.lastupdateusername,a.lastupdatedate
+from refnotifyprofile a
+where a.username = 'JAMES.BUTLER' and a.roleseqid = 5;
+
+--and roleseqid = 1;
+select * from refnotifyprofile where username = 'RITEST1' ;     --batman
+select * from refnotifyprofile where username = 'RITEST2' ;     --superman
+select * from refnotifyprofile where username = 'RITEST3' ;		--barbara
+select * from refnotifyprofile where username = 'RITEST4' ;		--tara
+select * from refnotifyprofile where username = 'RITEST5' ;		--hawkeye
+select * from refnotifyprofile where username = 'RITEST6' ;		--robin
+select * from refnotifyprofile where username = 'RITEST7' ;		--luann
+
+select * from refnotifyprofile where username = 'JAMES.BUTLER' ;
+--and roleseqid = 1;
+
+
+
+
+select * from refnotifyprofile where profiletypevalue = 'NO EMAIL';

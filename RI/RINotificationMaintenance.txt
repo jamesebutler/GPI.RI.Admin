@@ -1,0 +1,24 @@
+﻿Select  '1', 
+lastname, firstname, risuperarea,subarea,area,
+INITCAP(lastname) || ', ' || INITCAP(firstname)  as fullname, 
+username, decode(notifytype,'T','To','C','Copy','Copy') notifytype 
+From reladmin.notification_by_linesystem_vw 
+WHERE SITEID = 'AU' 
+and (risuperarea = 'Finished Products')  
+and (subarea = 'PM')  
+and (area = '2 PM') 
+
+union
+
+
+Select '2',
+lastname, firstname, risuperarea,subarea,area,
+INITCAP(lastname) || ', ' || INITCAP(firstname)  as fullname, 
+username, decode(notifytype,'T','To','C','Copy','Copy') notifytype 
+From reladmin.notification_by_linesystem_vw 
+WHERE SITEID = 'AU' 
+and (risuperarea = 'All')  
+and (subarea = 'All')  
+and (area = 'All') 
+
+Order By 1, risuperarea,subarea,area,Lastname, firstname

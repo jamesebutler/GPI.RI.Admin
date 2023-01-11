@@ -366,6 +366,33 @@ namespace GPI.RI.Admin.TaskTracker
         protected global::Telerik.Web.UI.RadButton ButtonDefault;
 
         /// <summary>
+        /// SuccessAdded control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label SuccessAdded;
+
+        /// <summary>
+        /// FailureUpdate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label FailureUpdate;
+
+        /// <summary>
+        /// LoadingPanel1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Telerik.Web.UI.RadAjaxLoadingPanel LoadingPanel1;
+
+        /// <summary>
         /// Master property.
         /// </summary>
         /// <remarks>

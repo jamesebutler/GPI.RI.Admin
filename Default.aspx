@@ -30,7 +30,9 @@
             <p>
                  <a class="btn btn-lg btn-primary"   style="width: 100%;background-color:#02776C;" href="../Employee/EmployeeAdd.aspx">Add &raquo;</a>
                <br /><br />
-                <a class="btn btn-lg btn-primary" disabled = "disabled" style="width: 100%;background-color:#02776C;" href="#">Set Active/Inactive  &raquo;</a>
+                <a class="btn btn-lg btn-primary" style="width: 100%;background-color:#02776C;" href="../Employee/EmployeeStatusToActive.aspx">Set to Active  &raquo;</a>
+               <br /> <br />
+                <a class="btn btn-lg btn-primary" style="width: 100%;background-color:#02776C;" href="../Employee/EmployeeStatusToInActive.aspx">Set to InActive  &raquo;</a>
                <br /> <br />
                 <a class="btn btn-lg btn-primary" style="width: 100%;background-color:#02776C;" href="../Employee/EmployeeTransfer.aspx">Transfer &raquo;</a>
                            <br /> <br />
@@ -41,10 +43,11 @@
             <h2>RI</h2>
 
             <p>
-                 <a class="btn btn-lg btn-primary" disabled = "disabled"  style="width: 100%;background-color:#02776C;" href="#">RI Notification &raquo;</a>
-               <br /><br />
-                <a class="btn btn-lg btn-primary" style="width: 100%;background-color:#02776C;" href="../RI/RINotificationMaintenance.aspx">RI Analysis Leaders &raquo;</a>
-               <br /> <br />
+
+                <a class="btn btn-lg btn-primary" disabled = "disabled" style="width: 100%;background-color:#02776C;" href="#">RI Analysis Leaders &raquo;</a>
+                <br /> <br />
+                 <a class="btn btn-lg btn-primary" style="width: 100%;background-color:#02776C;" href="../RI/RINotificationMaintenance.aspx">RI Notification &raquo;</a>
+                <br /> <br />
                 <a class="btn btn-lg btn-primary" disabled = "disabled"  style="width: 100%;background-color:#02776C;" href="#">Location Maintenance &raquo;</a>
 
             

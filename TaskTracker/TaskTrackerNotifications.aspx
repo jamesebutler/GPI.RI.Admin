@@ -33,6 +33,18 @@
    <AjaxSettings>
 
 
+            <telerik:AjaxSetting AjaxControlID="ButtonSave">
+            <UpdatedControls>
+                 <telerik:AjaxUpdatedControl ControlID="ButtonSave" LoadingPanelID="LoadingPanel1"></telerik:AjaxUpdatedControl>
+          
+          <telerik:AjaxUpdatedControl ControlID="SuccessAdded"></telerik:AjaxUpdatedControl>
+              <telerik:AjaxUpdatedControl ControlID="FailureUpdate"></telerik:AjaxUpdatedControl>
+          
+            </UpdatedControls>
+            </telerik:AjaxSetting>
+
+
+
    </AjaxSettings>
 
     </telerik:RadAjaxManager>
@@ -54,9 +66,10 @@
                     <div class="col-lg-1" >test10</div>
                     <div class="col-lg-1" >test11</div>
                     <div class="col-lg-1" >test12</div>
-                </div>--%>
+                </div>
 
-        <div class="row"> 
+        <div class="row"> --%>
+
     <div class="col-lg-12">
             <h3><asp:Label ID="LabelAddMill" runat="server" Text="Notifications for [mill]" ></asp:Label></h3>
      
@@ -97,7 +110,7 @@
 
     <%-- ====================== Task Creator ======================--%>
                 <div class="row" >
-                <div class="col-md-8">
+                <div class="col-lg-8">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <div class="panel-title">
@@ -132,8 +145,8 @@
 
                         <div class="row">
                              
-                            <div class="col-md-1"></div>
-                        <div class="col-md-8">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-11">
                         <div class="form-group">
                             <asp:Label ID="_lblNotificationFrequencyCreator" Font-Bold="true" Text="Task Notification Frequency" runat="server"></asp:Label><br />
                             <asp:RadioButton ID="_rbEveryDay" runat="server" Text="Daily" GroupName="CreatorGroup" />
@@ -223,7 +236,7 @@
                     <div class="row">
                              
                             <div class="col-md-1"></div>
-                        <div class="col-md-8">
+                        <div class="col-md-11">
                         <div class="form-group">
                             <asp:Label ID="_lblEnteredNotify" Font-Bold="true" Text="When tasks are Entered Notify Me" runat="server"></asp:Label><br />
                             <asp:RadioButton ID="_rbEnteredNotifImmediately" GroupName="ResponsibleTaskEnteredGroup" runat="server" Text="Immediately" />
@@ -247,7 +260,7 @@
                         <div class="row">
                              
                             <div class="col-md-1"></div>
-                        <div class="col-md-8">
+                        <div class="col-md-11">
                         <div class="form-group">
                             <asp:Label ID="_lblResponsiblePersonFrequencyCreator" Font-Bold="true" Text="Task Notification Frequency" runat="server"></asp:Label><br />
                             <asp:RadioButton ID="_rbResponsiblePersonEveryDay" GroupName="ResponsibleTaskFrequencyGroup" runat="server" Text="Daily" />
@@ -330,7 +343,7 @@
                         <div class="row">
                              
                             <div class="col-md-1"></div>
-                        <div class="col-md-8">
+                        <div class="col-md-11">
                         <div class="form-group">
                             <asp:Label ID="_lblNotificationManagerFrequencyCreator" Font-Bold="true" Text="Task Notification Frequency" runat="server"></asp:Label><br />
                             <asp:RadioButton ID="_rbManagerEveryDay" GroupName="ResponsibleTaskManagerFrequencyGroup" runat="server" Text="Daily" />
@@ -398,17 +411,42 @@
                     
                     <div class="col-md-2">
                         <div class="form-group">
-                        <telerik:RadButton ID="ButtonDefault"  Skin="Black" runat="server"  Text="Use Mill Defaults">
-                         <Icon PrimaryIconCssClass="rbSave" />
+                        <telerik:RadButton ID="ButtonDefault" Visible="false"  Skin="Black" runat="server"  Text="Use Mill Defaults">
+                         <Icon PrimaryIconCssClass="rbSave"  />
                          </telerik:RadButton>
                         </div>
+                    </div>
+
+                <div class="col-md-8">
                     </div>
 
                 <%--</div>--%>
             </div>
 
+         <div class="row">
+      
+         <div class="col-lg-8">
+            <asp:Label ID="SuccessAdded" Width="100%" runat="server" Text="Employee Updated." Visible="false" style="background-color:#0F8F14;color:white;text-align:center;font-size: 21px;"></asp:Label>
+            <asp:Label ID="FailureUpdate" Width="100%" runat="server" Text="Employee Not Updated." Visible="false" style="background-color:#FF2020;color:white;text-align:center;font-size: 21px;"></asp:Label>
+                        
 
-    </div>
+             </div>
+         </div>
+
+        <div class="row"> 
+        </div>
 
     </telerik:RadAjaxPanel>
+
+    <div class="panelBottom">
+            <telerik:RadAjaxLoadingPanel 
+                ID="LoadingPanel1" 
+                runat="server" 
+                Skin="Telerik"
+                BackgroundPosition="Center">
+            </telerik:RadAjaxLoadingPanel>
+        </div>
+
+
+
 </asp:Content>
